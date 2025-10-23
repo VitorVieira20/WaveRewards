@@ -48,7 +48,7 @@ export default function Navbar({ auth = { user: null } }) {
                     </Link>
 
                     {/* Desktop Navigation Links */}
-                    <div className="hidden xl:flex items-center gap-7 w-132 justify-start">
+                    <div className="hidden xl:flex items-center gap-7 w-132 ml-30 2xl:ml-80 justify-start">
                         {navLinks.map((item) => (
                             <a
                                 key={item.href}
