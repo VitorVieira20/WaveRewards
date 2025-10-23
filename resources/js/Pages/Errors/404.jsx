@@ -8,7 +8,7 @@ export default function Error404() {
             </h1>
 
             <p className="text-cyan-700 text-lg font-normal font-['Poppins'] mb-8 max-w-lg leading-relaxed">
-                Parece que te perdeste nas ondas 🌊<br />
+                Parece que te perdeste nas ondas<br />
                 A página que procuras não existe ou foi movida.
             </p>
 
