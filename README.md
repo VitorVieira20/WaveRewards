@@ -13,8 +13,8 @@
 1. Clone o repositório:
 
 ```bash
-git clone <URL_DO_REPOSITORIO>
-cd <NOME_DO_PROJETO>
+git clone https://github.com/VitorVieira20/WaveRewards.git
+cd WaveRewards
 ```
 
 2. Instalar as dependências do PHP:
