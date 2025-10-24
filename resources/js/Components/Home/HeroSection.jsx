@@ -10,6 +10,7 @@ import LinkedinIcon from "../Icons/LinkedinIcon";
 import YoutubeIcon from "../Icons/YoutubeIcon";
 import ChatbotIcon from "../Icons/ChatbotIcon";
 import RightArrowIcon from "../Icons/RightArrowIcon";
+import { route } from "ziggy-js";
 
 export default function HeroSection({ auth }) {
     const [chatbotOpen, setChatbotOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function HeroSection({ auth }) {
     return (
         <section
             ref={heroRef}
-            className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-white to-blue-400 text-white pt-20 md:pt-[100px] lg:pt-[120px] relative overflow-hidden"
+            className="min-h-screen flex flex-col justify-between bg-linear-to-b from-[#FFFFFF] to-[#60B4D9] text-white pt-20 md:pt-[100px] lg:pt-[120px] relative overflow-hidden"
         >
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -62,16 +63,16 @@ export default function HeroSection({ auth }) {
                             className="px-6 py-4 lg:px-9 lg:py-6 bg-cyan-600 rounded-[40px] flex justify-start items-center gap-2 shadow-[0_4px_6px_rgba(0,0,0,0.15)] transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_8px_12px_rgba(0,0,0,0.25)] hover:scale-105 active:scale-95"
                             href="/#"
                         >
-                            <div className="flex flex-row gap-1">
+                            <Link href={route('auth.index', 'signup')} className="flex flex-row gap-1">
                                 <div className="text-center justify-start text-white text-md lg:text-lg font-bold leading-none">Vamos lá</div>
                                 <RightArrowIcon />
-                            </div>
+                            </Link>
                         </Link>
                         <Link
                             className="px-6 py-4 lg:px-9 lg:py-6 bg-white rounded-[36.55px] border border-gray-300 flex justify-start items-center gap-2 shadow-[0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-300 hover:border-cyan-600 hover:shadow-[0_6px_10px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95"
                             href="/#"
                         >
-                            <div className="text-center justify-start text-blue-950 text-md lg:text-lg font-medium leading-none">Saber mais</div>
+                            <div className="text-center justify-start text-blue-950 text-md lg:text-lg font-medium leading-none">Sobre nós</div>
                         </Link>
                     </div>
                 </div>
