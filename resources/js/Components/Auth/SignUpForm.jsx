@@ -1,0 +1,141 @@
+import { useForm } from "@inertiajs/react";
+import FacebookIcon from "../Icons/FacebookIcon";
+import GoogleIcon from "../Icons/GoogleIcon";
+import LinkedinIcon from "../Icons/LinkedinIcon";
+import RightArrowIcon from "../Icons/RightArrowIcon";
+
+export default function SignUpForm({ isLogin, setIsLogin }) {
+
+    const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: ""
+    });
+
+
+    const handleSignUp = (e) => {
+        e.preventDefault();
+        post(route('signup.store'), {
+            onSuccess: () => {
+                reset();
+                clearErrors();
+                setIsLogin(true);
+            }
+        });
+    };
+
+    return (
+        <div
+            className={`absolute top-0 right-0 w-4/7 h-full flex flex-col items-center justify-center p-5 transition-all duration-700 ease-in-out
+        ${isLogin ? "translate-x-full opacity-0 z-0" : "translate-x-0 opacity-100 z-10"}`}
+        >
+            <div className="flex w-full h-full items-stretch justify-between overflow-hidden">
+                <div className="flex flex-col justify-between items-start w-full h-full px-4">
+                    <h2 className="text-blue-950 text-4xl font-bold leading-[66px] [text-shadow:0px_4px_4px_rgb(0_0_0/0.25)]">
+                        Regista-te
+                    </h2>
+
+                    <form id="signup-form" onSubmit={handleSignUp} className="flex flex-col w-80 gap-6 flex-grow overflow-y-auto pt-8 pb-2 scroll-container">
+                        <div className="relative w-full">
+                            <input
+                                type="text"
+                                name="name"
+                                value={data.name}
+                                onChange={(e) => setData("name", e.target.value)}
+                                className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-blue-950 text-lg transition-all duration-300 focus:outline-none"
+                                placeholder="Nome"
+                                required
+                            />
+                            {errors.name && <p className="text-red-500 text-sm mt-1 ml-1">{errors.name}</p>}
+                        </div>
+
+                        <div className="relative w-full">
+                            <input
+                                type="email"
+                                name="email"
+                                value={data.email}
+                                onChange={(e) => setData("email", e.target.value)}
+                                className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-blue-950 text-lg transition-all duration-300 focus:outline-none"
+                                placeholder="Email"
+                                required
+                            />
+                            {errors.email && <p className="text-red-500 text-sm mt-1 ml-1">{errors.email}</p>}
+                        </div>
+
+                        <div className="relative w-full">
+                            <input
+                                type="password"
+                                name="password"
+                                value={data.password}
+                                onChange={(e) => setData("password", e.target.value)}
+                                className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-blue-950 text-lg transition-all duration-300 focus:outline-none"
+                                placeholder="Password"
+                            />
+                            {errors.password && <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>}
+                        </div>
+
+                        <div className="relative w-full">
+                            <input
+                                type="password"
+                                name="password_confirmation"
+                                value={data.password_confirmation}
+                                onChange={(e) => setData("password_confirmation", e.target.value)}
+                                className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-blue-950 text-lg transition-all duration-300 focus:outline-none"
+                                placeholder="Confirmar Password"
+                            />
+                            {errors.password_confirmation && (
+                                <p className="text-red-500 text-sm mt-1 ml-1">{errors.password_confirmation}</p>
+                            )}
+                        </div>
+                    </form>
+
+                    <button
+                        type="submit"
+                        form="signup-form"
+                        className={`flex flex-row items-center justify-between w-80 h-12 bg-gradient-to-r from-sky-800/50 via-sky-800/75 to-sky-800 rounded-[36.55px] backdrop-blur-blur transition-all px-6 font-medium cursor-pointer mt-4 ${processing ? "opacity-50 cursor-not-allowed" : "hover:bg-sky-800/90"
+                            }`}
+                        disabled={processing}
+                    >
+                        <div className="w-full flex items-center justify-center">
+                            {processing ? (
+                                <svg className="animate-spin h-5 w-5 mr-2 text-white" viewBox="0 0 24 24">
+                                    <circle
+                                        className="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        strokeWidth="4"
+                                    />
+                                    <path
+                                        className="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8v8H4z"
+                                    />
+                                </svg>
+                            ) : (
+                                "Criar conta"
+                            )}
+                        </div>
+                        {!processing && <RightArrowIcon />}
+                    </button>
+                </div>
+
+                <div className="flex flex-col items-center justify-center h-full px-5">
+                    <div className="w-px h-full bg-blue-950/75"></div>
+                    <div className="text-blue-950 text-lg font-normal font-['Poppins'] leading-loose my-2">
+                        OR
+                    </div>
+                    <div className="w-px h-full bg-blue-950/75"></div>
+                </div>
+
+                <div className="flex flex-col items-center justify-center gap-5 h-full">
+                    <FacebookIcon />
+                    <LinkedinIcon />
+                    <GoogleIcon />
+                </div>
+            </div>
+        </div>
+    );
+}

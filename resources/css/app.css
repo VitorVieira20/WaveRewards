@@ -11,9 +11,11 @@
 }
 
 .scroll-container {
-  scrollbar-width: none; /* Firefox */
+    scrollbar-width: none;
+    /* Firefox */
 }
 
 .scroll-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari e Edge */
+    display: none;
+    /* Chrome, Safari e Edge */
 }

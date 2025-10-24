@@ -12,8 +12,8 @@ export default function ThinkBotLogo() {
                 <rect x="12.4229" y="8.42285" width="46.3257" height="46.3257" fill="url(#pattern0_53_494)" shape-rendering="crispEdges" />
             </g>
             <defs>
-                <filter id="filter0_d_53_494" x="0" y="0" width="74" height="71.1714" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                <filter id="filter0_d_53_494" x="0" y="0" width="74" height="71.1714" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                     <feOffset dy="4" />
                     <feGaussianBlur stdDeviation="2" />
@@ -23,8 +23,8 @@ export default function ThinkBotLogo() {
                     <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_53_494" result="shape" />
                 </filter>
                 <clipPath id="bgblur_0_53_494_clip_path" transform="translate(50 54)"><ellipse cx="37" cy="31.5857" rx="33" ry="31.5857" />
-                </clipPath><filter id="filter2_d_53_494" x="8.42285" y="8.42285" width="54.3257" height="54.3257" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                </clipPath><filter id="filter2_d_53_494" x="8.42285" y="8.42285" width="54.3257" height="54.3257" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB">
+                    <feFlood floodOpacity="0" result="BackgroundImageFix" />
                     <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" />
                     <feOffset dy="4" />
                     <feGaussianBlur stdDeviation="2" />

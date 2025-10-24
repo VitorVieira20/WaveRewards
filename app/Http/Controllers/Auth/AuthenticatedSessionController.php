@@ -14,10 +14,11 @@ class AuthenticatedSessionController extends Controller
     /**
      * Show the login page.
      */
-    public function create(Request $request)
+    public function auth(Request $request, string $method)
     {
-        return Inertia::render('Auth/Login', [
+        return Inertia::render('Auth', [
             'status' => $request->session()->get('status'),
+            'method' => $method,
         ]);
     }
 
@@ -27,36 +28,36 @@ class AuthenticatedSessionController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|exists:users,username',
+            'email' => 'required|exists:users,email',
             'password' => 'required',
         ], [
-            'username.required' => 'O nome de utilizador é obrigatório.',
-            'username.exists' => 'O nome de utilizador não existe.',
+            'username.required' => 'O email é obrigatório.',
+            'username.exists' => 'O email não existe.',
             'password.required' => 'A palavra-passe é obrigatória.',
         ]);
 
         if ($validator->fails()) {
             return redirect()
-                ->route('login')
+                ->route('auth.index', 'login')
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        $credentials = $request->only('username', 'password');
+        $credentials = $request->only('email', 'password');
 
-        $user = User::where('username', $request->username)->first();
+        $user = User::where('email', $request->email)->first();
 
         if (!$user->email_verified_at) {
-            return redirect()->route('login')->with('error', 'Email não verificado!');
+            return redirect()->route('auth.index', 'login')->with('error', 'Email não verificado!');
         }
 
         if (!Auth::attempt($credentials)) {
-            return redirect()->route('login')->with('error', 'Credenciais Erradas!');
+            return redirect()->route('auth.index', 'login')->with('error', 'Credenciais Erradas!');
         }
 
         $request->session()->regenerate();
 
-        return redirect()->route('dashboard.index');
+        return redirect()->route('home.index');
     }
 
     /**

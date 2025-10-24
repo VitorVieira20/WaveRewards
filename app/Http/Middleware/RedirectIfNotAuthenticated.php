@@ -17,7 +17,7 @@ class RedirectIfNotAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('auth.index', 'login');
         }
 
         return $next($request);

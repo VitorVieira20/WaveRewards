@@ -68,16 +68,23 @@ export default function Navbar({ auth = { user: null } }) {
                     {/* Login */}
                     <div className="hidden xl:flex items-center gap-1">
                         {auth.user ? (
-                            <button onClick={handleLogout} disabled={processing}
-                                className="flex bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 transition-all duration-300 transform hover:scale-105 uppercase tracking-wide text-sm rounded cursor-pointer">
-                                <LogOut className="w-5 h-5 mr-2" />
-                                Sair
+                            <button
+                                onClick={handleLogout}
+                                disabled={processing}
+                                className="w-28 h-14 cursor-pointer"
+                            >
+                                <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
+                                    <LogOut className="text-white w-5 h-5 mr-2" />
+                                    <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">
+                                        Sair
+                                    </div>
+                                </div>
                             </button>
                         ) : (
                             <>
                                 <Link
                                     className="w-28 h-14"
-                                    href="/#"
+                                    href={route('auth.index', 'login')}
                                 >
                                     <div className="px-6 py-4 bg-white rounded-[30px] border border-gray-300 shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105 hover:border-cyan-600">
                                         <div className="text-center text-cyan-600 text-base font-bold leading-none hover:text-cyan-700 transition-colors duration-300">
@@ -88,7 +95,7 @@ export default function Navbar({ auth = { user: null } }) {
 
                                 <Link
                                     className="w-28 h-14"
-                                    href="/#"
+                                    href={route('auth.index', 'signup')}
                                 >
                                     <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
                                         <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">

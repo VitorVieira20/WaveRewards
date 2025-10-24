@@ -1,0 +1,9 @@
+export default function LeftArrowIcon() {
+
+    return (
+        <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9.46094 1L1.00007 9.46087L9.46094 17.9217" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M1.00009 9.46086L19 9.46086" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+    );
+}
