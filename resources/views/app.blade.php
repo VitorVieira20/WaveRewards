@@ -11,6 +11,9 @@
     <meta name="author" content="Wave Rewards Development Team">
 
     <link rel="preload" as="image" href="{{ asset('images/kayak-over-water.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/about1.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/about2.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/oars.png') }}">
 
     {{--
     <meta property="og:title" content="Wave" />

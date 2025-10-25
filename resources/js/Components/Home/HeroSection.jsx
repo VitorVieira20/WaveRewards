@@ -52,7 +52,7 @@ export default function HeroSection({ auth }) {
 
             <div className="flex flex-col lg:flex-row">
                 <div className="md:8/11 lg:w-6/11 lg:pl-20 px-8 lg:px-0">
-                    <div className="text-blue-950 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold lg:leading-[50px] xl:leading-[66px] [text-shadow:_0px_4px_4px_rgb(0_0_0_/_0.25)]">
+                    <div className="text-blue-950 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold lg:leading-[50px] xl:leading-[66px] [text-shadow:0px_4px_4px_rgb(0_0_0/0.25)]">
                         Uma equipa dedicada em transformar cada remada numa conquista
                     </div>
                     <div className="w-full text-cyan-600 text-sm md:text-md lg:text-lg font-normal leading-loose mt-4">
@@ -70,7 +70,7 @@ export default function HeroSection({ auth }) {
                         </Link>
                         <Link
                             className="px-6 py-4 lg:px-9 lg:py-6 bg-white rounded-[36.55px] border border-gray-300 flex justify-start items-center gap-2 shadow-[0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-300 hover:border-cyan-600 hover:shadow-[0_6px_10px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95"
-                            href="/#"
+                            href={route('about.index')}
                         >
                             <div className="text-center justify-start text-blue-950 text-md lg:text-lg font-medium leading-none">Sobre nós</div>
                         </Link>
