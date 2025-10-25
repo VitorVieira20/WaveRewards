@@ -39,6 +39,47 @@ php artisan key:generate
 
 ---
 
+## Base de dados
+
+1. Rodar as migrations:
+
+```bash
+php artisan migrate
+```
+
+2. Adicionar os dados com os seeders:
+
+```bash
+php artisan db:seed
+```
+
+---
+
+
+## Configuração do mailer
+
+1. Adicionar os dados do mailer no `.env`:
+
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=projectmanager.vitorvieiradev@gmail.com
+MAIL_PASSWORD=xwbizbefkggiouzf
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS={o email que vai recebers os contactos}
+MAIL_FROM_NAME="WaveRewards"
+```
+
+2. Rodar a fila para os mails serem enviados:
+- Abrir mais um terminal e rodar
+
+```bash
+php artisan queue:work
+```
+
+---
+
 ## Executar o projeto
 
 O projeto precisa de **dois terminais** abertos para correr corretamente:
