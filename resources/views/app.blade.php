@@ -10,6 +10,8 @@
     <meta name="keywords" content="">
     <meta name="author" content="Wave Rewards Development Team">
 
+    <link rel="preload" as="image" href="{{ asset('images/kayak-over-water.png') }}">
+
     {{--
     <meta property="og:title" content="Wave" />
     <meta property="og:url" content="https://clubedemo.vitorvieiradev.com">
