@@ -6,9 +6,9 @@ import YoutubeIcon from "../Components/Icons/YoutubeIcon";
 import InstagramIcon from "../Components/Icons/InstagramIcon";
 import TwitterIcon from "../Components/Icons/TwitterIcon";
 import FlashMessages from "../Components/FlashMessages";
-import SignUpForm from "../Components/Auth/SignupForm";
-import SignInForm from "../Components/Auth/SignInForm";
 import FormOverlay from "../Components/Auth/FormOverlay";
+import SignInForm from "../Components/Auth/SignInForm";
+import SignUpForm from "../Components/Auth/SignupForm";
 
 export default function Auth({ method }) {
     const [isLogin, setIsLogin] = useState(method === "login");
