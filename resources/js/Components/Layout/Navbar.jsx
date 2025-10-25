@@ -6,7 +6,7 @@ import { route } from 'ziggy-js';
 const navLinks = [
     { dropdown: false, name: 'Início', route: 'contacts.index' },
     { dropdown: false, name: 'Equipa', route: 'contacts.index' },
-    { dropdown: false, name: 'Benefícios', route: 'contacts.index' },
+    { dropdown: false, name: 'Benefícios', route: 'benefits.index' },
     { dropdown: false, name: 'Rankings', route: 'contacts.index' },
     { dropdown: false, name: 'Contactos', route: 'contacts.index' },
 ];

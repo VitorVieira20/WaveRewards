@@ -6,14 +6,14 @@ import InstagramIcon from "../Components/Icons/InstagramIcon";
 import LinkedinIcon from "../Components/Icons/LinkedinIcon";
 import YoutubeIcon from "../Components/Icons/YoutubeIcon";
 
-export default function Home({ auth }) {
+export default function Home({ }) {
     const heroRef = useRef(null);
 
     return (
         <div className="flex flex-col relative">
 
             <main>
-                <section className="h-[105vh] flex flex-col justify-between bg-gradient-to-b from-[#BED3DC] via-[#60B4D9] via-[#1D87BC] to-[#1C5E8F] px-4 overflow-x-hidden">
+                <section className="h-[105vh] flex flex-col justify-between bg-linear-to-b from-[#BED3DC] via-[#60B4D9] via-[#1D87BC] to-[#1C5E8F] px-4 overflow-x-hidden">
                     <div className="flex flex-col items-center justify-center flex-1 gap-4">
                         <img src="/images/logo.png" className="h-25 md:h-35 w-auto max-w-full rounded-full" />
 
