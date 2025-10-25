@@ -61,12 +61,12 @@ export default function HeroSection({ auth }) {
                     <div className="flex items-center gap-4 mt-6 justify-center lg:justify-start flex-row">
                         <Link
                             className="px-6 py-4 lg:px-9 lg:py-6 bg-cyan-600 rounded-[40px] flex justify-start items-center gap-2 shadow-[0_4px_6px_rgba(0,0,0,0.15)] transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_8px_12px_rgba(0,0,0,0.25)] hover:scale-105 active:scale-95"
-                            href="/#"
+                            href={route('auth.index', 'signup')}
                         >
-                            <Link href={route('auth.index', 'signup')} className="flex flex-row gap-1">
-                                <div className="text-center justify-start text-white text-md lg:text-lg font-bold leading-none">Vamos lá</div>
+                            <div className="flex flex-row gap-1">
+                                <h2 className="text-center justify-start text-white text-md lg:text-lg font-bold leading-none">Vamos lá</h2>
                                 <RightArrowIcon />
-                            </Link>
+                            </div>
                         </Link>
                         <Link
                             className="px-6 py-4 lg:px-9 lg:py-6 bg-white rounded-[36.55px] border border-gray-300 flex justify-start items-center gap-2 shadow-[0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-300 hover:border-cyan-600 hover:shadow-[0_6px_10px_rgba(0,0,0,0.2)] hover:scale-105 active:scale-95"

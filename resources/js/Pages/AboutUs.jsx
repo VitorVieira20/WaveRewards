@@ -14,7 +14,7 @@ export default function AboutUs({ auth }) {
 
     return (
         <Layout auth={auth}>
-            <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-4xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#EAF5FA] md:to-[#DDEFF7]">
+            <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-4xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#EAF5FA] md:to-[#DDEFF7] xl:to-[#E7F3F9]">
                 Sobre nós
             </h1>
             <div className="flex flex-col px-6 md:px-16 py-6 gap-8">
