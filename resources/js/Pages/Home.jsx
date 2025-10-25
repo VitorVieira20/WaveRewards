@@ -28,7 +28,7 @@ export default function Home({ }) {
 
                         <button
                             onClick={() => heroRef.current.scrollIntoView({ behavior: "smooth" })}
-                            className="w-full sm:w-96 px-9 py-6 bg-white rounded-[36.55px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline-1 -outline-offset-1 outline-gray-300 flex justify-center items-center gap-2 cursor-pointer mt-6"
+                            className="w-full sm:w-96 px-9 py-6 bg-white rounded-[36.55px] shadow-[0px_4px_4px_0px_rgba(0,0,0,0.25)] outline-1 -outline-offset-1 outline-gray-300 flex justify-center items-center gap-2 hover:scale-105 transition-all cursor-pointer mt-6"
                         >
                             <div className="text-center text-blue-950 text-md md:text-lg font-medium leading-4">
                                 Entrega-te às ondas e bora remar

@@ -4,8 +4,8 @@ import { Link, useForm, usePage } from '@inertiajs/react';
 import { route } from 'ziggy-js';
 
 const navLinks = [
-    { dropdown: false, name: 'Início', route: 'contacts.index' },
-    { dropdown: false, name: 'Equipa', route: 'contacts.index' },
+    { dropdown: false, name: 'Início', route: 'home.index' },
+    { dropdown: false, name: 'Equipa', route: 'team.index' },
     { dropdown: false, name: 'Benefícios', route: 'benefits.index' },
     { dropdown: false, name: 'Rankings', route: 'contacts.index' },
     { dropdown: false, name: 'Contactos', route: 'contacts.index' },
