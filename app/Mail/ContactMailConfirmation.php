@@ -8,9 +8,8 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 
-class ContactMail extends Mailable implements ShouldQueue
+class ContactMailConfirmation extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -30,7 +29,7 @@ class ContactMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nova mensagem de contacto - WaveRewards',
+            subject: 'Confirmamos a receção da tua mensagem',
         );
     }
 
@@ -40,7 +39,7 @@ class ContactMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.contact',
+            markdown: 'emails.contact-confirmation',
             with: ['data' => $this->data],
         );
     }

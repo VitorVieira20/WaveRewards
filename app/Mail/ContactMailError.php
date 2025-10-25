@@ -8,13 +8,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Mail;
 
-class ContactMail extends Mailable implements ShouldQueue
+class ContactMailError extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public array $data;
+
 
     /**
      * Create a new message instance.
@@ -30,7 +30,7 @@ class ContactMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Nova mensagem de contacto - WaveRewards',
+            subject: 'Ocorreu um erro ao enviar a tua mensagem',
         );
     }
 
@@ -40,7 +40,7 @@ class ContactMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.contact',
+            markdown: 'emails.contact-error',
             with: ['data' => $this->data],
         );
     }
