@@ -4,6 +4,7 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/errors.php';
 
 use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\RankingsController;
 use App\Http\Controllers\StaticPagesController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,5 @@ Route::get('/about', [StaticPagesController::class, 'about'])->name('about.index
 Route::get('/benefits', [StaticPagesController::class, 'benefits'])->name('benefits.index');
 
 Route::get('/team', [StaticPagesController::class, 'team'])->name('team.index');
+
+Route::get('/rankings', [RankingsController::class, 'index'])->name('rankings.index');
