@@ -1,4 +1,3 @@
-import { useState } from "react";
 import FacebookIcon from "../Icons/FacebookIcon";
 import InstagramIcon from "../Icons/InstagramIcon";
 import LinkedinIcon from "../Icons/LinkedinIcon";
@@ -7,17 +6,13 @@ import YoutubeIcon from "../Icons/YoutubeIcon";
 import ChatbotIcon from "../Icons/ChatbotIcon";
 import Chatbot from "../Chatbot/Chatbot";
 
-export default function Footer() {
-    const [chatbotOpen, setChatbotOpen] = useState(false);
-
+export default function Footer({ chatbotOpen, setChatbotOpen }) {
     return (
-        <footer className="relative w-full mt-auto bg-transparent py-6 flex flex-col items-center justify-center text-center">
-            {/* Copyright */}
+        <footer className="relative w-full mt-auto bg-transparent py-6 flex flex-col items-center justify-center">
             <div className="text-[#1A3463] text-sm md:text-md font-normal mb-3">
                 Copyright © 2025 WaveRewards | All Rights Reserved
             </div>
 
-            {/* Social Icons */}
             <div className="flex flex-row gap-4 justify-center items-center">
                 <a href="#" className="hover:scale-110 transition duration-200">
                     <FacebookIcon />
@@ -36,7 +31,6 @@ export default function Footer() {
                 </a>
             </div>
 
-            {/* Chatbot flutuante no canto inferior direito */}
             <button
                 onClick={() => setChatbotOpen(true)}
                 className="fixed bottom-6 right-6 z-50 transform hover:scale-110 transition duration-200 cursor-pointer"
