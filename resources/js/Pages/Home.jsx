@@ -8,34 +8,43 @@ import YoutubeIcon from "../Components/Icons/YoutubeIcon";
 
 export default function Home({ auth }) {
     const heroRef = useRef(null);
-    const [canScroll, setCanScroll] = useState(false);
+    const [scrolledToHero, setScrolledToHero] = useState(false);
 
     useEffect(() => {
-        if (!canScroll) document.body.style.overflow = "hidden";
-        else document.body.style.overflow = "auto";
+        document.body.style.overflow = "hidden";
 
-        if (auth.user) {
-            handleScrollToHero();
-            setCanScroll(false);
-        }
+        const handleResize = () => {
+
+            if (scrolledToHero) {
+                heroRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        };
+
+        window.addEventListener("resize", handleResize);
 
         return () => {
+            window.removeEventListener("resize", handleResize);
             document.body.style.overflow = "auto";
         };
-    }, [canScroll]);
+    }, [scrolledToHero]);
 
     const handleScrollToHero = () => {
-        setCanScroll(true);
+        document.body.style.overflow = "auto";
 
-        heroRef.current.scrollIntoView({
-            behavior: "smooth",
-        });
+        heroRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+
+        setScrolledToHero(true);
+
+        setTimeout(() => {
+            document.body.style.overflow = "hidden";
+        }, 1200);
     };
 
     return (
         <div className="flex flex-col relative">
             <main>
-                <section className="h-[105vh] flex flex-col justify-between bg-linear-to-b from-[#BED3DC] via-[#60B4D9] via-[#1D87BC] to-[#1C5E8F] px-4 overflow-x-hidden">
+                {/* === SECTION PRINCIPAL === */}
+                <section className="h-screen flex flex-col justify-between bg-linear-to-b from-[#BED3DC] via-[#60B4D9] via-[#1D87BC] to-[#1C5E8F] px-4 overflow-x-hidden">
                     <div className="flex flex-col items-center justify-center flex-1 gap-4">
                         <img
                             src="/images/logo.png"
@@ -80,7 +89,8 @@ export default function Home({ auth }) {
                     </div>
                 </section>
 
-                <section ref={heroRef}>
+                {/* === HERO SECTION === */}
+                <section ref={heroRef} className="h-screen">
                     <HeroSection auth={auth} />
                 </section>
             </main>
