@@ -2,7 +2,6 @@ import { Link } from "@inertiajs/react";
 import { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import Chatbot from "../Chatbot/Chatbot";
-import Navbar from "../Navbar";
 import FacebookIcon from "../Icons/FacebookIcon";
 import TwitterIcon from "../Icons/TwitterIcon";
 import InstagramIcon from "../Icons/InstagramIcon";
@@ -11,6 +10,7 @@ import YoutubeIcon from "../Icons/YoutubeIcon";
 import ChatbotIcon from "../Icons/ChatbotIcon";
 import RightArrowIcon from "../Icons/RightArrowIcon";
 import { route } from "ziggy-js";
+import LayoutNavbar from "../Layout/Navbar";
 
 export default function HeroSection({ auth }) {
     const [chatbotOpen, setChatbotOpen] = useState(false);
@@ -46,7 +46,7 @@ export default function HeroSection({ auth }) {
                 transition={{ duration: 0.6, ease: "easeOut" }}
                 className={`fixed top-0 left-0 w-full z-50 ${chatbotOpen ? 'blur-xs' : 'blur-0'}`}
             >
-                <Navbar auth={auth} />
+                <LayoutNavbar auth={auth} />
             </motion.div>
             <div className={`${chatbotOpen ? 'blur-xs' : 'blur-0'} transition-all duration-300`}>
                 <div className="flex flex-col lg:flex-row">
