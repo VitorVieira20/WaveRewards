@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisterUserController;
+use App\Http\Controllers\StravaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest.redirect')->group(function () {
@@ -13,3 +14,7 @@ Route::middleware('guest.redirect')->group(function () {
 Route::middleware('auth.redirect')->group(function () {
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 });
+
+
+Route::get('/auth/strava/redirect', [StravaController::class, 'redirect'])->name('strava.redirect');
+Route::get('/auth/strava/callback', [StravaController::class, 'callback'])->name('strava.callback');
