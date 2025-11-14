@@ -152,7 +152,7 @@ export default function Contacts({ auth }) {
 
                 <div className="flex flex-col justify-start w-full xl:w-1/3 min-h-[30vh] bg-[#FFFFFF]/50 rounded-3xl shadow-md p-6">
                     <div className="justify-start text-[#1A3463] text-2xl font-semibold">Contacta-nos</div>
-                    <div className="justify-start text-[#1B5D8F] text-md font-normal mt-2">Prototypes may also be exempted from some requirements that will apply to the final product</div>
+                    <div className="justify-start text-[#1B5D8F] text-md font-normal mt-2">Estamos disponíveis para esclarecer qualquer uma das tuas dúvidas!</div>
                     <div className="flex flex-row items-center gap-4 mt-6">
                         <EnvelopIcon />
                         <div className="text-center justify-start text-[#1B5D8F]/80 text-lg font-normal">contacto@waverewards.com</div>

@@ -19,4 +19,6 @@ Route::get('/benefits', [StaticPagesController::class, 'benefits'])->name('benef
 
 Route::get('/team', [StaticPagesController::class, 'team'])->name('team.index');
 
+Route::get('/partners', [StaticPagesController::class, 'partners'])->name('partners.index');
+
 Route::get('/rankings', [RankingsController::class, 'index'])->name('rankings.index');

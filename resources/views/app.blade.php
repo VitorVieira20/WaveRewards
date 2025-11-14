@@ -19,6 +19,17 @@
     <link rel="preload" as="image" href="{{ asset('images/team/david.png') }}">
     <link rel="preload" as="image" href="{{ asset('images/team/roberto.png') }}">
     <link rel="preload" as="image" href="{{ asset('images/team/vitor.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/AIG.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/ARCM.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/DRD.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/FPC.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/MadeiraIslands.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/PortosMadeira.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/QuintaPrazeres.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/SRA.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/SRTC.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/StartUpMadeira.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/partners/UMa.png') }}">
 
     {{--
     <meta property="og:title" content="Wave" />

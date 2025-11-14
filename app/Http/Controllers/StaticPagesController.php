@@ -28,4 +28,10 @@ class StaticPagesController extends Controller
     {
         return Inertia::render('Team');
     }
+
+
+    public function partners()
+    {
+        return Inertia::render('Partners');
+    }
 }
