@@ -4,27 +4,27 @@ import { useState } from "react";
 const teamMembers = [
     {
         name: "Leonor Freitas",
-        role: "UX/UI Designer",
-        image: "/images/team/leonor2.png",
-        hoverImage: "/images/team/leonor2.png",
+        role: "UX/UI Designer e <br />Front-end developer",
+        image: "/images/team/leonor.png",
+        hoverImage: "/images/team/leonor.png",
     },
     {
         name: "Vitor Vieira",
-        role: "Web Developer",
-        image: "/images/team/vitor2.png",
-        hoverImage: "/images/team/vitor2.png",
+        role: "Full Stack Developer",
+        image: "/images/team/vitor.png",
+        hoverImage: "/images/team/vitor.png",
     },
     {
         name: "Roberto Andrade",
-        role: "RP do Gin Garden",
-        image: "/images/team/roberto2.png",
-        hoverImage: "/images/team/roberto2.png",
+        role: "Full Stack Developer",
+        image: "/images/team/roberto.png",
+        hoverImage: "/images/team/roberto.png",
     },
     {
         name: "David França",
-        role: "Content / Social",
-        image: "/images/team/david2.png",
-        hoverImage: "/images/team/david2.png",
+        role: "Full Stack Developer",
+        image: "/images/team/david.png",
+        hoverImage: "/images/team/david.png",
     },
 ];
 
@@ -38,22 +38,24 @@ export default function Team({ auth }) {
             </h1>
 
             <div className="flex flex-col lg:flex-row gap-12 px-4 md:px-10 py-6">
-                <div className="w-full lg:w-1/2 pt-10 lg:pt-36 px-10">
+                <div className="w-full lg:w-1/2 pt-10 lg:pt-36 px-4 md:px-6 lg:px-10">
                     <h2 className="justify-start text-[#1C5E8F] text-lg font-medium mb-6">
                         Somos movidos pela determinação e pelo esforço.
                     </h2>
                     <div className=" justify-start">
-                        <span className="text-[#1D87BC] text-lg font-normal leading-relaxed mb-4">
+                        <span className="text-[#1D87BC] text-sm md:text-base lg:text-lg font-normal leading-relaxed mb-4">
                             Cada elemento da nossa plataforma nasce do espírito criativo, da ambição coletiva e da motivação da nossa equipa.<br />
                         </span>
-                        <span className="text-[#1D87BC] text-lg font-normal leading-4"><br /></span>
-                        <span className="text-[#1D87BC] text-lg font-normal leading-8">
+
+                        <span className="text-[#1D87BC] text-sm md:text-base lg:text-lg font-normal leading-4"><br /></span>
+
+                        <span className="text-[#1D87BC] text-sm md:text-base lg:text-lg font-normal leading-8">
                             Trabalhamos com paixão para construir uma experiência saudável, gamificada, sustentável e educativa que responda verdadeiramente às necessidade não só dos nossos desportistas portugueses, como de todos aqueles que queiram enriquecer mais com este projeto.
                         </span>
                     </div>
                 </div>
 
-                <div className="w-full lg:w-1/2 flex flex-col pt-4 md:pt-10 items-stretch gap-6 xl:gap-0">
+                <div className="w-full lg:w-1/2 flex flex-col pt-0 md:pt-4 lg:pt-10 items-stretch gap-6 xl:gap-0">
                     {teamMembers.map((member, index) => {
                         const isEven = index % 2 === 0; // left (start) for even, right (end) for odd
                         return (
@@ -92,7 +94,10 @@ export default function Team({ auth }) {
 
                                     <div className={`flex flex-col w-full justify-center items-center order-1`}>
                                         <h3 className="text-[#1C5E8F] md:text-xl font-semibold">{member.name}</h3>
-                                        <p className="text-[#1D87BC]">{member.role}</p>
+                                        <p
+                                            className="text-[#1D87BC] text-center"
+                                            dangerouslySetInnerHTML={{ __html: member.role }}
+                                        />
                                     </div>
                                 </div>
                             </div>

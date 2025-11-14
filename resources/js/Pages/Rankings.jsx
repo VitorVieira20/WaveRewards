@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react"; // ícones modernos
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Layout from "../Layouts/Layout";
 import FiltersIcon from "../Components/Icons/FiltersIcon";
 
@@ -23,6 +23,12 @@ const data = [
     { id: 17, name: "Miguel Correia", points: 7700, challenges: 25, distance: 780, medals: 7 }
 ];
 
+const podiumUsers = [
+    { place: 1, image: "/images/team/roberto.png", name: "Roberto Andrade" },
+    { place: 2, image: "/images/team/leonor.png", name: "Leonor Freitas" },
+    { place: 3, image: "/images/team/david.png", name: "David França" },
+];
+
 export default function Rankings({ auth }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
@@ -30,13 +36,8 @@ export default function Rankings({ auth }) {
     const totalPages = Math.ceil(data.length / perPage);
     const currentData = data.slice((currentPage - 1) * perPage, currentPage * perPage);
 
-    const nextPage = () => {
-        if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-    };
-
-    const prevPage = () => {
-        if (currentPage > 1) setCurrentPage(currentPage - 1);
-    };
+    const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
+    const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
     return (
         <Layout auth={auth}>
@@ -45,6 +46,7 @@ export default function Rankings({ auth }) {
             </h1>
 
             <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-full pt-20 px-4 md:px-16">
+                {/* TABELA */}
                 <div className="w-full lg:w-3/5 overflow-x-auto relative">
                     <div className="flex justify-between items-end mb-3">
                         <button
@@ -67,7 +69,7 @@ export default function Rankings({ auth }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentData.map(user => (
+                            {currentData.map((user) => (
                                 <tr
                                     key={user.id}
                                     className="text-[#5A5A5A] border-b border-white hover:bg-white/50 transition-colors"
@@ -82,7 +84,7 @@ export default function Rankings({ auth }) {
                         </tbody>
                     </table>
 
-                    {/* Paginação com setas */}
+                    {/* PAGINAÇÃO */}
                     <div className="flex justify-center items-center gap-2 mt-6">
                         <button
                             onClick={prevPage}
@@ -90,7 +92,7 @@ export default function Rankings({ auth }) {
                             className={`p-2 rounded-lg ${currentPage === 1
                                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                                 : "bg-[#EAF5FA] text-[#1A3463] hover:bg-[#60B4D9] hover:text-white"
-                                } cursor-pointer`}
+                                }`}
                         >
                             <ChevronLeft size={18} />
                         </button>
@@ -103,7 +105,7 @@ export default function Rankings({ auth }) {
                                 ${currentPage === i + 1
                                         ? "bg-[#1A3463] text-white shadow-md"
                                         : "bg-[#EAF5FA] text-[#1A3463] hover:bg-[#60B4D9] hover:text-white"
-                                    } cursor-pointer`}
+                                    }`}
                             >
                                 {i + 1}
                             </button>
@@ -115,19 +117,52 @@ export default function Rankings({ auth }) {
                             className={`p-2 rounded-lg ${currentPage === totalPages
                                 ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                                 : "bg-[#EAF5FA] text-[#1A3463] hover:bg-[#60B4D9] hover:text-white"
-                                } cursor-pointer`}
+                                }`}
                         >
                             <ChevronRight size={18} />
                         </button>
                     </div>
                 </div>
 
-                <div className="w-full lg:w-2/5 h-full flex items-center justify-center px-4 md:px-16 pt-16 lg:pt-0">
+                {/* PÓDIO */}
+                <div className="w-full lg:w-2/5 relative flex items-center justify-center px-4 md:px-16 pt-16 lg:pt-0">
                     <img
                         src="/images/podium.png"
                         alt="Pódio"
                         className="w-full h-auto object-contain drop-shadow-lg"
                     />
+
+                    {/* POSIÇÕES DOS UTILIZADORES */}
+                    {podiumUsers.map((user) => (
+                        <div
+                            key={user.place}
+                            className="absolute flex flex-col items-center text-center"
+                            style={{
+                                top:
+                                    user.place === 1
+                                        ? "-90%"
+                                        : user.place === 2
+                                            ? "-55%"
+                                            : "-45%",
+                                left:
+                                    user.place === 1
+                                        ? "50%"
+                                        : user.place === 2
+                                            ? "25%"
+                                            : "75%",
+                                transform: "translate(-50%, 0)",
+                            }}
+                        >
+                            <img
+                                src={user.image}
+                                alt={user.name}
+                                className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-md object-cover"
+                            />
+                            <p className="text-[#1A3463] text-sm font-medium mt-2">
+                                {user.name}
+                            </p>
+                        </div>
+                    ))}
                 </div>
             </div>
         </Layout>

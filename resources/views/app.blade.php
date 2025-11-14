@@ -15,10 +15,10 @@
     <link rel="preload" as="image" href="{{ asset('images/about2.png') }}">
     <link rel="preload" as="image" href="{{ asset('images/oars.png') }}">
     <link rel="preload" as="image" href="{{ asset('images/podium.png') }}">
-    <link rel="preload" as="image" href="{{ asset('images/team/leonor2.png') }}">
-    <link rel="preload" as="image" href="{{ asset('images/team/david2.png') }}">
-    <link rel="preload" as="image" href="{{ asset('images/team/roberto2.png') }}">
-    <link rel="preload" as="image" href="{{ asset('images/team/vitor2.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/team/leonor.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/team/david.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/team/roberto.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/team/vitor.png') }}">
 
     {{--
     <meta property="og:title" content="Wave" />

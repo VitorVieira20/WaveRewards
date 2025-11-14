@@ -9,7 +9,7 @@ import Chatbot from "../Chatbot/Chatbot";
 export default function Footer({ chatbotOpen, setChatbotOpen }) {
     return (
         <footer className="relative w-full mt-auto bg-transparent py-6 flex flex-col items-center justify-center">
-            <div className="text-[#1A3463] text-sm md:text-md font-normal mb-3">
+            <div className="text-[#1A3463] text-sm md:text-md font-normal mb-3 text-center md:text-left">
                 Copyright © 2025 WaveRewards | All Rights Reserved
             </div>
 
