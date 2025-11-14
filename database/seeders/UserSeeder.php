@@ -22,22 +22,23 @@ class UserSeeder extends Seeder
         ];
 
         foreach ($users as $user) {
-            $created = User::create([
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-                'address' => $user['address'],
-                'username' => $user['username'],
-                'avatar' => $user['avatar'],
-            ]);
+            $created = User::firstOrCreate(
+                ['email' => $user['email']],
+                [
+                    'name' => $user['name'],
+                    'password' => Hash::make('password'),
+                    'email_verified_at' => now(),
+                    'address' => $user['address'],
+                    'username' => $user['username'],
+                    'avatar' => $user['avatar'],
+                ]
+            );
 
-            if (!$created) {
-                $this->command->warn('Failed to create User.');
-                return;
+            if ($created->wasRecentlyCreated) {
+                $this->command->info("User created: Name {$created->name} with email: {$created->email}");
+            } else {
+                $this->command->warn("User already exists: {$created->email}");
             }
-
-            $this->command->info("User created: Name {$created->name} with email: {$created->email}");
         }
     }
 }

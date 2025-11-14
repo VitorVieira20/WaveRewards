@@ -2,10 +2,6 @@
 
 namespace App\Jobs;
 
-use App\Enums\MessageStatusEnum;
-use App\Models\DiscordChannel;
-use App\Models\MessageLog;
-use App\Services\MessageLogService;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Queue\ShouldQueue;
