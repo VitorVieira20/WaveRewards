@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { LogOut, Menu, Moon, Sun, X } from 'lucide-react';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { route } from 'ziggy-js';
 
 const navLinks = [
@@ -13,13 +12,7 @@ const navLinks = [
 
 export default function LayoutNavbar({ auth = { user: null } }) {
     const [isOpen, setIsOpen] = useState(false);
-    const { post, processing } = useForm();
     const { url } = usePage();
-
-    const handleLogout = (e) => {
-        e.preventDefault();
-        post(route("logout"));
-    };
 
     return (
         <nav className="fixed top-0 left-0 w-full z-50 bg-linear-to-b from-[#FFFFFF] to-[#EAF5FA]">
@@ -54,46 +47,28 @@ export default function LayoutNavbar({ auth = { user: null } }) {
                     </div>
 
 
-                    {/* Login */}
                     <div className="hidden xl:flex items-center gap-1">
-                        {auth.user ? (
-                            <button
-                                onClick={handleLogout}
-                                disabled={processing}
-                                className="w-28 h-14 cursor-pointer"
-                            >
-                                <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
-                                    <LogOut className="text-white w-5 h-5 mr-2" />
-                                    <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">
-                                        Sair
-                                    </div>
+                        <Link
+                            className="w-28 h-14"
+                            href={route('auth.index', 'login')}
+                        >
+                            <div className="px-6 py-4 bg-white rounded-[30px] border border-gray-300 shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105 hover:border-cyan-600">
+                                <div className="text-center text-cyan-600 text-base font-bold leading-none hover:text-cyan-700 transition-colors duration-300">
+                                    Login
                                 </div>
-                            </button>
-                        ) : (
-                            <>
-                                <Link
-                                    className="w-28 h-14"
-                                    href={route('auth.index', 'login')}
-                                >
-                                    <div className="px-6 py-4 bg-white rounded-[30px] border border-gray-300 shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105 hover:border-cyan-600">
-                                        <div className="text-center text-cyan-600 text-base font-bold leading-none hover:text-cyan-700 transition-colors duration-300">
-                                            Login
-                                        </div>
-                                    </div>
-                                </Link>
+                            </div>
+                        </Link>
 
-                                <Link
-                                    className="w-28 h-14"
-                                    href={route('auth.index', 'signup')}
-                                >
-                                    <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
-                                        <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">
-                                            Registar
-                                        </div>
-                                    </div>
-                                </Link>
-                            </>
-                        )}
+                        <Link
+                            className="w-28 h-14"
+                            href={route('auth.index', 'signup')}
+                        >
+                            <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
+                                <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">
+                                    Registar
+                                </div>
+                            </div>
+                        </Link>
                     </div>
 
                     {/* Mobile Navigation Buttons */}

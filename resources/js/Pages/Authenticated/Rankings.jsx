@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Layout from "../Layouts/Layout";
-import FiltersIcon from "../Components/Icons/FiltersIcon";
+import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout";
+import FiltersIcon from "../../Components/Icons/FiltersIcon";
 
 const data = [
     { id: 1, name: "Diogo Silva", points: 9820, challenges: 47, distance: 1043, medals: 12 },
@@ -40,7 +40,7 @@ export default function Rankings({ auth }) {
     const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
     return (
-        <Layout auth={auth}>
+        <AuthenticatedLayout auth={auth}>
             <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-4xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#EAF5FA] md:to-[#DDEFF7] 3xl:to-[#E7F3F9]">
                 Rankings
             </h1>
@@ -165,6 +165,6 @@ export default function Rankings({ auth }) {
                     ))}
                 </div>
             </div>
-        </Layout>
+        </AuthenticatedLayout>
     );
 }

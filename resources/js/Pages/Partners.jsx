@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import Layout from "../Layouts/Layout";
 
-export default function Benefits({ auth }) {
+export default function Partners({ auth }) {
     const fadeUp = {
         hidden: { opacity: 0, y: 40 },
         visible: (i = 0) => ({
