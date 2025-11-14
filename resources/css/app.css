@@ -12,10 +12,17 @@
 
 .scroll-container {
     scrollbar-width: none;
-    /* Firefox */
 }
 
 .scroll-container::-webkit-scrollbar {
     display: none;
-    /* Chrome, Safari e Edge */
+}
+
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
 }

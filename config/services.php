@@ -41,4 +41,9 @@ return [
         'redirect' => env('STRAVA_REDIRECT_URI')
     ],
 
+    'weatherapi' => [
+        'key' => env('WEATHER_API_KEY'),
+    ],
+
+
 ];

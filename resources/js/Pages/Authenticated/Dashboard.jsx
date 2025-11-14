@@ -1,10 +1,10 @@
-import { motion } from "framer-motion";
 import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout";
 import TeamIcon from "../../Components/Icons/TeamIcon";
 import ObjectiveIcon from "../../Components/Icons/ObjectiveIcon";
 import PlayIcon from "../../Components/Icons/PlayIcon";
-import PlusIcon from "../../Components/Icons/PlusIcon"; // ícone de "+" que tens
+import PlusIcon from "../../Components/Icons/PlusIcon";
 import { Link } from "@inertiajs/react";
+import { route } from "ziggy-js";
 
 export default function Dashboard({ auth }) {
 
@@ -28,6 +28,9 @@ export default function Dashboard({ auth }) {
                         <div className="flex flex-col justify-center items-center bg-white/40 p-2 pb-4 border-l border-l-[#1A3463]/75 rounded-r-xl w-full max-w-[300px] relative">
                             <h2 className="text-[#1C5E8F] text-lg font-semibold">FAZER A</h2>
                             <h2 className="text-[#1C5E8F] text-lg font-semibold">METEOROLOGIA</h2>
+                            <Link href={route('meteorology.index')} className="absolute top-2 right-2 p-1 rounded-full hover:bg-[#1D87BC]/20 transition">
+                                <PlusIcon className="w-6 h-6 text-[#1D87BC]" />
+                            </Link>
                         </div>
                     </div>
 
