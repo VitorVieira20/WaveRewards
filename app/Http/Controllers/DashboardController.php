@@ -2,16 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Services\WeatherApiService;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
 {
+    public function __construct(protected WeatherApiService $weatherApiService)
+    {
+    }
+
+
     public function index()
     {
-        $user = Auth::user();
+        $locations = [
+            'Funchal, PT',
+            'Santana, PT',
+            'Madalena do Mar, PT',
+            'Santa Cruz, PT',
+        ];
 
-        return Inertia::render('Authenticated/Dashboard');
+        $data = $this->weatherApiService->getHourlyAndWeekForecats($locations);
+
+        return Inertia::render('Authenticated/Dashboard', [
+            'weatherData' => $data,
+        ]);
     }
 }
