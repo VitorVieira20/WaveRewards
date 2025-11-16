@@ -55,7 +55,7 @@ export default function Dashboard({ auth, weatherData }) {
                                 <rect width="256" height="162" rx="10" fill="black" fillOpacity="0.4" />
                             </svg>
 
-                            <Link href="/biblioteca" className="absolute top-2 right-2 p-1 rounded-full hover:bg-[#1D87BC]/20 transition">
+                            <Link href={route("library.index")} className="absolute top-2 right-2 p-1 rounded-full hover:bg-[#1D87BC]/20 transition">
                                 <PlusIcon className="w-6 h-6 text-[#1D87BC]" />
                             </Link>
                         </div>
