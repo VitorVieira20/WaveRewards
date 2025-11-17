@@ -109,8 +109,6 @@ class WeatherApiService
                 'wind' => $weather['current']['wind_kph'],
                 'uv' => $weather['current']['uv'],
                 'condition_icon' => asset('/images/weather/partly_cloudy.png'),
-
-                // novos campos
                 'forecast_week' => $forecastWeek,
                 'forecast_hourly' => $forecastHourly,
             ];

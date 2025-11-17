@@ -7,10 +7,6 @@ export default function InformationsIndex({ auth, informations }) {
 
     return (
         <AuthenticatedLayout auth={auth}>
-            <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#EAF5FA] md:to-[#DDEFF7] 3xl:to-[#E7F3F9]">
-
-            </h1>
-
             <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#EAF5FA] md:to-[#DDEFF7] 3xl:to-[#E7F3F9] flex items-center gap-4">
 
                 <Link href={route('library.index')} className="flex items-center md:mt-3 lg:mt-0">
