@@ -1,20 +1,24 @@
 import { Link } from "@inertiajs/react";
 import PlayVideoIcon from "../Icons/PlayVideoIcon";
+import { route } from "ziggy-js";
 
-export default function TutorialsSections({ tutorials }) {
+export default function TutorialsSections({ tutorials, showHeader = true }) {
 
     return (
         <div className="flex flex-col gap-4">
-            <h2 className="flex justify-center items-center text-[#1C5E8F] text-2xl font-semibold bg-[#FFFFFF]/40 shadow-xl p-6 rounded-xl w-full max-w-[320px]">
-                Vídeos/Tutoriais
-            </h2>
+            {showHeader &&
+                <Link href={route("tutorials.index")} className="flex justify-center items-center text-[#1C5E8F] text-2xl font-semibold bg-[#FFFFFF]/40 shadow-xl p-6 rounded-xl w-full max-w-[320px]">
+                    Vídeos/Tutoriais
+                </Link>
+            }
+
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                 {tutorials.map((tutorial) => (
                     <div
-                        key={tutorial.image}
+                        key={tutorial.id}
                         className="flex flex-col items-center bg-[#FFFFFF]/40 shadow-xl p-4 rounded-xl w-full md:max-w-[320px]"
                     >
-                        <Link className="w-full relative block rounded-xl overflow-hidden">
+                        <Link href={route("tutorials.show", tutorial.id)} className="w-full relative block rounded-xl overflow-hidden">
 
                             <img
                                 src={tutorial.image}

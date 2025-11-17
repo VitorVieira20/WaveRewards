@@ -61,7 +61,6 @@ class WorkshopService
             return $item['id'] === $id;
         });
 
-        // array_filter devolve um array — aqui extraímos o primeiro elemento
         return !empty($workshop) ? array_values($workshop)[0] : null;
     }
 }

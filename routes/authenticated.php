@@ -3,6 +3,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\MeteorologyController;
+use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,9 @@ Route::middleware('auth.redirect')->group(function () {
     // WORKSHOPS
     Route::get('/workshops', [WorkshopController::class, 'index'])->name('workshops.index');
     Route::get('/workshops/{id}', [WorkshopController::class, 'show'])->name('workshops.show');
+
+
+    // VIDEOS/TUTORIALS
+    Route::get('/tutorials', [TutorialController::class, 'index'])->name('tutorials.index');
+    Route::get('/tutorials/{id}', [TutorialController::class, 'show'])->name('tutorials.show');
 });
