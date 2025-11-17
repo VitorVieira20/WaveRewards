@@ -78,6 +78,12 @@ MAIL_FROM_NAME="WaveRewards"
 php artisan queue:work
 ```
 
+3. Fazer a conexão do storage
+- Abrir mais um terminal e rodar
+
+```bash
+php artisan storage:link
+```
 ---
 
 ## Executar o projeto
@@ -109,3 +115,70 @@ Abra o navegador e aceda a:
 ```
 http://localhost:8000
 ```
+
+
+## 🐳 Como rodar o projeto com Docker
+
+Este projeto utiliza **Docker** para garantir que todo o ambiente de desenvolvimento (PHP, Node, Base de Dados, etc.) é igual para todos os membros da equipa, independentemente do Sistema Operativo.
+
+
+### 🚀 Instalação e Primeiro Arranque
+
+Siga estes passos apenas na **primeira vez** que configurar o projeto:
+
+1.  **Configurar variáveis de ambiente:**
+    Copie o ficheiro de exemplo e ajuste as credenciais da base de dados para o Docker.
+    ```bash
+    cp .env.example .env
+    ```
+    *Abra o ficheiro `.env` e garanta que estas linhas estão assim:*
+    ```ini
+    DB_CONNECTION=mysql
+    DB_HOST=db
+    DB_PORT=3306
+    DB_DATABASE=waverewards
+    DB_USERNAME=laravel
+    DB_PASSWORD=secret
+
+    QUEUE_CONNECTION=redis
+
+    SESSION_DRIVER=redis
+
+    REDIS_CLIENT=phpredis
+    REDIS_HOST=waverewards-redis
+    REDIS_PASSWORD=null
+    REDIS_PORT=6379
+
+    VITE_APP_URL=http://localhost:8000
+    ```
+
+3.  **Arrancar os contentores:**
+    Este comando vai construir as imagens e iniciar o projeto.
+    ```bash
+    docker-compose up -d --build
+    ```
+    > **Nota:** O arranque inicial pode demorar alguns minutos. O script automático (`entrypoint.sh`) irá instalar o Composer, NPM, gerar a Key e correr as Migrations sozinho.
+
+4.  **Acompanhar a instalação:**
+    Para saber quando o site está pronto, veja os logs:
+    ```bash
+    docker-compose logs -f app
+    ```
+    *Quando vir a mensagem `🏁 Arranque concluído. A iniciar PHP-FPM...`, pode fechar os logs (Ctrl+C).*
+
+### 🌐 Aceder à Aplicação
+
+* **Site:** [http://localhost:8000](http://localhost:8000)
+* **phpMyAdmin:** [http://localhost:8080](http://localhost:8080)
+    * *User:* `laravel`
+    * *Password:* `secret`
+
+### 🛠 Comandos Úteis no Dia a Dia
+
+Como o PHP e o Node estão dentro do Docker, **não deve** correr comandos `php` ou `npm` diretamente no seu terminal. Use estes comandos:
+
+**Parar e Iniciar:**
+```bash
+docker-compose stop       # Parar (mantém os dados)
+docker-compose up -d      # Iniciar novamente
+docker-compose down       # Parar e remover contentores
