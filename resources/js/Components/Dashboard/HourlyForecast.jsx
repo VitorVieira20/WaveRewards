@@ -1,8 +1,14 @@
 export default function HourlyForecast({ forecast }) {
-    const currentHour = new Date().getHours();
+    const now = new Date();
+
+    now.setMinutes(0, 0, 0);
 
     const upcomingHours = forecast
-        .filter(hour => new Date(hour.time).getHours() >= currentHour)
+        .filter(hour => {
+            const hourDate = new Date(hour.time);
+
+            return hourDate >= now;
+        })
         .slice(0, 6);
 
     const formatHour = (timeString) => {

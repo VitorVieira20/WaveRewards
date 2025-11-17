@@ -85,8 +85,12 @@ class WeatherApiService
                 ];
             });
 
-            // Forecast horário do dia atual (apenas hoje)
-            $forecastHourly = collect($weather['forecast']['forecastday'][0]['hour'])->map(function ($hour) {
+            // Forecast horário do dia atual (apenas hoje, e dia seguinte)
+            $todayHours = $weather['forecast']['forecastday'][0]['hour'];
+            $tomorrowHours = $weather['forecast']['forecastday'][1]['hour'];
+            $allHours = array_merge($todayHours, $tomorrowHours);
+
+            $forecastHourly = collect($allHours)->map(function ($hour) {
                 return [
                     'time' => $hour['time'],
                     'temp' => round($hour['temp_c']),
