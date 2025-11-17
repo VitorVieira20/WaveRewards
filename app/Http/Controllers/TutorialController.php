@@ -14,10 +14,10 @@ class TutorialController extends Controller
 
     public function index()
     {
-        $workshops = $this->tutorialService->getTutorials();
+        $tutorials = $this->tutorialService->getTutorials();
 
         return Inertia::render("Authenticated/Tutorials/Index", [
-            'tutorials' => $workshops
+            'tutorials' => $tutorials
         ]);
     }
 

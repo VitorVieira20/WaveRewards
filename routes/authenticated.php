@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\MeteorologyController;
 use App\Http\Controllers\TutorialController;
@@ -28,4 +29,9 @@ Route::middleware('auth.redirect')->group(function () {
     // VIDEOS/TUTORIALS
     Route::get('/tutorials', [TutorialController::class, 'index'])->name('tutorials.index');
     Route::get('/tutorials/{id}', [TutorialController::class, 'show'])->name('tutorials.show');
+
+
+    // INFORMATIONS PANEL
+    Route::get('/informations', [InformationsController::class, 'index'])->name('informations.index');
+    Route::get('/informations/{id}', [InformationsController::class, 'show'])->name('informations.show');
 });

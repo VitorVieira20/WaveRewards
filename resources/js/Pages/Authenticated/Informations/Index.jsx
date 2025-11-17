@@ -1,9 +1,9 @@
 import { Link } from "@inertiajs/react";
 import LeftArrowIcon from "../../../Components/Icons/LeftArrowIcon";
-import WorkshopsSections from "../../../Components/Library/WorkshopsSection";
 import AuthenticatedLayout from "../../../Layouts/AuthenticatedLayout";
+import InformationsSections from "../../../Components/Library/InformationsSections";
 
-export default function WorkshopsIndex({ auth, workshops }) {
+export default function InformationsIndex({ auth, informations }) {
 
     return (
         <AuthenticatedLayout auth={auth}>
@@ -17,11 +17,11 @@ export default function WorkshopsIndex({ auth, workshops }) {
                     <LeftArrowIcon color="#1C5E8F" />
                 </Link>
 
-                <span>Workshops</span>
+                <span>Painel Informativo</span>
             </h1>
 
             <div className="flex flex-col gap-12 w-full pt-20 px-4 md:px-16">
-                <WorkshopsSections workshops={workshops} showHeader={false}/>
+                <InformationsSections informations={informations} showHeader={false} />
             </div>
 
         </AuthenticatedLayout >
