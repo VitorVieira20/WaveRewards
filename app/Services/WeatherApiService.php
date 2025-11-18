@@ -22,7 +22,7 @@ class WeatherApiService
 
             $apiKey = $this->apiKey;
 
-            $weather = cache()->remember("weather_{$location}", 600, function () use ($daysToForecast, $location, $apiKey) {
+            $weather = cache()->remember("weather_page_{$location}", 600, function () use ($daysToForecast, $location, $apiKey) {
                 return Http::get("https://api.weatherapi.com/v1/forecast.json", [
                     'key' => $apiKey,
                     'q' => $location,
@@ -64,7 +64,7 @@ class WeatherApiService
 
         foreach ($locations as $location) {
 
-            $weather = cache()->remember("weather_{$location}", 600, function () use ($apiKey, $location) {
+            $weather = cache()->remember("weather_card_{$location}", 600, function () use ($apiKey, $location) {
                 return Http::get("https://api.weatherapi.com/v1/forecast.json", [
                     'key' => $apiKey,
                     'q' => $location,
