@@ -5,7 +5,7 @@ export default function FormOverlay({ isLogin, setIsLogin }) {
 
     return (
         <div
-            className={`absolute top-0 left-[57.15%] w-[42.85%] h-full bg-[url('/images/kayak-over-water.png')] bg-cover bg-center transition-all duration-700 ease-in-out
+            className={`hidden md:block absolute top-0 left-[57.15%] w-[42.85%] h-full bg-[url('/images/kayak-over-water.png')] bg-cover bg-center transition-all duration-700 ease-in-out
     ${isLogin ? "translate-x-0" : "translate-x-[-132.85%]"}`}
         >
             <button
