@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\Auth\UpdatePasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\LibraryController;
@@ -46,4 +47,8 @@ Route::middleware('auth.redirect')->group(function () {
 
     // PROFILE
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+
+
+    // CHANGE PASSWORD
+    Route::put('/profile/password', [UpdatePasswordController::class, 'store'])->name('profile.password.update');
 });

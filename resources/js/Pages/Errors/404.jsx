@@ -2,7 +2,7 @@ import { Link } from "@inertiajs/react";
 
 export default function Error404() {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-white to-blue-400 text-center">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-[#BED3DC] via-[#60B4D9] via-[#1D87BC] to-[#1C5E8F] text-center">
             <h1 className="text-blue-950 text-5xl font-semibold font-['Poppins'] leading-tight mb-4 [text-shadow:_0px_4px_4px_rgb(0_0_0_/_0.25)]">
                 Oops! Página não encontrada
             </h1>

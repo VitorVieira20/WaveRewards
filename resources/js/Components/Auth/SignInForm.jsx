@@ -1,8 +1,9 @@
-import { useForm } from "@inertiajs/react";
+import { Link, useForm } from "@inertiajs/react";
 import FacebookIcon from "../Icons/FacebookIcon";
 import GoogleIcon from "../Icons/GoogleIcon";
 import LinkedinIcon from "../Icons/LinkedinIcon";
 import RightArrowIcon from "../Icons/RightArrowIcon";
+import { route } from "ziggy-js";
 
 export default function SignInForm({ isLogin, setIsLogin }) {
 
@@ -60,9 +61,9 @@ export default function SignInForm({ isLogin, setIsLogin }) {
                             {errors.password && <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>}
                         </div>
 
-                        <div className="w-full text-left text-[#1A3463] text-md font-normal underline leading-8 cursor-pointer hover:text-blue-800">
+                        <Link href={route("password.request")} className="w-full text-left text-[#1A3463] text-md font-normal underline leading-8 cursor-pointer hover:text-[#1C679A]">
                             Esqueceste-te da password?
-                        </div>
+                        </Link>
                     </form>
 
                     <button

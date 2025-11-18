@@ -1,7 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import LocationPinIcon from "../Icons/LocationPinIcon";
 
-export default function UserCard({ user }) {
+export default function UserCard({ user, onOpenPasswordModal }) {
 
     const { post, processing } = useForm();
 
@@ -38,7 +38,7 @@ export default function UserCard({ user }) {
                     className="flex bg-linear-to-r from-[#1C5E8F]/50 via-[#1C5E8F]/75 to-[#1C5E8F] text-white px-5 py-2 transition-all duration-300 transform hover:scale-105 tracking-wide text-xs sm:text-sm font-medium rounded-full cursor-pointer whitespace-nowrap">
                     Terminar sessão
                 </button>
-                <button className="flex bg-white/40 text-[#3699C5] px-5 py-2 transition-all duration-300 transform hover:scale-105 tracking-wide text-xs sm:text-sm font-medium rounded-full cursor-pointer whitespace-nowrap">
+                <button onClick={onOpenPasswordModal} className="flex bg-white/40 text-[#3699C5] px-5 py-2 transition-all duration-300 transform hover:scale-105 tracking-wide text-xs sm:text-sm font-medium rounded-full cursor-pointer whitespace-nowrap">
                     Mudar password
                 </button>
             </div>
