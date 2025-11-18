@@ -15,10 +15,10 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         $users = [
-            ['name' => 'David França', 'email' => 'david@email.com', 'address' => 'Funchal', 'username' => 'david_franca', 'avatar' => 'images/team/david2.png'],
-            ['name' => 'Leonor Freitas', 'email' => 'leonor@email.com', 'address' => 'Funchal', 'username' => 'leonor_freitas', 'avatar' => 'images/team/david2.png'],
+            ['name' => 'David França', 'email' => 'david@email.com', 'address' => 'Funchal', 'username' => 'david_franca', 'avatar' => 'images/team/david.png'],
+            ['name' => 'Leonor Freitas', 'email' => 'leonor@email.com', 'address' => 'Funchal', 'username' => 'leonor_freitas', 'avatar' => 'images/team/leonor.png'],
             ['name' => 'Roberto Andrade', 'email' => 'roberto@email.com', 'address' => 'Funchal', 'username' => 'roberto_andrade', 'avatar' => 'images/team/roberto.png'],
-            ['name' => 'Vitor Vieira', 'email' => 'vitor@email.com', 'address' => 'Funchal', 'username' => 'vitor_vieira', 'avatar' => 'images/team/vitor2.png']
+            ['name' => 'Vitor Vieira', 'email' => 'vitor@email.com', 'address' => 'Funchal', 'username' => 'vitor_vieira', 'avatar' => 'images/team/vitor.png']
         ];
 
         foreach ($users as $user) {
