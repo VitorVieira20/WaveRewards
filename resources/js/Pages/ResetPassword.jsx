@@ -51,7 +51,8 @@ export default function ResetPassword({ token }) {
                             className="w-full bg-black/5 border-b border-b-[#1C679A]/60 text-[#1A3463]/60 text-lg py-1 px-2 focus:outline-none rounded-t"
                             required
                         />
-                        {errors.email && <p className="text-red-500 text-sm mt-1 font-medium">O email e o token não correspondem</p>}
+                        {errors.email && errors.email === "passwords.user" && <p className="text-red-500 text-sm mt-1 font-medium">O email e o token não coincidem</p>}
+                        {errors.email && errors.email !== "passwords.user" && <p className="text-red-500 text-sm mt-1 font-medium">{errors.email}</p>}
                     </div>
 
                     <div className="relative w-full">

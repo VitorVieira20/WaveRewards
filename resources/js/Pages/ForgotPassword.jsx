@@ -50,6 +50,10 @@ export default function ForgotPassword() {
                             onChange={(e) => setData('email', e.target.value)}
                             className="w-full bg-black/5 border-b border-b-[#1C679A]/60 text-[#1A3463]/60 text-lg py-1 px-2 focus:outline-none rounded-t"
                         />
+
+                        {errors.email && (
+                            <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+                        )}
                     </div>
 
 

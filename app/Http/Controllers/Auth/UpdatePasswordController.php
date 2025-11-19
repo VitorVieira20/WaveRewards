@@ -3,21 +3,15 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\UpdatePasswordRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
-use Inertia\Inertia;
 
 class UpdatePasswordController extends Controller
 {
 
-    public function store(Request $request)
+    public function store(UpdatePasswordRequest $request)
     {
-        $request->validate([
-            'current_password' => ['required', 'string'],
-            'password' => ['required', 'confirmed', 'min:8', 'string', 'different:current_password'],
-        ]);
-
         $user = $request->user();
 
         if (! Hash::check($request->current_password, $user->password)) {

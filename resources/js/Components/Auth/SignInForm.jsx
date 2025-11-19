@@ -4,8 +4,11 @@ import GoogleIcon from "../Icons/GoogleIcon";
 import LinkedinIcon from "../Icons/LinkedinIcon";
 import RightArrowIcon from "../Icons/RightArrowIcon";
 import { route } from "ziggy-js";
+import { useState } from "react";
+import { Eye, EyeClosed } from "lucide-react";
 
 export default function SignInForm({ isLogin, setIsLogin }) {
+    const [showPassword, setShowPassword] = useState(false);
 
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         email: "",
@@ -51,13 +54,19 @@ export default function SignInForm({ isLogin, setIsLogin }) {
 
                         <div className="relative w-full">
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 value={data.password}
                                 onChange={(e) => setData("password", e.target.value)}
                                 className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-blue-950 text-lg transition-all duration-300 focus:outline-none placeholder-blue-950/50"
                                 placeholder="Password"
                             />
+                            <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-blue-950/70"
+                            >
+                                {showPassword ? <EyeClosed /> : <Eye />}
+                            </span>
                             {errors.password && <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>}
                         </div>
 

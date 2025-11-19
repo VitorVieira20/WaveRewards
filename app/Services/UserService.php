@@ -24,7 +24,10 @@ class UserService
             return DB::transaction(function () use ($data) {
                 $user = $this->userRepository->create([
                     'name' => $data['name'],
+                    'username' => strtolower(str_replace(' ', '_', $data['name'])),
+                    'avatar' => 'images/team/vitor.png',
                     'email' => $data['email'],
+                    'address' => 'Funchal',
                     'password' => Hash::make($data['password']),
                 ]);
 

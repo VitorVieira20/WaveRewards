@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class AuthenticatedSessionController extends Controller
@@ -25,33 +25,17 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(Request $request)
+    public function store(LoginRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|exists:users,email',
-            'password' => 'required',
-        ], [
-            'username.required' => 'O email é obrigatório.',
-            'username.exists' => 'O email não existe.',
-            'password.required' => 'A palavra-passe é obrigatória.',
-        ]);
+        $validated = $request->validated();
 
-        if ($validator->fails()) {
-            return redirect()
-                ->route('auth.index', 'login')
-                ->withErrors($validator)
-                ->withInput();
-        }
-
-        $credentials = $request->only('email', 'password');
-
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $validated['email'])->first();
 
         if (!$user->email_verified_at) {
             return redirect()->route('auth.index', 'login')->with('error', 'Email não verificado!');
         }
 
-        if (!Auth::attempt($credentials)) {
+        if (!Auth::attempt($validated)) {
             return redirect()->route('auth.index', 'login')->with('error', 'Credenciais Erradas!');
         }
 

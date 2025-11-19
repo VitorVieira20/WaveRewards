@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
@@ -19,13 +20,8 @@ class ResetPasswordController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(ResetPasswordRequest $request)
     {
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|confirmed|min:8',
-        ]);
 
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),

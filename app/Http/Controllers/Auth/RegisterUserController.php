@@ -18,7 +18,7 @@ class RegisterUserController extends Controller
         $user = $this->userService->create($request);
 
         if (!$user) {
-            return redirect()->route('auth.index', 'signup')->with('errors', 'Não foi possível criar conta. Tente mais tarde.');
+            return redirect()->route('auth.index', 'signup')->with('error', 'Não foi possível criar conta. Tente mais tarde.');
         }
 
         // Depois fazer para enviar um email com o link de confirmação
@@ -27,6 +27,6 @@ class RegisterUserController extends Controller
         $user->update(['email_verified_at' => now()]);
         $user->fresh();
 
-        return redirect()->route('auth.index', 'login');
+        return redirect()->route('auth.index', 'login')->with('success', 'Conta criada com sucesso.');
     }
 }

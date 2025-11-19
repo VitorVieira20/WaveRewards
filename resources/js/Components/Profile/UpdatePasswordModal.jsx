@@ -66,7 +66,7 @@ export default function UpdatePasswordModal({ show, onClose }) {
                             className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-[#1A3463] text-lg py-1 px-2 transition-all duration-300 focus:outline-none placeholder-[#1A3463]/40 focus:border-[#1A3463]"
                             placeholder="Password Atual"
                         />
-                        {errors.current_password && <p className="text-red-500 text-xs mt-1 font-medium ml-2">Password incorreta</p>}
+                        {errors.current_password && <p className="text-red-500 text-xs mt-1 font-medium ml-2">{errors.current_password}</p>}
                     </div>
 
                     <div className="relative w-full">
@@ -77,7 +77,7 @@ export default function UpdatePasswordModal({ show, onClose }) {
                             className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-[#1A3463] text-lg py-1 px-2 transition-all duration-300 focus:outline-none placeholder-[#1A3463]/40 focus:border-[#1A3463]"
                             placeholder="Nova Password"
                         />
-                        {errors.password && <p className="text-red-500 text-xs mt-1 font-medium ml-2">Não pode usar a mesma password ou não coincide</p>}
+                        {errors.password && <p className="text-red-500 text-xs mt-1 font-medium ml-2">{errors.password}</p>}
                     </div>
 
                     <div className="relative w-full">

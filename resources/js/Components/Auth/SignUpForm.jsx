@@ -3,8 +3,12 @@ import FacebookIcon from "../Icons/FacebookIcon";
 import GoogleIcon from "../Icons/GoogleIcon";
 import LinkedinIcon from "../Icons/LinkedinIcon";
 import RightArrowIcon from "../Icons/RightArrowIcon";
+import { useState } from "react";
+import { Eye, EyeClosed } from "lucide-react";
 
 export default function SignUpForm({ isLogin, setIsLogin }) {
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
 
     const { data, setData, post, processing, errors, reset, clearErrors } = useForm({
         name: "",
@@ -66,25 +70,39 @@ export default function SignUpForm({ isLogin, setIsLogin }) {
 
                         <div className="relative w-full">
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
                                 name="password"
                                 value={data.password}
                                 onChange={(e) => setData("password", e.target.value)}
                                 className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-blue-950 text-lg transition-all duration-300 focus:outline-none placeholder-blue-950/50"
                                 placeholder="Password"
+                                required
                             />
+                            <span
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-blue-950/70"
+                            >
+                                {showPassword ? <EyeClosed /> : <Eye />}
+                            </span>
                             {errors.password && <p className="text-red-500 text-sm mt-1 ml-1">{errors.password}</p>}
                         </div>
 
                         <div className="relative w-full">
                             <input
-                                type="password"
+                                type={showPasswordConfirm ? "text" : "password"}
                                 name="password_confirmation"
                                 value={data.password_confirmation}
                                 onChange={(e) => setData("password_confirmation", e.target.value)}
                                 className="w-full bg-transparent border-b border-b-[#1C679A]/60 text-blue-950 text-lg transition-all duration-300 focus:outline-none placeholder-blue-950/50"
                                 placeholder="Confirmar Password"
+                                required
                             />
+                            <span
+                                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
+                                className="absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer text-blue-950/70"
+                            >
+                                {showPasswordConfirm ? <EyeClosed /> : <Eye />}
+                            </span>
                             {errors.password_confirmation && (
                                 <p className="text-red-500 text-sm mt-1 ml-1">{errors.password_confirmation}</p>
                             )}

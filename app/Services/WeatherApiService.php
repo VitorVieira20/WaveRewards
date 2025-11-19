@@ -38,7 +38,7 @@ class WeatherApiService
                 'humidity' => $weather['current']['humidity'],
                 'wind' => $weather['current']['wind_kph'],
                 'uv' => $weather['current']['uv'],
-                'condition_icon' => asset('/images/weather/partly_cloudy.png'),
+                'condition_icon' => $weather['current']['condition']['icon'],
 
                 'forecast' => collect($weather['forecast']['forecastday'])->map(function ($day) {
                     return [
@@ -108,7 +108,7 @@ class WeatherApiService
                 'humidity' => $weather['current']['humidity'],
                 'wind' => $weather['current']['wind_kph'],
                 'uv' => $weather['current']['uv'],
-                'condition_icon' => asset('/images/weather/partly_cloudy.png'),
+                'condition_icon' => $weather['current']['condition']['icon'],
                 'forecast_week' => $forecastWeek,
                 'forecast_hourly' => $forecastHourly,
             ];
