@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\ActivityService;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ActivityController extends Controller
@@ -40,6 +41,18 @@ class ActivityController extends Controller
 
         return Inertia::render("Authenticated/Activities/Show", [
             'activity' => $activity
+        ]);
+    }
+
+
+    public function activityHistory()
+    {
+        $user = Auth::user();
+
+        $activities = $this->activitiesService->getActivityHistory($user->id);
+
+        return Inertia::render("Authenticated/Activities/History", [
+            'activities' => $activities
         ]);
     }
 }

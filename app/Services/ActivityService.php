@@ -291,4 +291,18 @@ class ActivityService
     {
         return array_column(ActivityCategory::cases(), 'value');
     }
+
+
+    public function getActivityHistory(int $userId)
+    {
+        $ids = [1, 4, 5, 9, 11, 12];
+
+        $activities = [];
+
+        foreach ($ids as $id) {
+            $activities[] = $this->getActivityById($id);
+        }
+
+        return $activities;
+    }
 }

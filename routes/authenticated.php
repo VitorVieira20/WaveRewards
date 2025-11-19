@@ -42,6 +42,7 @@ Route::middleware('auth.redirect')->group(function () {
     // ACTIVITIES
     Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
     Route::get('/activities/category/{category}', [ActivityController::class, 'indexByCategory'])->name('activities.indexByCategory');
+    Route::get('/activities/history', [ActivityController::class, 'activityHistory'])->name('activities.history');
     Route::get('/activities/{id}', [ActivityController::class, 'show'])->name('activities.show');
 
 
