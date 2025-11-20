@@ -8,6 +8,6 @@ class RankingsController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Rankings');
+        return Inertia::render('Authenticated/Rankings');
     }
 }

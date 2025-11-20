@@ -21,7 +21,7 @@ export default function ForgotPassword() {
         <div className="min-h-screen flex flex-col justify-between bg-gradient-to-b from-[#BED3DC] via-[#60B4D9] via-[#1D87BC] to-[#1C5E8F] text-white">
             <FlashMessages />
 
-            <Link href={route('home.index')} className="flex items-center cursor-pointer pl-6 md:pl-14 pt-4">
+            <Link href={route('home.index', { hero: true })} className="flex items-center cursor-pointer pl-6 md:pl-14 pt-4">
                 <img src="/images/logo.png" alt="Wave Rewards Logo" className="h-10 md:h-14 w-auto rounded-full" />
                 <div className="w-40 md:w-64 h-7 md:h-9 mt-2">
                     <div className="w-36 md:w-56 h-5">

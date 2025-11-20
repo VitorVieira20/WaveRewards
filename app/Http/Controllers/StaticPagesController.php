@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class StaticPagesController extends Controller
 {
-    public function home()
+    public function home(Request $request)
     {
-        return Inertia::render('Home');
+        return Inertia::render('Home', [
+            'hero' => $request->boolean('hero')
+        ]);
     }
 
 

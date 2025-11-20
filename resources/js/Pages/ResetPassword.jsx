@@ -24,7 +24,7 @@ export default function ResetPassword({ token }) {
         <div className="min-h-screen flex flex-col justify-center items-center bg-gradient-to-b from-[#BED3DC] via-[#60B4D9] via-[#1D87BC] to-[#1C5E8F] text-white px-4">
             <FlashMessages />
 
-            <Link href={route('home.index')} className="flex items-center justify-center mb-8 cursor-pointer">
+            <Link href={route('home.index', { hero: true })} className="flex items-center justify-center mb-8 cursor-pointer">
                 <img src="/images/logo.png" alt="Wave Rewards Logo" className="h-12 w-auto rounded-full shadow-md" />
                 <div className="ml-3">
                     <span className="text-[#1A3463] text-2xl font-bold leading-none drop-shadow-md">Wave</span>

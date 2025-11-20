@@ -22,7 +22,7 @@ export default function AuthenticatedLayout({ auth, children }) {
             >
                 <AuthenticatedLayoutNavbar auth={auth} />
                 <FlashMessages />
-                <main className="grow pt-16 md:pt-20">{children}</main>
+                <main className="grow pt-20">{children}</main>
             </div>
 
             <Footer chatbotOpen={chatbotOpen} setChatbotOpen={setChatbotOpen} />

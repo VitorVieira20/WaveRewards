@@ -6,9 +6,23 @@ import InstagramIcon from "../Components/Icons/InstagramIcon";
 import LinkedinIcon from "../Components/Icons/LinkedinIcon";
 import YoutubeIcon from "../Components/Icons/YoutubeIcon";
 
-export default function Home({ auth }) {
+export default function Home({ auth, hero }) {
+
     const heroRef = useRef(null);
     const [scrolledToHero, setScrolledToHero] = useState(false);
+
+
+    useEffect(() => {
+        if (hero && heroRef.current) {
+            document.body.style.overflow = "auto";
+
+            heroRef.current.scrollIntoView({ behavior: "instant", block: "start" });
+
+            setTimeout(() => {
+                document.body.style.overflow = "hidden";
+            }, 50);
+        }
+    }, [hero]);
 
     useEffect(() => {
         document.body.style.overflow = "hidden";

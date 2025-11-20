@@ -7,6 +7,7 @@ use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\MeteorologyController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RankingsController;
 use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth.redirect')->group(function () {
     // DASHBOARD -> AUTHENTICATED HOME PAGE
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+
+    // RANKINGS
+    Route::get('/rankings', [RankingsController::class, 'index'])->name('rankings.index');
 
 
     // METEOROLOGY

@@ -24,7 +24,7 @@ export default function LayoutNavbar({ auth = { user: null } }) {
         <nav className="fixed top-0 left-0 w-full z-100 bg-linear-to-b from-[#FFFFFF] to-[#EAF5FA]">
             <div className="px-4 md:px-8">
                 <div className="flex justify-between items-center h-20 md:h-20">
-                    <Link href={route('home.index')} className="flex items-center cursor-pointer">
+                    <Link href={route('home.index', { hero: true })} className="flex items-center cursor-pointer">
                         <img src="/images/logo.png" alt="Wave Rewards Logo" className="h-10 md:h-14 w-auto rounded-full" />
                         <div className="w-40 md:w-64 h-7 md:h-9 mt-2">
                             <div className="w-36 md:w-56 h-5"><span className="text-blue-950 text-xl md:text-3xl font-bold leading-none [text-shadow:0px_4px_4px_rgb(0_0_0/0.25)]">Wave</span><span className="text-cyan-600 text-xl md:text-3xl font-bold leading-none [text-shadow:0px_4px_4px_rgb(0_0_0/0.25)]">Rewards</span></div>

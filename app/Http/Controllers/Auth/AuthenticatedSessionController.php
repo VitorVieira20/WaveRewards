@@ -41,7 +41,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->route('home.index');
+        return redirect()->route('home.index', ['home' => true]);
     }
 
     /**
