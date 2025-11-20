@@ -1,6 +1,8 @@
 import { CheckCircleIcon } from "lucide-react";
 import LocationPinIcon from "../Icons/LocationPinIcon";
 import PlusIcon from "../Icons/PlusIcon";
+import { Link } from "@inertiajs/react";
+import { route } from "ziggy-js";
 
 const activities = [
     {
@@ -27,17 +29,15 @@ export default function ActivitiesCard() {
 
             <div className="flex justify-between items-center">
                 <h2 className="text-[#1C5E8F] text-lg font-semibold leading-none">Histórico de atividades</h2>
-                <button className="text-[#1C5E8F] hover:text-[#1A3463] transition cursor-pointer">
+                <Link href={route("activities.history")} className="text-[#1C5E8F] hover:text-[#1A3463] transition cursor-pointer">
                     <PlusIcon />
-                </button>
+                </Link>
             </div>
 
-            {/* Lista de Atividades */}
             <div className="flex flex-col lg:flex-row gap-6 overflow-x-auto">
                 {activities.map((activity, index) => (
                     <div key={index} className="flex flex-row justify-between items-end w-full lg:w-1/2 min-w-[300px] border-b lg:border-b-0 lg:border-r border-[#1C5E8F]/20 last:border-0 p-2 pt-4">
 
-                        {/* Coluna de Detalhes */}
                         <div className="flex flex-col gap-1 text-sm text-[#1A3463]">
 
                             <div className="flex items-center gap-1 text-[#1C5E8F] font-medium mb-1">

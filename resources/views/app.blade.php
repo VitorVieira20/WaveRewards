@@ -30,6 +30,7 @@
     <link rel="preload" as="image" href="{{ asset('images/partners/SRTC.png') }}">
     <link rel="preload" as="image" href="{{ asset('images/partners/StartUpMadeira.png') }}">
     <link rel="preload" as="image" href="{{ asset('images/partners/UMa.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/strava-icon.png') }}">
 
     {{--
     <meta property="og:title" content="Wave" />

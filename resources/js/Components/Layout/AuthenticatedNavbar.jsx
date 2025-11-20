@@ -17,7 +17,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
 
     const authButtons = [
         { text: 'Perfil', href: route('profile.index'), primary: false },
-        { text: 'Definições', href: route('auth.index', 'signup'), primary: true },
+        { text: 'Definições', href: route('settings.index'), primary: true },
     ];
 
     return (
@@ -56,7 +56,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
                             </div>
                         </Link>
 
-                        <Link className="w-28 h-14" href={route('auth.index', 'signup')}>
+                        <Link className="w-28 h-14" href={route('settings.index')}>
                             <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
                                 <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">Definições</div>
                             </div>

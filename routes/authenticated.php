@@ -8,6 +8,7 @@ use App\Http\Controllers\LibraryController;
 use App\Http\Controllers\MeteorologyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RankingsController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
@@ -57,4 +58,9 @@ Route::middleware('auth.redirect')->group(function () {
 
     // CHANGE PASSWORD
     Route::put('/profile/password', [UpdatePasswordController::class, 'store'])->name('profile.password.update');
+
+
+    // SETTINGS
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+    Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
 });
