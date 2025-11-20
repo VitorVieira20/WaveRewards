@@ -9,8 +9,6 @@ export default function UpdatePasswordModal({ show, onClose }) {
         password_confirmation: '',
     });
 
-    console.log(errors)
-
     useEffect(() => {
         if (!show) {
             reset();

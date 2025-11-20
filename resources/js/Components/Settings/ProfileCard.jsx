@@ -1,7 +1,8 @@
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
+import { route } from "ziggy-js";
 
 export default function ProfileCard({ user }) {
-    const { data, setData, post, processing, errors, clearErrors } = useForm({
+    const { data, setData, put, processing, errors, clearErrors } = useForm({
         name: user.name,
         email: user.email,
         username: user.username,
@@ -16,8 +17,19 @@ export default function ProfileCard({ user }) {
     }
 
     const handleSubmit = () => {
+        const changedData = Object.fromEntries(
+            Object.entries(data).filter(([key, value]) => value !== user[key])
+        );
 
-    }
+        if (Object.keys(changedData).length > 0) {
+            put(route('settings.profile.update'), {
+                data: changedData,
+                preserveScroll: true,
+                preserveState: true,
+            });
+        }
+    };
+
 
     return (
         <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-6 shadow-sm w-full">

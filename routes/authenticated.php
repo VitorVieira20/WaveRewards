@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RankingsController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\TutorialController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkshopController;
 use Illuminate\Support\Facades\Route;
 
@@ -63,4 +64,5 @@ Route::middleware('auth.redirect')->group(function () {
     // SETTINGS
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
+    Route::put('/settings/profile', [UserController::class, 'updateProfile'])->name('settings.profile.update');
 });

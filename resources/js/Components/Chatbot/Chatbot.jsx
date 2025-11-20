@@ -105,7 +105,6 @@ const normalizeText = (text) => {
 const getBotResponse = (input) => {
     const cleanInput = normalizeText(input);
 
-    // Divide o input em palavras individuais para melhor análise
     const inputWords = cleanInput.split(/\s+/);
 
     let bestMatch = null;
@@ -116,10 +115,7 @@ const getBotResponse = (input) => {
 
         let score = 0;
         item.keywords.forEach(keyword => {
-            // Verifica se a palavra-chave existe no input
-            // Se a keyword for composta (ex: "como ganho"), verifica a frase toda
             if (cleanInput.includes(keyword)) {
-                // Palavras maiores ou frases valem mais pontos (são mais específicas)
                 score += keyword.split(' ').length;
             }
         });
