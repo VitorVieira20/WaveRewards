@@ -93,7 +93,7 @@ export default function HeroSection({ auth }) {
                     <div className="hidden md:flex text-sm md:text-md text-[#1A3463] font-normal ml-4 md:ml-8">
                         Copyright © 2025 WaveRewards | All Rights Reserved
                     </div>
-                    <div className="flex flex-row gap-2 md:gap-4">
+                    <div className="flex flex-row items-center gap-2 md:gap-4">
                         <Link href="/#" className="transform hover:scale-110 transition duration-200 scale-85 md:scale-100">
                             <FacebookIcon />
                         </Link>
@@ -113,7 +113,7 @@ export default function HeroSection({ auth }) {
                             onClick={() => setChatbotOpen(true)}
                             className="transform hover:scale-110 transition duration-200 scale-85 md:scale-100 cursor-pointer"
                         >
-                            <ChatbotIcon />
+                            <ChatbotIcon size={72} />
                         </button>
 
                     </div>
@@ -129,7 +129,7 @@ export default function HeroSection({ auth }) {
                         onClick={() => setChatbotOpen(false)}
                         className="fixed inset-0 bg-black/60 transition-opacity duration-300"
                     />
-                    <div className="fixed bottom-8 right-8 z-50 transition-all duration-500 opacity-100 scale-100">
+                    <div className="fixed bottom-1 right-1 z-50 transition-all duration-500 opacity-100 scale-100">
                         <Chatbot onClose={() => setChatbotOpen(false)} />
                     </div>
                 </>

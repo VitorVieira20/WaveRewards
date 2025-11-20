@@ -9,53 +9,88 @@ import UserIcon from "../Icons/UserIcon";
 const knowledgeBase = [
     {
         id: 'intro',
-        keywords: ['ola', 'oi', 'boas', 'bom dia', 'boa tarde', 'boa noite', 'comecar', 'inicio'],
-        answer: "Olá! Sou o assistente virtual da WaveRewards. Estou aqui para te ajudar com dúvidas sobre canoagem, a nossa app, o sistema de pontos ou sustentabilidade. Em que posso ser útil hoje? 🌊"
-    },
-    {
-        id: 'waverewards_info',
-        keywords: ['que e o waverewards', 'sobre a app', 'o que faz a app', 'objetivo'],
-        answer: "O WaveRewards é uma plataforma gamificada desenhada para promover a canoagem na Madeira e a sustentabilidade. Podes registar as tuas atividades, ganhar pontos, subir no ranking e aprender sobre proteção ambiental."
-    },
-    {
-        id: 'points_system',
-        keywords: ['pontos', 'ganhar pontos', 'sistema de pontos', 'como pontuar', 'recompensas'],
-        answer: "Ganhas pontos de várias formas: registando quilómetros percorridos 🚣, recolhendo lixo marinho durante a atividade ♻️, e participando em workshops educativos. Estes pontos ajudam-te a subir no ranking da tua equipa!"
-    },
-    {
-        id: 'garbage',
-        keywords: ['lixo', 'recolha', 'impacto', 'ambiental', 'sustentabilidade', 'poluicao'],
-        answer: "A sustentabilidade é o nosso foco! Incentivamos a prática de 'Plogging' náutico. Se encontrares lixo no mar, recolhe-o e regista na app. Ganhas pontos extra e ajudas a manter os oceanos da Madeira limpos. 🌍"
-    },
-    {
-        id: 'levels',
-        keywords: ['niveis', 'nivel', 'iniciante', 'intermedio', 'avancado', 'experiencia'],
-        answer: "Temos atividades para todos os níveis! Desde 'Iniciante' (águas calmas, técnica básica) até 'Avançado' (mar aberto, competição). Podes ver o teu nível atual na página de Perfil."
-    },
-    {
-        id: 'team',
-        keywords: ['equipa', 'team', 'ranking', 'kayakhomies', 'grupo'],
-        answer: "Podes juntar-te a uma equipa (como os KayakHomies!) e competir no ranking global. O ranking baseia-se na soma dos pontos de todos os membros. Vai à secção 'Equipa' para veres os teus colegas."
-    },
-    {
-        id: 'locations',
-        keywords: ['onde', 'localizacao', 'funchal', 'caniço', 'ribeira', 'mapa', 'sitios'],
-        answer: "As atividades principais ocorrem no Clube Naval do Funchal, Caniço e Ribeira Brava. Verifica a secção 'Atividades' para veres os pontos de encontro e rotas disponíveis."
+        keywords: [
+            'ola', 'oi', 'boas', 'bom dia', 'boa tarde', 'boa noite', 'alo',
+            'comecar', 'inicio', 'menu', 'ajuda', 'help', 'tas ai',
+            'preciso de ajuda', 'o que podes fazer'
+        ],
+        answer: "Olá! 👋 Sou o assistente virtual da WaveRewards. Estou aqui para te ajudar com dúvidas sobre canoagem, a app, pontos ou sustentabilidade. Podes perguntar-me 'como ganho pontos?' ou 'onde são os workshops?'."
     },
     {
         id: 'workshops',
-        keywords: ['workshop', 'curso', 'aprender', 'aula', 'tecnica'],
-        answer: "Oferecemos workshops teóricos e práticos! Podes inscrever-te em 'Técnicas de Remada', 'Segurança Aquática' ou 'Ecossistemas Marinhos'. Consulta a aba 'Benefícios' ou 'Início' para as próximas datas."
+        keywords: [
+            'workshop', 'curso', 'aprender', 'aula', 'tecnica', 'formacao',
+            'ensinam', 'como funcionam os workshops', 'quero aprender',
+            'quantos workshops', 'disponiveis', 'inscricao', 'inscrever',
+            'datas', 'horario', 'temas', 'seguranca'
+        ],
+        answer: "Os nossos workshops são teóricos e práticos! 🛶 Temos 3 tipos principais: 'Técnicas de Remada', 'Segurança Aquática' e 'Ecossistemas Marinhos'. Podes consultar as próximas datas e inscrever-te na aba 'Benefícios' ou no 'Início' da app."
+    },
+    {
+        id: 'points_system',
+        keywords: [
+            'pontos', 'ponto', 'ganhar', 'como ganho', 'sistema de pontos',
+            'como pontuar', 'recompensas', 'premio', 'premios', 'score',
+            'o que ganho', 'para que servem os pontos', 'subir', 'ranking'
+        ],
+        answer: "Ganhar pontos é fácil! Basta: \n1️⃣ Registar quilómetros (remar) \n2️⃣ Recolher lixo (plogging) ♻️ \n3️⃣ Ir aos workshops. \nQuanto mais pontos, mais sobes no ranking da tua equipa!"
+    },
+    {
+        id: 'waverewards_info',
+        keywords: [
+            'waverewards', 'app', 'aplicacao', 'o que e', 'sobre a app',
+            'o que faz', 'objetivo', 'para que serve', 'projeto',
+            'como funciona a app', 'explica'
+        ],
+        answer: "O WaveRewards é uma plataforma gamificada feita na Madeira! 🌴 O objetivo é juntar a canoagem à sustentabilidade. Tu remas, proteges o oceano e ganhas reconhecimento por isso."
+    },
+    {
+        id: 'garbage',
+        keywords: [
+            'lixo', 'recolha', 'apanhar', 'impacto', 'ambiental', 'ambiente',
+            'sustentabilidade', 'poluicao', 'plogging', 'limpar', 'mar',
+            'oceano', 'plastico', 'sujo', 'ecologia'
+        ],
+        answer: "A sustentabilidade é a nossa missão! 🌍 Incentivamos o 'Plogging' náutico: se vires lixo no mar, apanha-o. Depois, regista a recolha na app para ganhares pontos extra e ajudares a manter a Madeira limpa."
+    },
+    {
+        id: 'levels',
+        keywords: [
+            'niveis', 'nivel', 'iniciante', 'intermedio', 'avancado',
+            'experiencia', 'sou novo', 'nunca remei', 'comecar agora',
+            'dificil', 'facil', 'expert', 'kit unhas'
+        ],
+        answer: "Não te preocupes, há espaço para todos! Temos níveis desde 'Iniciante' (águas calmas para quem nunca remou) até 'Avançado' (mar aberto). A app ajusta-se à tua evolução."
+    },
+    {
+        id: 'team',
+        keywords: [
+            'equipa', 'team', 'kayakhomies', 'grupo', 'amigos', 'juntar',
+            'criar equipa', 'membros', 'colegas', 'comunidade', 'clube'
+        ],
+        answer: "Tudo é mais divertido em equipa! 🤝 Podes juntar-te aos 'KayakHomies' ou criar o teu grupo. Os pontos de todos somam para o ranking de equipas. Espreita a secção 'Equipa' no menu."
+    },
+    {
+        id: 'locations',
+        keywords: [
+            'onde', 'localizacao', 'funchal', 'canico', 'ribeira', 'brava',
+            'mapa', 'sitios', 'lugar', 'spot', 'ponto de encontro',
+            'rota', 'onde fica', 'morada'
+        ],
+        answer: "Estamos por toda a ilha! 📍 Os spots principais são o Clube Naval do Funchal, Reis Magos (Caniço) e Ribeira Brava. Na secção 'Atividades' tens o mapa com todos os pontos de encontro."
     },
     {
         id: 'register_login',
-        keywords: ['registo', 'login', 'entrar', 'criar conta', 'senha', 'password'],
-        answer: "Para acederes a todas as funcionalidades, precisas de criar conta ou fazer login. Se te esqueceres da password, podes recuperá-la facilmente na página de entrada."
+        keywords: [
+            'registo', 'login', 'entrar', 'criar conta', 'senha', 'password',
+            'pass', 'esqueci', 'recuperar', 'autenticacao', 'sign in', 'sign up'
+        ],
+        answer: "Para teres acesso ao perfil e pontos, precisas de conta. Podes criar uma nova ou entrar na página inicial. Se perdeste a password, usa a opção 'Recuperar Password' no ecrã de login."
     },
     {
         id: 'default',
         keywords: [],
-        answer: "Desculpa, não percebi muito bem a tua questão. 🤔 Tenta perguntar sobre 'pontos', 'equipas', 'workshops' ou 'sustentabilidade'. Também podes contactar o suporte humano na página de Contactos."
+        answer: "Hmm, não tenho a certeza se percebi. 🤔 Podes tentar perguntar de outra forma? Tenta usar palavras como 'workshops', 'pontos', 'lixo' ou 'equipas'."
     }
 ];
 
@@ -70,11 +105,32 @@ const normalizeText = (text) => {
 const getBotResponse = (input) => {
     const cleanInput = normalizeText(input);
 
-    const match = knowledgeBase.find(item =>
-        item.id !== 'default' && item.keywords.some(keyword => cleanInput.includes(keyword))
-    );
+    // Divide o input em palavras individuais para melhor análise
+    const inputWords = cleanInput.split(/\s+/);
 
-    return match ? match.answer : knowledgeBase.find(i => i.id === 'default').answer;
+    let bestMatch = null;
+    let maxScore = 0;
+
+    knowledgeBase.forEach(item => {
+        if (item.id === 'default') return;
+
+        let score = 0;
+        item.keywords.forEach(keyword => {
+            // Verifica se a palavra-chave existe no input
+            // Se a keyword for composta (ex: "como ganho"), verifica a frase toda
+            if (cleanInput.includes(keyword)) {
+                // Palavras maiores ou frases valem mais pontos (são mais específicas)
+                score += keyword.split(' ').length;
+            }
+        });
+
+        if (score > maxScore) {
+            maxScore = score;
+            bestMatch = item;
+        }
+    });
+
+    return bestMatch ? bestMatch.answer : knowledgeBase.find(i => i.id === 'default').answer;
 };
 
 
@@ -182,8 +238,8 @@ export default function Chatbot({ onClose }) {
                         <div key={i} className="flex w-full justify-start items-end mb-5">
                             <div className="flex w-full flex-row gap-2 items-end">
                                 <span className="w-9 h-9 flex items-end justify-center bg-white/10 rounded-full p-1">
-                                     {/* Ajustei o src da imagem do bot, confirma se o caminho está certo */}
-                                    <img src="/images/think-bot-logo.png" alt="Bot" className="w-full h-full object-contain"/>
+                                    {/* Ajustei o src da imagem do bot, confirma se o caminho está certo */}
+                                    <img src="/images/think-bot-logo.png" alt="Bot" className="w-full h-full object-contain" />
                                 </span>
                                 <BotMessageCard message={msg.text} />
                             </div>
@@ -194,8 +250,7 @@ export default function Chatbot({ onClose }) {
                 {botIsTyping && (
                     <div className="flex mt-1 gap-2 max-w-[60%] justify-start items-center">
                         <span className="w-9 h-9 bg-[#1A3463] border-2 border-[#1B2945] rounded-full flex items-center justify-center shadow-md">
-                            {/* Loading icon wrapper */}
-                             <img src="/images/think-bot-logo.png" alt="Bot typing" className="w-5 h-5" />
+                            <img src="/images/think-bot-logo.png" alt="Bot typing" className="w-5 h-5" />
                         </span>
                         <div className="px-3 py-1 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl bg-white/25 border border-white/30 backdrop-blur-blur text-white h-8 flex items-center">
                             <LoadingDots />

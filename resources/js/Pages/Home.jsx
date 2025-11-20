@@ -57,7 +57,6 @@ export default function Home({ auth, hero }) {
     return (
         <div className="flex flex-col relative">
             <main>
-                {/* === SECTION PRINCIPAL === */}
                 <section className="h-screen flex flex-col justify-between bg-linear-to-b from-[#BED3DC] via-[#60B4D9] via-[#1D87BC] to-[#1C5E8F] px-4 overflow-x-hidden">
                     <div className="flex flex-col items-center justify-center flex-1 gap-4">
                         <img
@@ -103,7 +102,6 @@ export default function Home({ auth, hero }) {
                     </div>
                 </section>
 
-                {/* === HERO SECTION === */}
                 <section ref={heroRef} className="h-screen">
                     <HeroSection auth={auth} />
                 </section>

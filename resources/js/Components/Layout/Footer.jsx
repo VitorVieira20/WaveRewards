@@ -35,7 +35,7 @@ export default function Footer({ chatbotOpen, setChatbotOpen }) {
                 onClick={() => setChatbotOpen(true)}
                 className="fixed bottom-6 right-6 z-50 transform hover:scale-110 transition duration-200 cursor-pointer"
             >
-                <ChatbotIcon />
+                <ChatbotIcon size={72} />
             </button>
 
             {chatbotOpen && (
@@ -44,7 +44,7 @@ export default function Footer({ chatbotOpen, setChatbotOpen }) {
                         onClick={() => setChatbotOpen(false)}
                         className="fixed inset-0 bg-black/60 transition-opacity duration-300 z-40"
                     />
-                    <div className="fixed bottom-8 right-8 z-50 transition-all duration-500 opacity-100 scale-100">
+                    <div className="fixed bottom-1 right-1 z-50 transition-all duration-500 opacity-100 scale-100">
                         <Chatbot onClose={() => setChatbotOpen(false)} />
                     </div>
                 </>
