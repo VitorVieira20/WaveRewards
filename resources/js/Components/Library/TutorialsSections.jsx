@@ -21,7 +21,7 @@ export default function TutorialsSections({ tutorials, showHeader = true }) {
                         <Link href={route("tutorials.show", tutorial.id)} className="w-full relative block rounded-xl overflow-hidden">
 
                             <img
-                                src={tutorial.image}
+                                src={tutorial.thumbnail}
                                 className="w-full h-48 object-cover"
                             />
 

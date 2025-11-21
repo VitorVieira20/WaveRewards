@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -55,5 +56,17 @@ class User extends Authenticatable
     public function stravaAccount(): HasOne
     {
         return $this->hasOne(StravaAccount::class);
+    }
+
+
+    public function workshops(): BelongsToMany
+    {
+        return $this->belongsToMany(Workshop::class)->withTimestamps();
+    }
+
+
+    public function activities(): BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class)->withTimestamps();
     }
 }

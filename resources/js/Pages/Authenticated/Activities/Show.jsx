@@ -66,9 +66,9 @@ export default function ActivityShow({ auth, activity }) {
                         </p>
 
                         <div className="space-y-3 text-[#1C5E8F] text-sm md:text-md font-medium">
-                            <p><span className="font-semibold">Nível:</span> <span className="font-normal text-[#1D87BC]">{activity.category === 'Iniciantes' ? 'Básico' : activity.category}</span></p>
+                            <p><span className="font-semibold">Nível:</span> <span className="font-normal text-[#1D87BC]">{activity.level}</span></p>
                             <p><span className="font-semibold">Duração Média:</span> <span className="font-normal text-[#1D87BC]">{activity.duration} minutos</span></p>
-                            <p><span className="font-semibold">Material Necessário:</span> <span className="font-normal text-[#1D87BC]">{activity.necessary_material}</span></p>
+                            <p><span className="font-semibold">Material Necessário:</span> <span className="font-normal text-[#1D87BC]">{activity.material}</span></p>
                             <p><span className="font-semibold">Benefícios:</span> <span className="font-normal text-[#1D87BC]">{activity.benefits}</span></p>
                         </div>
                     </div>
