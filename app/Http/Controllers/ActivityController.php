@@ -43,16 +43,4 @@ class ActivityController extends Controller
             'activity' => $activity
         ]);
     }
-
-
-    public function activityHistory()
-    {
-        $user = Auth::user();
-
-        $activities = $this->activitiesService->getActivityHistory($user->id);
-
-        return Inertia::render("Authenticated/Activities/History", [
-            'activities' => $activities
-        ]);
-    }
 }

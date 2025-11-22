@@ -9,7 +9,7 @@ import TeamCard from "../../Components/Profile/TeamCard";
 import { useState } from "react";
 import UpdatePasswordModal from "../../Components/Profile/UpdatePasswordModal";
 
-export default function Profile({ auth, user }) {
+export default function Profile({ auth, user, activities, stats }) {
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
     return (
@@ -26,7 +26,7 @@ export default function Profile({ auth, user }) {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full p-4">
-                    <StatsCard />
+                    <StatsCard stats={stats} />
 
                     <ObjectivesCard />
 
@@ -36,7 +36,7 @@ export default function Profile({ auth, user }) {
                 <div className="flex flex-col lg:flex-row gap-4 w-full p-4 items-stretch lg:h-[300px]">
                     <TeamCard />
 
-                    <ActivitiesCard />
+                    <ActivitiesCard activities={activities} />
                 </div>
             </div>
 

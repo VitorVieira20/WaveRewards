@@ -28,8 +28,18 @@ class Activity extends Model
         'datetime' => 'datetime'
     ];
 
-    public function users(): BelongsToMany
+    public function users()
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class)
+            ->using(ActivityUser::class)
+            ->withPivot([
+                'id',
+                'distance',
+                'practice_time',
+                'points',
+                'created_at'
+            ])
+            ->withTimestamps();
     }
+
 }

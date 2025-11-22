@@ -3,14 +3,14 @@ import FireEmoji from "../Emojis/FireEmoji";
 import RecycleEmoji from "../Emojis/RecycleEmoji";
 import StarEmoji from "../Emojis/StarEmoji";
 
-const statsData = [
-    { title: 'Distância Total', emoji: <BoatEmoji />, value: 250, unit: 'Km', description: 'percorridos' },
-    { title: 'Pontos Totais', emoji: <StarEmoji />, value: 14500, unit: '', description: 'pontos acumulados' },
-    { title: 'Calorias', emoji: <FireEmoji />, value: 12000, unit: '', description: 'calorias queimados' },
-    { title: 'Impacto Ambiental', emoji: <RecycleEmoji />, value: 24, unit: 'Kg', description: 'lixo recolhido' }
-];
+export default function StatsCard({ stats }) {
 
-export default function StatsCard() {
+    const statsData = [
+        { title: 'Distância Total', emoji: <BoatEmoji />, value: stats.total_distance, unit: 'Km', description: 'percorridos' },
+        { title: 'Pontos Totais', emoji: <StarEmoji />, value: stats.total_points, unit: '', description: 'pontos acumulados' },
+        { title: 'Calorias', emoji: <FireEmoji />, value: stats.total_calories, unit: '', description: 'calorias queimados' },
+        { title: 'Impacto Ambiental', emoji: <RecycleEmoji />, value: 24, unit: 'Kg', description: 'lixo recolhido' }
+    ];
 
     return (
         <div className="flex flex-col w-full bg-white/40 p-4 rounded-2xl gap-4">

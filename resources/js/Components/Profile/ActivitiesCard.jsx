@@ -4,26 +4,8 @@ import PlusIcon from "../Icons/PlusIcon";
 import { Link } from "@inertiajs/react";
 import { route } from "ziggy-js";
 
-const activities = [
-    {
-        date: "24 Out 2025 - 14:30",
-        route: "Rota da Ribeira",
-        distance: "8.5 km",
-        duration: "45 min",
-        points: 150,
-        challenge: "Recolha Ecológica",
-    },
-    {
-        date: "24 Out 2025 - 14:30",
-        route: "Rota da Ribeira",
-        distance: "8.5 km",
-        duration: "45 min",
-        points: 150,
-        challenge: "Recolha Ecológica",
-    }
-];
 
-export default function ActivitiesCard() {
+export default function ActivitiesCard({ activities }) {
     return (
         <div className="bg-white/40 w-full lg:w-3/5 rounded-2xl p-4 h-full flex flex-col shadow-sm relative">
 
@@ -45,7 +27,7 @@ export default function ActivitiesCard() {
                                 <span>{activity.date}</span>
                             </div>
 
-                            <p className="font-normal text-[#1C5E8F]"><span className="font-medium text-[#1C5E8F] ml-2">Percurso:</span> {activity.route}</p>
+                            <p className="font-normal text-[#1C5E8F]"><span className="font-medium text-[#1C5E8F] ml-2">Atividade:</span> {activity.title}</p>
                             <p className="font-normal text-[#1C5E8F]"><span className="font-medium text-[#1C5E8F] ml-2">Distância:</span> {activity.distance} | <span className="font-medium text-[#1C5E8F]">Duração:</span> {activity.duration}</p>
                             <p className="font-normal text-[#1C5E8F]"><span className="font-medium text-[#1C5E8F] ml-2">Pontos ganhos:</span> +{activity.points}</p>
 

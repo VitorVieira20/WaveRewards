@@ -1,4 +1,4 @@
-import { Link, useForm } from "@inertiajs/react"; // Adicionei useForm se quiseres tornar o form funcional depois
+import { Link, useForm } from "@inertiajs/react";
 import AuthenticatedLayout from "../../../Layouts/AuthenticatedLayout";
 import LeftArrowIcon from "../../../Components/Icons/LeftArrowIcon";
 import LocationPinIcon from "../../../Components/Icons/LocationPinIcon";
@@ -6,8 +6,23 @@ import ClockIcon from "../../../Components/Icons/ClockIcon";
 import HeartIcon from "../../../Components/Icons/HeartIcon";
 import StarIcon from "../../../Components/Icons/StarIcon";
 import PlusIcon from "../../../Components/Icons/PlusIcon";
+import { route } from "ziggy-js";
 
 export default function ActivityShow({ auth, activity }) {
+    const { data, setData, post, processing, errors, clearErrors } = useForm({
+        'activity_id': activity.id,
+        'distance': 15000,
+        'practice_time': 45,
+        'wasted_calories': 298,
+        'frequency': 98,
+        'effort': 5,
+        'observations': ''
+    });
+
+    const handleSumbit = (e) => {
+        e.preventDefault();
+        post(route('activities.user.create'));
+    }
 
     return (
         <AuthenticatedLayout auth={auth}>
@@ -97,13 +112,15 @@ export default function ActivityShow({ auth, activity }) {
                         <PlusIcon className="w-6 h-6 text-[#1C5E8F] cursor-pointer" />
                     </div>
 
-                    <form className="flex flex-col gap-3">
+                    <form onSubmit={handleSumbit} className="flex flex-col gap-3">
 
                         <div className="flex flex-col gap-1">
-                            <label className="text-[#1C5E8F] text-sm font-semibold">Distância percorrida (km ou m):</label>
+                            <label className="text-[#1C5E8F] text-sm font-semibold">Distância percorrida (m):</label>
                             <input
                                 type="text"
-                                placeholder="15 km"
+                                placeholder="15000"
+                                value={data.distance}
+                                onChange={(e) => setData("distance", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
                         </div>
@@ -112,7 +129,9 @@ export default function ActivityShow({ auth, activity }) {
                             <label className="text-[#1C5E8F] text-sm font-semibold">Tempo total de prática (minutos):</label>
                             <input
                                 type="text"
-                                placeholder="45 min"
+                                placeholder="45"
+                                value={data.practice_time}
+                                onChange={(e) => setData("practice_time", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
                         </div>
@@ -121,16 +140,20 @@ export default function ActivityShow({ auth, activity }) {
                             <label className="text-[#1C5E8F] text-sm font-semibold">Calorias estimadas gastas:</label>
                             <input
                                 type="text"
-                                placeholder="298 calorias"
+                                placeholder="298"
+                                value={data.wasted_calories}
+                                onChange={(e) => setData("wasted_calories", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
                         </div>
 
                         <div className="flex flex-col gap-1">
-                            <label className="text-[#1C5E8F] text-sm font-semibold">Frequência cardíaca média:</label>
+                            <label className="text-[#1C5E8F] text-sm font-semibold">Frequência cardíaca média (bpm):</label>
                             <input
                                 type="text"
-                                placeholder="98 bpm"
+                                placeholder="98"
+                                value={data.frequency}
+                                onChange={(e) => setData("frequency", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
                         </div>
@@ -140,6 +163,8 @@ export default function ActivityShow({ auth, activity }) {
                             <input
                                 type="text"
                                 placeholder="5"
+                                value={data.effort}
+                                onChange={(e) => setData("effort", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
                         </div>
@@ -149,12 +174,14 @@ export default function ActivityShow({ auth, activity }) {
                             <textarea
                                 rows="3"
                                 placeholder="Escreve a tua mensagem..."
+                                value={data.observations}
+                                onChange={(e) => setData("observations", e.target.value)}
                                 className="rounded-2xl bg-white border-none py-2 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40 resize-none"
                             ></textarea>
                         </div>
 
                         <div className="mt-2 flex justify-center">
-                            <button type="button" className="bg-[#6EA8C5] hover:bg-[#5A92AF] text-white font-medium py-2 px-6 rounded-full shadow-md transition duration-200 cursor-pointer">
+                            <button type="submit" className="bg-[#6EA8C5] hover:bg-[#5A92AF] text-white font-medium py-2 px-6 rounded-full shadow-md transition duration-200 cursor-pointer">
                                 Registar atividade
                             </button>
                         </div>

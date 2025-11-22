@@ -1,11 +1,20 @@
 import { Link } from "@inertiajs/react";
 import AuthenticatedLayout from "../../../Layouts/AuthenticatedLayout";
+import LeftArrowIcon from "../../../Components/Icons/LeftArrowIcon";
 
 export default function ActivitiesHistory({ auth, activities }) {
 
     return (
         <AuthenticatedLayout auth={auth}>
-            <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+            <h1 className="fixed flex gap-3 w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+                <button
+                    type="button"
+                    onClick={() => window.history.back()}
+                    className="flex items-center cursor-pointer"
+                >
+                    <LeftArrowIcon color="#1C5E8F" />
+                </button>
+
                 Histórico de Atividades
             </h1>
 
@@ -18,14 +27,14 @@ export default function ActivitiesHistory({ auth, activities }) {
                             className="group block"
                         >
                             <div className="
-                                                        bg-[#DDEFF7]/60 backdrop-blur-sm
-                                                        border border-white/40
-                                                        p-3 rounded-2xl
-                                                        h-full flex flex-col
-                                                        shadow-sm hover:shadow-md
-                                                        transition-all duration-300
-                                                        hover:-translate-y-1
-                                                    ">
+                            bg-[#DDEFF7]/60 backdrop-blur-sm
+                            border border-white/40
+                            p-3 rounded-2xl
+                            h-full flex flex-col
+                            shadow-sm hover:shadow-md
+                            transition-all duration-300
+                            hover:-translate-y-1
+                        ">
                                 <div className="w-full aspect-[4/3] overflow-hidden rounded-xl bg-white">
                                     <img
                                         src={activity.images[0]}

@@ -14,6 +14,14 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('activity_id')->constrained()->onDelete('cascade');
+
+            $table->integer('distance')->default(0);
+            $table->integer('practice_time')->nullable();
+            $table->integer('wasted_calories')->nullable();
+            $table->integer('frequency')->nullable();
+            $table->integer('effort')->nullable();
+            $table->text('observations')->nullable();
+            $table->integer('points')->default(0);
             $table->timestamps();
         });
     }
