@@ -6,8 +6,9 @@ import PrivacyCard from "../../Components/Settings/PrivacyCard";
 import PreferencesCard from "../../Components/Settings/PreferencesCard";
 import StravaIntegrationCard from "../../Components/Settings/StravaIntegrationCard";
 import MyDataCard from "../../Components/Settings/MyDataCard";
+import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
 
-export default function Settings({ auth, user, isStravaConnected , settings }) {
+export default function Settings({ auth, user, isStravaConnected, settings }) {
 
     const toggleSetting = (key, value) => {
         router.put(route('settings.update'), {
@@ -20,7 +21,15 @@ export default function Settings({ auth, user, isStravaConnected , settings }) {
 
     return (
         <AuthenticatedLayout auth={auth}>
-            <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-4xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#EAF5FA] md:to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+            <h1 className="fixed flex gap-3 w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+                <button
+                    type="button"
+                    onClick={() => window.history.back()}
+                    className="flex items-center cursor-pointer"
+                >
+                    <LeftArrowIcon color="#1C5E8F" />
+                </button>
+
                 Definições
             </h1>
 
@@ -33,7 +42,7 @@ export default function Settings({ auth, user, isStravaConnected , settings }) {
 
                 <PreferencesCard settings={settings} handleToggle={toggleSetting} />
 
-                <StravaIntegrationCard isStravaConnected={isStravaConnected } />
+                <StravaIntegrationCard isStravaConnected={isStravaConnected} />
 
                 <MyDataCard />
             </div>

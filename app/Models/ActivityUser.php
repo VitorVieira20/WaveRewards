@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class ActivityUser extends Pivot
 {
+    protected $table = 'activity_user';
+
     public $incrementing = true;
 
     protected $fillable = [
@@ -18,7 +20,8 @@ class ActivityUser extends Pivot
         'frequency',
         'effort',
         'observations',
-        'points'
+        'points',
+        'created_at'
     ];
 
     protected $casts = [
@@ -26,23 +29,29 @@ class ActivityUser extends Pivot
         'updated_at' => 'datetime',
     ];
 
-
     protected static function booted()
     {
         static::saving(function ($userActivity) {
-            $userActivity->points = self::calculatePoints($userActivity);
+            if (empty($userActivity->points)) {
+                $userActivity->points = self::calculatePoints($userActivity);
+            }
+        });
+
+        static::created(function ($userActivity) {
+            if ($userActivity->user_id) {
+                $userActivity->user()->increment('total_points', $userActivity->points);
+            }
+        });
+
+        static::deleted(function ($userActivity) {
+            if ($userActivity->user_id) {
+                $userActivity->user()->decrement('total_points', $userActivity->points);
+            }
         });
     }
 
-
-    private static function calculatePoints($data): int
+    public static function calculatePoints($data): int
     {
-        // Exemplo:
-        // 5 ponto por minuto +
-        // 0.1 ponto por metro +
-        // 0.05 ponto por Kcal +
-        // 50 pontos extra se esforço > 8
-
         $points = ($data->practice_time * 5)
             + ($data->distance * 0.1)
             + ($data->wasted_calories * 0.05);
@@ -54,12 +63,10 @@ class ActivityUser extends Pivot
         return (int) round($points);
     }
 
-
     public function activity(): BelongsTo
     {
         return $this->belongsTo(Activity::class);
     }
-
 
     public function user(): BelongsTo
     {

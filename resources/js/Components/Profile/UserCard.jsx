@@ -20,13 +20,13 @@ export default function UserCard({ user, onOpenPasswordModal }) {
                     />
                 </div>
                 <div className="flex flex-col gap-1 text-sm font-medium text-[#1C5E8F] pl-4 md:pl-2 mt-2 md:mt-0 text-center md:text-left leading-tight">
-                    <p>Nome: <span className="font-normal">Vitor Vieira</span></p>
-                    <p>Username: <span className="font-normal">vitor_vieira_20</span></p>
+                    <p>Nome: <span className="font-normal">{user.name}</span></p>
+                    <p>Username: <span className="font-normal">{user.username}</span></p>
                     <div className="flex flex-row items-center justify-center md:justify-start gap-1">
                         <LocationPinIcon color="#3699C5" className="w-4 h-4" />
-                        <span className="font-normal">Caniço, Madeira</span>
+                        <span className="font-normal">{user.address}</span>
                     </div>
-                    <p>Membro desde: <span className="font-normal">Março 2025</span></p>
+                    <p>Membro desde: <span className="font-normal">{user.created_at.charAt(0).toUpperCase() + user.created_at.slice(1)}</span></p>
                     <p>Nível: <span className="font-normal">Avançado</span></p>
                 </div>
             </div>

@@ -18,11 +18,11 @@ export default function ActivitiesCard({ activities }) {
 
             <div className="flex flex-col lg:flex-row gap-6 overflow-x-auto">
                 {activities.map((activity, index) => (
-                    <div key={index} className="flex flex-row justify-between items-end w-full lg:w-1/2 min-w-[300px] border-b lg:border-b-0 lg:border-r border-[#1C5E8F]/20 last:border-0 p-2 pt-4">
+                    <div key={index} className="flex flex-row justify-between items-end w-full lg:w-1/2 min-w-[300px] border-b lg:border-b-0 lg:border-r border-[#1C5E8F]/20 last:border-0 p-2 pt-">
 
                         <div className="flex flex-col gap-1 text-sm text-[#1A3463]">
 
-                            <div className="flex items-center gap-1 text-[#1C5E8F] font-medium mb-1">
+                            <div className="flex items-center gap-1 text-[#1C5E8F] font-medium mt-2">
                                 📍
                                 <span>{activity.date}</span>
                             </div>

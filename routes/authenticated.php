@@ -3,6 +3,7 @@
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ActivityUserController;
 use App\Http\Controllers\Auth\UpdatePasswordController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\LibraryController;
@@ -67,4 +68,10 @@ Route::middleware('auth.redirect')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::put('/settings/profile', [UserController::class, 'updateProfile'])->name('settings.profile.update');
+
+
+    // CHAT
+    Route::get('/chat/token/{team}', [ChatController::class, 'getToken'])->name('chat.token');
+    Route::get('/chat/messages/{team}', [ChatController::class, 'index'])->name('chat.history');
+    Route::get('/teams/{team}/chat', [ChatController::class, 'show'])->name('chat.show');
 });

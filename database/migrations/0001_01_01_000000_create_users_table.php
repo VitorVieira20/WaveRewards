@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('username')->unique()->nullable();
             $table->string('avatar')->nullable();
             $table->string('address')->nullable();
+            $table->integer('total_points')->default(0)->index();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

@@ -182,3 +182,18 @@ Como o PHP e o Node estão dentro do Docker, **não deve** correr comandos `php`
 docker-compose stop       # Parar (mantém os dados)
 docker-compose up -d      # Iniciar novamente
 docker-compose down       # Parar e remover contentores
+
+
+```
+
+### Como expandir:
+Para adicionar mais inteligência, basta adicionares novos objetos ao array `knowledgeBase`.
+
+Exemplo:
+```javascript
+{
+    id: 'dicas_seguranca',
+    keywords: ['seguranca', 'perigoso', 'colete', 'nadar'],
+    answer: "A segurança é prioritária! Usa sempre colete salva-vidas, verifica a meteorologia na Dashboard antes de sair e nunca remes sozinho em zonas desconhecidas."
+}
+```

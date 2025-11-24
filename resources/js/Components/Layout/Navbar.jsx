@@ -11,14 +11,37 @@ const navLinks = [
     { dropdown: false, name: 'Contactos', route: 'contacts.index' },
 ];
 
-export default function LayoutNavbar({ auth = { user: null } }) {
+export default function LayoutNavbar({ auth }) {
     const [isOpen, setIsOpen] = useState(false);
     const { url } = usePage();
 
-    const authButtons = [
-        { text: 'Login', href: route('auth.index', 'login'), primary: false },
-        { text: 'Registar', href: route('auth.index', 'signup'), primary: true },
-    ];
+    const dynamicLinks = [...navLinks];
+
+    if (auth?.user) {
+        const index = dynamicLinks.findIndex(link => link.name === "Parcerias");
+
+        if (index !== -1) {
+            dynamicLinks[index] = {
+                dropdown: false,
+                name: "Rankings",
+                route: "rankings.index"
+            };
+        }
+    }
+
+    let authButtons;
+
+    if (auth && auth.user) {
+        authButtons = [
+            { text: 'Perfil', href: route('profile.index'), primary: false },
+            { text: 'Definições', href: route('settings.index'), primary: true },
+        ];
+    } else {
+        authButtons = [
+            { text: 'Login', href: route('auth.index', 'login'), primary: false },
+            { text: 'Registar', href: route('auth.index', 'signup'), primary: true },
+        ];
+    }
 
     return (
         <nav className="fixed top-0 left-0 w-full z-100 bg-linear-to-b from-[#FFFFFF] to-[#EAF5FA]">
@@ -32,7 +55,7 @@ export default function LayoutNavbar({ auth = { user: null } }) {
                     </Link>
 
                     <div className="hidden xl:flex items-center gap-7 w-132 ml-30 2xl:ml-80 justify-start">
-                        {navLinks.map((item) => (
+                        {dynamicLinks.map((item) => (
                             <Link
                                 key={item.name}
                                 href={route(item.route)}
@@ -49,17 +72,35 @@ export default function LayoutNavbar({ auth = { user: null } }) {
 
 
                     <div className="hidden xl:flex items-center gap-1">
-                        <Link className="w-28 h-14" href={route('auth.index', 'login')}>
-                            <div className="px-6 py-4 bg-white rounded-[30px] border border-gray-300 shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105 hover:border-cyan-600">
-                                <div className="text-center text-cyan-600 text-base font-bold leading-none hover:text-cyan-700 transition-colors duration-300">Login</div>
-                            </div>
-                        </Link>
+                        {auth && auth.user ? (
+                            <>
+                                <Link className="w-28 h-14" href={route('profile.index')}>
+                                    <div className="px-6 py-4 bg-white rounded-[30px] border border-gray-300 shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105 hover:border-cyan-600">
+                                        <div className="text-center text-cyan-600 text-base font-bold leading-none hover:text-cyan-700 transition-colors duration-300">Perfil</div>
+                                    </div>
+                                </Link>
 
-                        <Link className="w-28 h-14" href={route('auth.index', 'signup')}>
-                            <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
-                                <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">Registar</div>
-                            </div>
-                        </Link>
+                                <Link className="w-28 h-14" href={route('settings.index')}>
+                                    <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
+                                        <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">Definições</div>
+                                    </div>
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link className="w-28 h-14" href={route('auth.index', 'login')}>
+                                    <div className="px-6 py-4 bg-white rounded-[30px] border border-gray-300 shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105 hover:border-cyan-600">
+                                        <div className="text-center text-cyan-600 text-base font-bold leading-none hover:text-cyan-700 transition-colors duration-300">Login</div>
+                                    </div>
+                                </Link>
+
+                                <Link className="w-28 h-14" href={route('auth.index', 'signup')}>
+                                    <div className="px-6 py-4 bg-cyan-600 rounded-[30px] shadow-[0_4px_6px_rgba(0,0,0,0.15)] inline-flex justify-center items-center gap-2 transition-all duration-300 hover:bg-cyan-700 hover:shadow-[0_6px_10px_rgba(0,0,0,0.25)] hover:scale-105">
+                                        <div className="text-center text-white text-base font-bold leading-none transition-colors duration-300">Registar</div>
+                                    </div>
+                                </Link></>
+                        )}
+
                     </div>
 
                     <div className="xl:hidden flex items-center gap-4">

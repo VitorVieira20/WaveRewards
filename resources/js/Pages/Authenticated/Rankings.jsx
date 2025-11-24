@@ -2,26 +2,7 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout";
 import FiltersIcon from "../../Components/Icons/FiltersIcon";
-
-const data = [
-    { id: 1, name: "Diogo Silva", points: 9820, challenges: 47, distance: 1043, medals: 12 },
-    { id: 2, name: "Maria Fernandes", points: 9350, challenges: 44, distance: 988, medals: 9 },
-    { id: 3, name: "João Costa", points: 9100, challenges: 41, distance: 942, medals: 8 },
-    { id: 4, name: "Beatriz Sousa", points: 8990, challenges: 38, distance: 890, medals: 7 },
-    { id: 5, name: "André Pereira", points: 8700, challenges: 36, distance: 860, medals: 6 },
-    { id: 6, name: "Sofia Marques", points: 8420, challenges: 34, distance: 830, medals: 5 },
-    { id: 7, name: "Ricardo Almeida", points: 8280, challenges: 33, distance: 810, medals: 4 },
-    { id: 8, name: "Carolina Lopes", points: 8100, challenges: 31, distance: 792, medals: 4 },
-    { id: 9, name: "Tiago Rocha", points: 7990, challenges: 30, distance: 780, medals: 3 },
-    { id: 10, name: "Inês Carvalho", points: 7850, challenges: 29, distance: 762, medals: 3 },
-    { id: 11, name: "Miguel Ramos", points: 7700, challenges: 27, distance: 748, medals: 2 },
-    { id: 12, name: "Catarina Duarte", points: 7540, challenges: 26, distance: 731, medals: 2 },
-    { id: 13, name: "Luís Santos", points: 7380, challenges: 25, distance: 715, medals: 2 },
-    { id: 14, name: "Rita Gomes", points: 7210, challenges: 23, distance: 701, medals: 1 },
-    { id: 15, name: "Pedro Nogueira", points: 7070, challenges: 22, distance: 688, medals: 1 },
-    { id: 16, name: "Marta Correia", points: 6940, challenges: 21, distance: 675, medals: 1 },
-    { id: 17, name: "Miguel Correia", points: 7700, challenges: 25, distance: 780, medals: 7 }
-];
+import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
 
 const podiumUsers = [
     { place: 1, image: "/images/team/roberto.png", name: "Roberto Andrade" },
@@ -29,24 +10,31 @@ const podiumUsers = [
     { place: 3, image: "/images/team/david.png", name: "David França" },
 ];
 
-export default function Rankings({ auth }) {
+export default function Rankings({ auth, rankings }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
     const perPage = 8;
-    const totalPages = Math.ceil(data.length / perPage);
-    const currentData = data.slice((currentPage - 1) * perPage, currentPage * perPage);
+    const totalPages = Math.ceil(rankings.length / perPage);
+    const currentData = rankings.slice((currentPage - 1) * perPage, currentPage * perPage);
 
     const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
     const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
 
     return (
         <AuthenticatedLayout auth={auth}>
-            <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-4xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+            <h1 className="fixed flex gap-3 w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+                <button
+                    type="button"
+                    onClick={() => window.history.back()}
+                    className="flex items-center cursor-pointer"
+                >
+                    <LeftArrowIcon color="#1C5E8F" />
+                </button>
+
                 Rankings
             </h1>
 
             <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-full pt-20 px-4 md:px-16">
-                {/* TABELA */}
                 <div className="w-full lg:w-3/5 overflow-x-auto relative">
                     <div className="flex justify-between items-end mb-3">
                         <button
@@ -69,16 +57,16 @@ export default function Rankings({ auth }) {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentData.map((user) => (
+                            {currentData.map((ranking) => (
                                 <tr
-                                    key={user.id}
+                                    key={ranking.user.avatar}
                                     className="text-[#5A5A5A] border-b border-white hover:bg-white/50 transition-colors"
                                 >
-                                    <td className="px-6 py-3 text-start">{user.name}</td>
-                                    <td className="px-4 py-3 text-center">{user.points}</td>
-                                    <td className="px-4 py-3 text-center">{user.challenges}</td>
-                                    <td className="px-4 py-3 text-center">{user.distance}</td>
-                                    <td className="px-4 py-3 text-center">{user.medals}</td>
+                                    <td className="px-6 py-3 text-start">{ranking.user.name}</td>
+                                    <td className="px-4 py-3 text-center">{ranking.points}</td>
+                                    <td className="px-4 py-3 text-center">{ranking.challenges}</td>
+                                    <td className="px-4 py-3 text-center">{ranking.distance}</td>
+                                    <td className="px-4 py-3 text-center">{ranking.medals}</td>
                                 </tr>
                             ))}
                         </tbody>

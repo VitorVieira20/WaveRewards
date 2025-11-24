@@ -1,3 +1,4 @@
+import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
 import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout";
 import { motion } from "framer-motion";
 
@@ -18,7 +19,15 @@ export default function Meteorology({ auth, weatherData }) {
 
     return (
         <AuthenticatedLayout auth={auth}>
-            <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] md:to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+            <h1 className="fixed flex gap-3 w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+                <button
+                    type="button"
+                    onClick={() => window.history.back()}
+                    className="flex items-center cursor-pointer"
+                >
+                    <LeftArrowIcon color="#1C5E8F" />
+                </button>
+
                 Meteorologia
             </h1>
 

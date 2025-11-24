@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
             WorkshopSeeder::class,
             TutorialSeeder::class,
             InformationSeeder::class,
-            ActivitySeeder::class
+            ActivitySeeder::class,
+            UserActivitySeeder::class,
+            TeamSeeder::class,
+            TeamUserSeeder::class,
         ]);
     }
 }
