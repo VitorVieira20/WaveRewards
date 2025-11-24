@@ -10,13 +10,6 @@ import MeteorologyCard from "../../Components/Dashboard/MeteorologyCard";
 
 export default function Dashboard({ auth, weatherData }) {
 
-    if (!weatherData || weatherData.length === 0) {
-        return (
-            <div className="flex flex-col justify-center items-center bg-white/40 p-2 pb-4 border-l border-l-[#1A3463]/75 rounded-r-xl w-full max-w-[300px] h-full">
-                <p className="text-[#1C5E8F]">Sem dados de meteorologia.</p>
-            </div>
-        );
-    }
 
     return (
         <AuthenticatedLayout auth={auth}>

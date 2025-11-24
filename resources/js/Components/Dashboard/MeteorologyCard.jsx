@@ -22,6 +22,14 @@ export default function MeteorologyCard({ weatherData }) {
 
     const currentCity = weatherData[locationIndex];
 
+    if (!weatherData || weatherData.length === 0) {
+        return (
+        <div className="flex flex-col justify-start items-center bg-white/40 p-2 pb-4 w-full max-w-[600px] lg:max-w-[300px] relative text-[#1A3463] border-t border-t-[#1A3463]/75 lg:border-t-0 lg:border-l lg:border-l-[#1A3463]/75 rounded-b-xl lg:rounded-l-none lg:rounded-r-xl">
+                <p className="text-[#1C5E8F]">Sem dados de meteorologia.</p>
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col justify-start items-center bg-white/40 p-2 pb-4 w-full max-w-[600px] lg:max-w-[300px] relative text-[#1A3463] border-t border-t-[#1A3463]/75 lg:border-t-0 lg:border-l lg:border-l-[#1A3463]/75 rounded-b-xl lg:rounded-l-none lg:rounded-r-xl">
             <div className="relative w-full flex justify-center items-center mb-1">
