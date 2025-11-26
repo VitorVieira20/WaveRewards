@@ -11,7 +11,7 @@ class UserActivitySeeder extends Seeder
 {
     public function run(): void
     {
-        $users = User::whereIn('id', [2, 3])->get();
+        $users = User::all();
         $activities = Activity::all();
 
         if ($activities->isEmpty()) return;
