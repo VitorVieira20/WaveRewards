@@ -33,22 +33,22 @@ class TutorialSeeder extends Seeder
     {
         return [
             [
-                'thumbnail' => 'storage/tutorials/tutorial_1.png',
+                'thumbnail' => 'images/tutorials/tutorial_1.png',
                 'title' => 'Como Escolher o Teu Caiaque',
                 'url' => 'https://www.youtube.com/watch?v=hW6NGXUqis8'
             ],
             [
-                'thumbnail' => 'storage/tutorials/tutorial_2.png',
+                'thumbnail' => 'images/tutorials/tutorial_2.png',
                 'title' => 'Remada em J: Técnica Essencial',
                 'url' => 'https://www.youtube.com/watch?v=u59K-msjuu0'
             ],
             [
-                'thumbnail' => 'storage/tutorials/tutorial_3.png',
+                'thumbnail' => 'images/tutorials/tutorial_3.png',
                 'title' => 'Manobras de Resgate e Auto-Resgate',
                 'url' => 'https://www.youtube.com/watch?v=87EjC2_F14Q'
             ],
             [
-                'thumbnail' => 'storage/tutorials/tutorial_4.png',
+                'thumbnail' => 'images/tutorials/tutorial_4.png',
                 'title' => 'Preparação Física para Canoagem',
                 'url' => 'https://www.youtube.com/watch?v=L7Rwg94JuJk'
             ]
