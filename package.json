@@ -4,7 +4,25 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+
+        "setup:php": "composer install",
+        "setup:key": "php artisan key:generate",
+
+        "db:migrate": "php artisan migrate",
+        "db:seed": "php artisan db:seed",
+        "db:reset": "php artisan migrate:fresh --seed",
+
+        "storage:link": "php artisan storage:link",
+        "queue": "php artisan queue:work",
+
+        "serve": "php artisan serve",
+        "dev:full": "npm run serve & npm run dev",
+
+        "project:setup": "npm run setup:php && npm run setup:key && npm run db:migrate && npm run db:seed && npm run storage:link",
+
+        "up:db": "docker compose -f docker/docker-compose.mysql.yml up -d",
+        "down:db": "docker compose -f docker/docker-compose.mysql.yml down"
     },
     "devDependencies": {
         "@tailwindcss/vite": "^4.1.4",

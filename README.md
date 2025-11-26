@@ -1,199 +1,129 @@
-# WaveRewards
+# 🌊 WaveRewards
 
-## Pré-requisitos
-* PHP >= 8.2
-* Composer
-* Node.js >= 18
-* NPM
+Bem-vindo ao **WaveRewards**. Este projeto é uma aplicação web completa que utiliza **Laravel** para o backend (API) e **React/Vite** para o frontend.
+
+Este guia explica como configurar o ambiente de desenvolvimento do zero utilizando os scripts automatizados configurados no projeto.
 
 ---
 
-## Instalação
+## 🛠 Tech Stack
 
-1. Clone o repositório:
+- **Backend:** PHP, Laravel
+- **Frontend:** React, Vite
+- **Base de Dados:** MySQL (via Docker ou Local)
+- **Gestor de Pacotes:** NPM & Composer
 
+---
+
+## 📋 Pré-requisitos
+
+Antes de começar, garante que tens as seguintes ferramentas instaladas na tua máquina:
+
+- [Node.js](https://nodejs.org/) (Versão 18 ou superior)
+- [PHP](https://www.php.net/) & [Composer](https://getcomposer.org/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (Recomendado para a base de dados)
+- Git
+
+---
+
+## 🚀 Instalação e Setup
+
+Siga estes passos pela ordem indicada para configurar o projeto.
+
+### 1. Clonar o Repositório
 ```bash
 git clone https://github.com/VitorVieira20/WaveRewards.git
 cd WaveRewards
 ```
 
-2. Instalar as dependências do PHP:
-
-```bash
-composer install
-```
-
-3. Instalar as dependências do Node.js:
+### 2. Instalar Dependências (Node)
 
 ```bash
 npm install
 ```
 
-4. Gere a chave da aplicação Laravel:
+### 3. Configuração de Ambiente (.env)
+Cria o ficheiro de configuração local copiando o exemplo:
 
 ```bash
-php artisan key:generate
+cp .env.example .env
 ```
 
-5. Copiar o ficheiro `.env.example` e criar o `.env`
+**Nota**: Preenche as variáveis do .env com as credenciais corretas (DB_PASSWORD, API Keys, etc.).
 
----
+Consulta o post afixado no Discord para os valores corretos.
 
-## Base de dados
+### 4. Base de Dados
+Recomendamos o uso do Docker para garantir compatibilidade.
 
-1. Rodar as migrations:
+**Opção A: Via Docker (Recomendado)** Levanta o MySQL e phpMyAdmin automaticamente:
 
 ```bash
-php artisan migrate
+npm run up:db
 ```
+(O phpMyAdmin ficará acessível em http://localhost:8080)
 
-2. Adicionar os dados com os seeders:
+
+**Opção B: Localmente** Se não usares Docker, cria uma base de dados local e atualiza o ficheiro `.env` com as tuas credenciais.
+
+
+### 5. Setup do Projeto
+Executa este comando apenas depois de configurar o .env e ter a base de dados a correr. Ele irá instalar dependências PHP, gerar chaves, migrar a BD e criar links.
 
 ```bash
-php artisan db:seed
+npm run project:setup
 ```
 
----
 
-
-## Configuração do mailer
-
-1. Adicionar os dados do mailer no `.env`:
-
-```env
-MAIL_MAILER=smtp
-MAIL_HOST=smtp.gmail.com
-MAIL_PORT=587
-MAIL_USERNAME=projectmanager.vitorvieiradev@gmail.com
-MAIL_PASSWORD=xwbizbefkggiouzf
-MAIL_ENCRYPTION=tls
-MAIL_FROM_ADDRESS={o email que vai recebers os contactos}
-MAIL_FROM_NAME="WaveRewards"
-```
-
-2. Rodar a fila para os mails serem enviados:
-- Abrir mais um terminal e rodar
+## 💻 Como Correr o Projeto
+**Terminal 1 (Backend)**
 
 ```bash
-php artisan queue:work
+npm run serve
 ```
 
-3. Fazer a conexão do storage
-- Abrir mais um terminal e rodar
-
-```bash
-php artisan storage:link
-```
----
-
-## Executar o projeto
-
-O projeto precisa de **dois terminais** abertos para correr corretamente:
-
-1. Terminal 1 – Servidor Laravel:
-
-```bash
-php artisan serve
-```
-
-> Isto irá iniciar o servidor em `http://localhost:8000`.
-
-2. Terminal 2 – Compilador do frontend:
+**Terminal 2 (Frontend)**
 
 ```bash
 npm run dev
 ```
 
-> Isto irá compilar os assets e manter o frontend atualizado.
-
----
-
-## Aceder à aplicação
-
-Abra o navegador e aceda a:
-
-```
-http://localhost:8000
-```
-
-
-## 🐳 Como rodar o projeto com Docker
-
-Este projeto utiliza **Docker** para garantir que todo o ambiente de desenvolvimento (PHP, Node, Base de Dados, etc.) é igual para todos os membros da equipa, independentemente do Sistema Operativo.
-
-
-### 🚀 Instalação e Primeiro Arranque
-
-Siga estes passos apenas na **primeira vez** que configurar o projeto:
-
-1.  **Configurar variáveis de ambiente:**
-    Copie o ficheiro de exemplo e ajuste as credenciais da base de dados para o Docker.
-    ```bash
-    cp .env.example .env
-    ```
-    *Abra o ficheiro `.env` e garanta que estas linhas estão assim:*
-    ```ini
-    DB_CONNECTION=mysql
-    DB_HOST=db
-    DB_PORT=3306
-    DB_DATABASE=waverewards
-    DB_USERNAME=laravel
-    DB_PASSWORD=secret
-
-    QUEUE_CONNECTION=redis
-
-    SESSION_DRIVER=redis
-
-    REDIS_CLIENT=phpredis
-    REDIS_HOST=waverewards-redis
-    REDIS_PASSWORD=null
-    REDIS_PORT=6379
-
-    VITE_APP_URL=http://localhost:8000
-    ```
-
-3.  **Arrancar os contentores:**
-    Este comando vai construir as imagens e iniciar o projeto.
-    ```bash
-    docker-compose up -d --build
-    ```
-    > **Nota:** O arranque inicial pode demorar alguns minutos. O script automático (`entrypoint.sh`) irá instalar o Composer, NPM, gerar a Key e correr as Migrations sozinho.
-
-4.  **Acompanhar a instalação:**
-    Para saber quando o site está pronto, veja os logs:
-    ```bash
-    docker-compose logs -f app
-    ```
-    *Quando vir a mensagem `🏁 Arranque concluído. A iniciar PHP-FPM...`, pode fechar os logs (Ctrl+C).*
-
-### 🌐 Aceder à Aplicação
-
-* **Site:** [http://localhost:8000](http://localhost:8000)
-* **phpMyAdmin:** [http://localhost:8080](http://localhost:8080)
-    * *User:* `laravel`
-    * *Password:* `secret`
-
-### 🛠 Comandos Úteis no Dia a Dia
-
-Como o PHP e o Node estão dentro do Docker, **não deve** correr comandos `php` ou `npm` diretamente no seu terminal. Use estes comandos:
-
-**Parar e Iniciar:**
+**Processamento de filas (se necessário)**
 ```bash
-docker-compose stop       # Parar (mantém os dados)
-docker-compose up -d      # Iniciar novamente
-docker-compose down       # Parar e remover contentores
-
-
+npm run queue
 ```
 
-### Como expandir:
-Para adicionar mais inteligência, basta adicionares novos objetos ao array `knowledgeBase`.
 
-Exemplo:
-```javascript
-{
-    id: 'dicas_seguranca',
-    keywords: ['seguranca', 'perigoso', 'colete', 'nadar'],
-    answer: "A segurança é prioritária! Usa sempre colete salva-vidas, verifica a meteorologia na Dashboard antes de sair e nunca remes sozinho em zonas desconhecidas."
-}
+## 🛑 Parar o Projeto
+Para parar, basta cancelar a execução nos terminais `(Ctrl + C)`.
+
+Se a base de dados foi iniciada via Docker, corre este comando para parar e remover os contentores:
+
+```bash
+npm run down:db
 ```
+
+
+## 📖 Referência de Comandos (NPM Scripts)
+
+Abaixo encontras a explicação de todos os scripts úteis configurados no `package.json`.
+
+| Comando | Descrição |
+| :--- | :--- |
+| **Setup & Build** | |
+| `npm run project:setup` | **Comando Principal:** Instala Composer, chaves, migrações, seeds e storage link. |
+| `npm run build` | Compila o frontend para produção. |
+| **Dev Server** | |
+| `npm run serve` | Inicia servidor Laravel (`php artisan serve`). |
+| `npm run dev` | Inicia servidor Vite (Frontend). |
+| **Base de Dados** | |
+| `npm run up:db` | Inicia contentores Docker (MySQL + phpMyAdmin). |
+| `npm run down:db` | Para e remove os contentores Docker. |
+| `npm run db:migrate` | Executa as migrações pendentes. |
+| `npm run db:seed` | Popula a base de dados com dados falsos (Seeds). |
+| `npm run db:reset` | **Reset:** Apaga a BD, corre migrações do zero e seeds. |
+| **Utilitários** | |
+| `npm run setup:php` | Instala dependências do Composer. |
+| `npm run setup:key` | Gera a `APP_KEY` do Laravel. |
+| `npm run storage:link` | Cria o link simbólico para a pasta `storage`. |
+| `npm run queue` | Inicia o worker de filas do Laravel. |

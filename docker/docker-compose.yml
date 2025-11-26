@@ -1,9 +1,8 @@
 services:
-    # 1. A Aplicação Principal (PHP + Composer)
     app:
         build:
             context: .
-            dockerfile: .docker/php/Dockerfile
+            dockerfile: ../.docker/php/Dockerfile
             args:
                 user: laravel
                 uid: 1000
@@ -31,10 +30,8 @@ services:
         networks:
             - waverewards-network
 
-    # 3. Base de Dados (MySQL)
-    # 3. Base de Dados (MariaDB - Compatível com Mac M1/M2 e Windows)
     db:
-        image: mariadb:10.11  # <--- MUDANÇA AQUI (Era mysql:8.0)
+        image: mariadb:10.11
         container_name: waverewards-db
         restart: unless-stopped
         environment:
@@ -45,11 +42,10 @@ services:
         volumes:
             - dbdata:/var/lib/mysql
         ports:
-            - "3310:3306" # Acede via 3310 no teu PC, mas é 3306 dentro do Docker
+            - "3310:3306"
         networks:
             - waverewards-network
 
-    # 4. Gestão de BD (phpMyAdmin) - Porta 8080
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: waverewards-pma
@@ -63,18 +59,16 @@ services:
         networks:
             - waverewards-network
 
-    # 5. Cache/Queue Driver (Redis) - Recomendado para filas robustas
     redis:
         image: redis:alpine
         container_name: waverewards-redis
         networks:
             - waverewards-network
 
-    # 6. Worker de Filas (Queue Worker)
     queue:
         build:
             context: .
-            dockerfile: .docker/php/Dockerfile
+            dockerfile: ../.docker/php/Dockerfile
             args:
                 user: laravel
                 uid: 1000
@@ -91,11 +85,10 @@ services:
         networks:
             - waverewards-network
 
-    # 7. Vite (Frontend React) - Porta 5173
     vite:
         build:
             context: .
-            dockerfile: .docker/php/Dockerfile
+            dockerfile: ../.docker/php/Dockerfile
             args:
                 user: laravel
                 uid: 1000
