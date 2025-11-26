@@ -51,13 +51,6 @@ class SettingsController extends Controller
 
         $this->settingsService->updateSetting($field, $value);
 
-
-        // Atualiza apenas o campo que foi enviado
-        // Assumindo que tens uma tabela 'settings' ou colunas no 'users'
-        //$request->user()->update($validated);
-        // OU se tiveres uma relação: $request->user()->settings()->update($validated);
-
-        // Retorna back (o Inertia trata de manter a página sem refresh total)
         return back();
     }
 }

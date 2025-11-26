@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             UserActivitySeeder::class,
             TeamSeeder::class,
             TeamUserSeeder::class,
+            SettingsSeeder::class,
         ]);
     }
 }

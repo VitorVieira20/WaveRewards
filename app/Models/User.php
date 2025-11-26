@@ -93,4 +93,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Message::class);
     }
+
+
+    public function settings(): HasOne
+    {
+        return $this->hasOne(Settings::class);
+    }
 }
