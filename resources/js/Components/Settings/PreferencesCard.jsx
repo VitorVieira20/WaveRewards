@@ -1,6 +1,6 @@
 import Select from "../Form/Select";
 
-export default function PreferencesCard({ settings, handleToggle }) {
+export default function PreferencesCard({ settings, timezones, handleToggle }) {
 
     return (
         <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-6 shadow-sm">
@@ -45,14 +45,7 @@ export default function PreferencesCard({ settings, handleToggle }) {
                 label="Fuso Horário:"
                 value={settings.timezone}
                 onChange={(val) => handleToggle("timezone", val)}
-                options={[
-                    { value: "Europe/Lisbon", label: "Europa - Lisboa" },
-                    { value: "Europe/Madrid", label: "Europa - Madrid" },
-                    { value: "UTC", label: "UTC" },
-                    { value: "America/New_York", label: "EUA - Nova Iorque" },
-                    { value: "America/Los_Angeles", label: "EUA - Los Angeles" },
-                    { value: "America/Sao_Paulo", label: "Brasil - São Paulo" }
-                ]}
+                options={timezones}
             />
 
         </div>

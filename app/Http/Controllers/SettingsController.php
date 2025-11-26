@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\SettingsService;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -20,10 +21,17 @@ class SettingsController extends Controller
         $stravaAccount = $user->stravaAccount;
         $settings = $this->settingsService->getSettings();
 
+        $timezones = collect(DateTimeZone::listIdentifiers())
+            ->map(fn($tz) => [
+                'value' => $tz,
+                'label' => $tz
+            ]);
+
         return Inertia::render("Authenticated/Settings", [
             'user' => $user,
             'isStravaConnected' => (bool) $stravaAccount,
-            'settings' => $settings
+            'settings' => $settings,
+            'timezones' => $timezones
         ]);
     }
 

@@ -4,12 +4,6 @@ import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout";
 import FiltersIcon from "../../Components/Icons/FiltersIcon";
 import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
 
-const podiumUsers = [
-    { place: 1, image: "/images/team/roberto.png", name: "Roberto Andrade" },
-    { place: 2, image: "/images/team/leonor.png", name: "Leonor Freitas" },
-    { place: 3, image: "/images/team/david.png", name: "David França" },
-];
-
 export default function Rankings({ auth, rankings }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
@@ -19,6 +13,10 @@ export default function Rankings({ auth, rankings }) {
 
     const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
     const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+
+    const podiumUsers = rankings.slice(0, 3);
+
+    console.log(podiumUsers)
 
     return (
         <AuthenticatedLayout auth={auth}>
@@ -113,7 +111,7 @@ export default function Rankings({ auth, rankings }) {
                 </div>
 
                 {/* PÓDIO */}
-                <div className="w-full lg:w-2/5 relative flex items-center justify-center px-4 md:px-16 pt-16 lg:pt-0">
+                <div className="w-full lg:w-2/5 relative flex items-center justify-center px-4 md:px-16 lg:pt-0">
                     <img
                         src="/images/podium.png"
                         alt="Pódio"
@@ -121,33 +119,33 @@ export default function Rankings({ auth, rankings }) {
                     />
 
                     {/* POSIÇÕES DOS UTILIZADORES */}
-                    {podiumUsers.map((user) => (
+                    {podiumUsers.map((ranking) => (
                         <div
-                            key={user.place}
+                            key={ranking.rank}
                             className="absolute flex flex-col items-center text-center"
                             style={{
                                 top:
-                                    user.place === 1
+                                    ranking.rank === 1
                                         ? "-90%"
-                                        : user.place === 2
+                                        : ranking.rank === 2
                                             ? "-55%"
                                             : "-45%",
                                 left:
-                                    user.place === 1
+                                    ranking.rank === 1
                                         ? "50%"
-                                        : user.place === 2
+                                        : ranking.rank === 2
                                             ? "25%"
                                             : "75%",
                                 transform: "translate(-50%, 0)",
                             }}
                         >
                             <img
-                                src={user.image}
-                                alt={user.name}
+                                src={ranking.user.avatar}
+                                alt={ranking.user.name}
                                 className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-md object-cover"
                             />
                             <p className="text-[#1A3463] text-sm font-medium mt-2">
-                                {user.name}
+                                {ranking.user.name}
                             </p>
                         </div>
                     ))}

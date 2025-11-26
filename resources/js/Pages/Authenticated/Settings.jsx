@@ -8,7 +8,7 @@ import StravaIntegrationCard from "../../Components/Settings/StravaIntegrationCa
 import MyDataCard from "../../Components/Settings/MyDataCard";
 import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
 
-export default function Settings({ auth, user, isStravaConnected, settings }) {
+export default function Settings({ auth, user, isStravaConnected, settings, timezones }) {
 
     const toggleSetting = (key, value) => {
         router.put(route('settings.update'), {
@@ -40,7 +40,7 @@ export default function Settings({ auth, user, isStravaConnected, settings }) {
 
                 <PrivacyCard settings={settings} handleToggle={toggleSetting} />
 
-                <PreferencesCard settings={settings} handleToggle={toggleSetting} />
+                <PreferencesCard settings={settings} timezones={timezones} handleToggle={toggleSetting} />
 
                 <StravaIntegrationCard isStravaConnected={isStravaConnected} />
 
