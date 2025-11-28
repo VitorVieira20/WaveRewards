@@ -28,7 +28,7 @@ export default function NotificationsCard({ settings, handleToggle }) {
             />
             <Toggle
                 label="Notificações da minha equipa"
-                enabled={settings.challenge_alerts}
+                enabled={settings.team_notifications}
                 onChange={(val) => handleToggle('team_notifications', val)}
             />
         </div>
