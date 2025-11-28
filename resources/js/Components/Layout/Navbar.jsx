@@ -8,7 +8,7 @@ const navLinks = [
     { dropdown: false, name: 'Equipa', route: 'team.index' },
     { dropdown: false, name: 'Benefícios', route: 'benefits.index' },
     { dropdown: false, name: 'Parcerias', route: 'partners.index' },
-    { dropdown: false, name: 'Contactos', route: 'contacts.index' },
+    { dropdown: false, name: 'Contacto', route: 'contacts.index' },
 ];
 
 export default function LayoutNavbar({ auth }) {

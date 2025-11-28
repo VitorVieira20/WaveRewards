@@ -4,11 +4,11 @@ import { route } from 'ziggy-js';
 import MobileMenu from './MobileMenu';
 
 const navLinks = [
-    { dropdown: false, name: 'Início', route: 'home.index' },
-    { dropdown: false, name: 'Equipa', route: 'team.index' },
-    { dropdown: false, name: 'Benefícios', route: 'benefits.index' },
+    { dropdown: false, name: 'Meteorologia', route: 'meteorology.index' },
+    { dropdown: false, name: 'Biblioteca', route: 'library.index' },
+    { dropdown: false, name: 'Histórico', route: 'activities.history' },
     { dropdown: false, name: 'Rankings', route: 'rankings.index' },
-    { dropdown: false, name: 'Contactos', route: 'contacts.index' },
+    { dropdown: false, name: 'Contacto', route: 'contacts.index' },
 ];
 
 export default function AuthenticatedLayoutNavbar({ auth }) {
@@ -32,7 +32,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
                     </Link>
 
 
-                    <div className="hidden xl:flex items-center gap-7 w-132 ml-30 2xl:ml-80 justify-start">
+                    <div className="hidden xl:flex items-center gap-7 w-132 ml-30 2xl:ml-70 justify-start">
                         {navLinks.map((item) => (
                             <Link
                                 key={item.name}
