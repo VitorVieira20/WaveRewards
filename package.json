@@ -4,23 +4,18 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite",
-
+        "dev": "npm run check:env && vite",
         "setup:php": "composer install",
         "setup:key": "php artisan key:generate",
-
+        "check:env": "node scripts/check-env.js",
         "db:migrate": "php artisan migrate",
         "db:seed": "php artisan db:seed",
         "db:reset": "php artisan migrate:fresh --seed",
-
+        "db:chroma": "php artisan waverewards:index",
         "storage:link": "php artisan storage:link",
         "queue": "php artisan queue:work",
-
-        "serve": "php artisan serve",
-        "dev:full": "npm run serve & npm run dev",
-
-        "project:setup": "npm run setup:php && npm run setup:key && npm run db:migrate && npm run db:seed && npm run storage:link",
-
+        "serve": "npm run check:env && php artisan serve",
+        "project:setup": "npm run setup:php && npm run setup:key && npm run db:migrate && npm run db:seed && npm run db:chroma && npm run storage:link",
         "up:db": "docker compose -f docker/docker-compose.mysql.yml up -d",
         "down:db": "docker compose -f docker/docker-compose.mysql.yml down"
     },
@@ -41,6 +36,7 @@
         "lucide-react": "^0.522.0",
         "react": "^19.1.0",
         "react-dom": "^19.1.0",
+        "react-markdown": "^10.1.0",
         "react-toastify": "^11.0.5",
         "recharts": "^3.4.1",
         "socket.io-client": "^4.8.1",

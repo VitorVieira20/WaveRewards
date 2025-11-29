@@ -49,26 +49,42 @@ Cria o ficheiro de configuração local copiando o exemplo:
 cp .env.example .env
 ```
 
-**Nota**: Preenche as variáveis do .env com as credenciais corretas (DB_PASSWORD, API Keys, etc.).
+**Nota Importante**: O projeto inclui um script de validação automático. Antes de avançares, preenche as variáveis obrigatórias no `.env` (DB_PASSWORD, API Keys do Gemini, etc.).
+
+Podes verificar se tens tudo configurado corretamente correndo:
+
+```bash
+npm run check:env
+```
+
+(Se faltar alguma chave, o script irá avisar-te exatamente qual).
 
 Consulta o post afixado no Discord para os valores corretos.
 
-### 4. Base de Dados
-Recomendamos o uso do Docker para garantir compatibilidade.
+### 4. Base de Dados (MySQL + ChromaDB)
 
-**Opção A: Via Docker (Recomendado)** Levanta o MySQL e phpMyAdmin automaticamente:
+Este projeto requer dois serviços de base de dados: MySQL (dados normais) e ChromaDB (memória do Chatbot). Recomendamos usar o comando Docker incluído que levanta ambos.
+
+**Levantar Serviços:**
 
 ```bash
 npm run up:db
 ```
-(O phpMyAdmin ficará acessível em http://localhost:8080)
 
-
-**Opção B: Localmente** Se não usares Docker, cria uma base de dados local e atualiza o ficheiro `.env` com as tuas credenciais.
-
+Isto irá iniciar:
+- **MySQL** (Porta 3310 foi configurada)
+- **phpMyAdmin** (Acessível em http://localhost:8080)
+- **ChromaDB** (Porta 8001 - Essencial para o Chatbot)
 
 ### 5. Setup do Projeto
-Executa este comando apenas depois de configurar o .env e ter a base de dados a correr. Ele irá instalar dependências PHP, gerar chaves, migrar a BD e criar links.
+Executa este comando apenas depois de configurar o .env e ter o Docker a correr. Ele irá:
+
+1. Validar o ambiente
+2. Instalar as dependências PHP
+3. Gerar chaves
+4. Correr migrações e seeds (MySQl)
+5. Indexar dados para o Chatbot (ChromaDB)
+6. Criar links de storage
 
 ```bash
 npm run project:setup
@@ -122,6 +138,7 @@ Abaixo encontras a explicação de todos os scripts úteis configurados no `pack
 | `npm run db:migrate` | Executa as migrações pendentes. |
 | `npm run db:seed` | Popula a base de dados com dados falsos (Seeds). |
 | `npm run db:reset` | **Reset:** Apaga a BD, corre migrações do zero e seeds. |
+| `npm run db:chroma` | **Indexação AI:** Envia dados do SQL para o ChromaDB (necessário para o Chatbot). |
 | **Utilitários** | |
 | `npm run setup:php` | Instala dependências do Composer. |
 | `npm run setup:key` | Gera a `APP_KEY` do Laravel. |

@@ -6,94 +6,6 @@ import BotMessageCard from "./BotMessageCard";
 import UserMessageCard from "./UserMessageCard";
 import UserIcon from "../Icons/UserIcon";
 
-const knowledgeBase = [
-    {
-        id: 'intro',
-        keywords: [
-            'ola', 'oi', 'boas', 'bom dia', 'boa tarde', 'boa noite', 'alo',
-            'comecar', 'inicio', 'menu', 'ajuda', 'help', 'tas ai',
-            'preciso de ajuda', 'o que podes fazer'
-        ],
-        answer: "Olá! 👋 Sou o assistente virtual da WaveRewards. Estou aqui para te ajudar com dúvidas sobre canoagem, a app, pontos ou sustentabilidade. Podes perguntar-me 'como ganho pontos?' ou 'onde são os workshops?'."
-    },
-    {
-        id: 'workshops',
-        keywords: [
-            'workshop', 'curso', 'aprender', 'aula', 'tecnica', 'formacao',
-            'ensinam', 'como funcionam os workshops', 'quero aprender',
-            'quantos workshops', 'disponiveis', 'inscricao', 'inscrever',
-            'datas', 'horario', 'temas', 'seguranca'
-        ],
-        answer: "Os nossos workshops são teóricos e práticos! 🛶 Temos 3 tipos principais: 'Técnicas de Remada', 'Segurança Aquática' e 'Ecossistemas Marinhos'. Podes consultar as próximas datas e inscrever-te na aba 'Benefícios' ou no 'Início' da app."
-    },
-    {
-        id: 'points_system',
-        keywords: [
-            'pontos', 'ponto', 'ganhar', 'como ganho', 'sistema de pontos',
-            'como pontuar', 'recompensas', 'premio', 'premios', 'score',
-            'o que ganho', 'para que servem os pontos', 'subir', 'ranking'
-        ],
-        answer: "Ganhar pontos é fácil! Basta: \n1️⃣ Registar quilómetros (remar) \n2️⃣ Recolher lixo (plogging) ♻️ \n3️⃣ Ir aos workshops. \nQuanto mais pontos, mais sobes no ranking da tua equipa!"
-    },
-    {
-        id: 'waverewards_info',
-        keywords: [
-            'waverewards', 'app', 'aplicacao', 'o que e', 'sobre a app',
-            'o que faz', 'objetivo', 'para que serve', 'projeto',
-            'como funciona a app', 'explica'
-        ],
-        answer: "O WaveRewards é uma plataforma gamificada feita na Madeira! 🌴 O objetivo é juntar a canoagem à sustentabilidade. Tu remas, proteges o oceano e ganhas reconhecimento por isso."
-    },
-    {
-        id: 'garbage',
-        keywords: [
-            'lixo', 'recolha', 'apanhar', 'impacto', 'ambiental', 'ambiente',
-            'sustentabilidade', 'poluicao', 'plogging', 'limpar', 'mar',
-            'oceano', 'plastico', 'sujo', 'ecologia'
-        ],
-        answer: "A sustentabilidade é a nossa missão! 🌍 Incentivamos o 'Plogging' náutico: se vires lixo no mar, apanha-o. Depois, regista a recolha na app para ganhares pontos extra e ajudares a manter a Madeira limpa."
-    },
-    {
-        id: 'levels',
-        keywords: [
-            'niveis', 'nivel', 'iniciante', 'intermedio', 'avancado',
-            'experiencia', 'sou novo', 'nunca remei', 'comecar agora',
-            'dificil', 'facil', 'expert', 'kit unhas'
-        ],
-        answer: "Não te preocupes, há espaço para todos! Temos níveis desde 'Iniciante' (águas calmas para quem nunca remou) até 'Avançado' (mar aberto). A app ajusta-se à tua evolução."
-    },
-    {
-        id: 'team',
-        keywords: [
-            'equipa', 'team', 'kayakhomies', 'grupo', 'amigos', 'juntar',
-            'criar equipa', 'membros', 'colegas', 'comunidade', 'clube'
-        ],
-        answer: "Tudo é mais divertido em equipa! 🤝 Podes juntar-te aos 'KayakHomies' ou criar o teu grupo. Os pontos de todos somam para o ranking de equipas. Espreita a secção 'Equipa' no menu."
-    },
-    {
-        id: 'locations',
-        keywords: [
-            'onde', 'localizacao', 'funchal', 'canico', 'ribeira', 'brava',
-            'mapa', 'sitios', 'lugar', 'spot', 'ponto de encontro',
-            'rota', 'onde fica', 'morada'
-        ],
-        answer: "Estamos por toda a ilha! 📍 Os spots principais são o Clube Naval do Funchal, Reis Magos (Caniço) e Ribeira Brava. Na secção 'Atividades' tens o mapa com todos os pontos de encontro."
-    },
-    {
-        id: 'register_login',
-        keywords: [
-            'registo', 'login', 'entrar', 'criar conta', 'senha', 'password',
-            'pass', 'esqueci', 'recuperar', 'autenticacao', 'sign in', 'sign up'
-        ],
-        answer: "Para teres acesso ao perfil e pontos, precisas de conta. Podes criar uma nova ou entrar na página inicial. Se perdeste a password, usa a opção 'Recuperar Password' no ecrã de login."
-    },
-    {
-        id: 'default',
-        keywords: [],
-        answer: "Hmm, não tenho a certeza se percebi. 🤔 Podes tentar perguntar de outra forma? Tenta usar palavras como 'workshops', 'pontos', 'lixo' ou 'equipas'."
-    }
-];
-
 const normalizeText = (text) => {
     return text
         .toLowerCase()
@@ -173,20 +85,37 @@ export default function Chatbot({ onClose }) {
 
     const showIntro = messages.length === 0;
 
-    function sendMessage(text) {
+    async function sendMessage(text) {
         if (!text) return;
 
         setMessages((prev) => [...prev, { text, from: "user" }]);
         setBotIsTyping(true);
 
-        const response = getBotResponse(text);
+        try {
+            const response = await fetch('http://localhost:8000/api/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({ message: text })
+            });
 
-        const delay = Math.floor(Math.random() * 1000) + 1000;
+            if (!response.ok) throw new Error('Falha na resposta');
 
-        setTimeout(() => {
+            const data = await response.json();
+
+            setMessages((prev) => [...prev, { text: data.response, from: "bot" }]);
+
+        } catch (error) {
+            console.error("Erro no chat:", error);
+            setMessages((prev) => [...prev, { 
+                text: "Desculpa, estou com dificuldades de conexão ao mar neste momento. 🌊 Tenta mais tarde.", 
+                from: "bot" 
+            }]);
+        } finally {
             setBotIsTyping(false);
-            setMessages((prev) => [...prev, { text: response, from: "bot" }]);
-        }, delay);
+        }
     }
 
     return (
