@@ -25,3 +25,4 @@ Thumbs.db
 .setup_done
 composer.lock
 package-lock.json
+/docker/chroma_data
