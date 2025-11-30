@@ -36,6 +36,7 @@ Route::middleware('auth.redirect')->group(function () {
     // WORKSHOPS
     Route::get('/workshops', [WorkshopController::class, 'index'])->name('workshops.index');
     Route::get('/workshops/{id}', [WorkshopController::class, 'show'])->name('workshops.show');
+    Route::post('/workshops/register/{workshopId}', [WorkshopController::class, 'registerUser'])->name('workshops.register');
 
 
     // VIDEOS/TUTORIALS
