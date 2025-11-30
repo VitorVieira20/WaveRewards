@@ -4,9 +4,9 @@ import { route } from 'ziggy-js';
 import MobileMenu from './MobileMenu';
 
 const navLinks = [
-    { dropdown: false, name: 'Início', route: 'home.index' },
-    { dropdown: false, name: 'Equipa', route: 'team.index' },
-    { dropdown: false, name: 'Benefícios', route: 'benefits.index' },
+    { dropdown: false, name: 'Metorologia', route: 'meteorology.index' },
+    { dropdown: false, name: 'Bilbioteca', route: 'library.index' },
+    { dropdown: false, name: 'Histórico', route: 'activities.history' },
     { dropdown: false, name: 'Rankings', route: 'rankings.index' },
     { dropdown: false, name: 'Contactos', route: 'contacts.index' },
 ];
