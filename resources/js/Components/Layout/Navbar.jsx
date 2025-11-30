@@ -55,19 +55,27 @@ export default function LayoutNavbar({ auth }) {
                     </Link>
 
                     <div className="hidden xl:flex items-center gap-7 w-132 ml-30 2xl:ml-80 justify-start">
-                        {dynamicLinks.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={route(item.route)}
-                                className={`relative flex items-center justify-cente text-lg font-medium leading-none transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#1D87BC]/50 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left
-                ${url.startsWith(route(item.route).replace(window.location.origin, ''))
-                                        ? 'text-[#1D87BC]'
-                                        : 'text-[#1A3463] hover:text-[#1D87BC]'}
-            `}
-                            >
-                                {item.name}
-                            </Link>
-                        ))}
+                        {dynamicLinks.map((item) => {
+                            const itemPath = route(item.route).replace(window.location.origin, '');
+
+                            const isActive = itemPath === ''
+                                ? url === '/'
+                                : url.startsWith(itemPath);
+
+                            return (
+                                <Link
+                                    key={item.name}
+                                    href={route(item.route)}
+                                    className={`relative flex items-center justify-cente text-lg font-medium leading-none transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#1D87BC]/50 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left
+                ${isActive
+                                            ? 'text-[#1D87BC]'
+                                            : 'text-[#1A3463] hover:text-[#1D87BC]'}
+                `}
+                                >
+                                    {item.name}
+                                </Link>
+                            );
+                        })}
                     </div>
 
 

@@ -14,8 +14,21 @@ import LayoutNavbar from "../Layout/Navbar";
 
 export default function HeroSection({ auth }) {
     const [chatbotOpen, setChatbotOpen] = useState(false);
+    const [showHelp, setShowHelp] = useState(false);
     const heroRef = useRef(null);
     const [marginTop, setMarginTop] = useState("-500px");
+
+    const isHeroInView = useInView(heroRef, { margin: `0px 0px ${marginTop} 0px` });
+
+    useEffect(() => {
+        if (isHeroInView) {
+            const timer = setTimeout(() => {
+                setShowHelp(true);
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [isHeroInView]);
 
     useEffect(() => {
         function updateMargin() {
@@ -33,12 +46,10 @@ export default function HeroSection({ auth }) {
         return () => window.removeEventListener("resize", updateMargin);
     }, []);
 
-    const isHeroInView = useInView(heroRef, { margin: `0px 0px ${marginTop} 0px` });
-
     return (
         <section
             ref={heroRef}
-            className="min-h-screen flex flex-col justify-between bg-linear-to-b from-[#FFFFFF] to-[#60B4D9] text-white pt-20 md:pt-[100px] lg:pt-[120px] relative overflow-hidden"
+            className="min-h-screen flex flex-col bg-linear-to-b from-[#FFFFFF] to-[#60B4D9] text-white pt-20 md:pt-[100px] lg:pt-[120px] relative overflow-hidden"
         >
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -48,9 +59,55 @@ export default function HeroSection({ auth }) {
             >
                 <LayoutNavbar auth={auth} />
             </motion.div>
-            <div className={`${chatbotOpen ? 'blur-xs' : 'blur-0'} transition-all duration-300`}>
-                <div className="flex flex-col lg:flex-row">
-                    <div className="md:8/11 lg:w-6/11 lg:pl-20 px-8 lg:px-0">
+
+            <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={isHeroInView
+                    ? { opacity: 1, scale: 1, pointerEvents: "auto" }
+                    : { opacity: 0, scale: 0.8, pointerEvents: "none" }
+                }
+                transition={{ duration: 0.5 }}
+                className={`fixed top-28 right-4 z-40 flex flex-col items-end gap-2 ${chatbotOpen ? 'blur-xs pointer-events-none' : ''}`}
+            >
+
+                {showHelp && !chatbotOpen && (
+                    <div
+                        className="bg-[#60B4D9]/30 text-blue-900 p-3 pr-6 rounded-xl shadow-lg text-sm max-w-[420px] relative mb-1 mr-2 backdrop-blur-sm"
+                    >
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setShowHelp(false);
+                            }}
+                            className="absolute top-1 right-1 text-blue-400 hover:text-blue-700 hover:bg-blue-200 rounded-full p-0.5 transition-colors cursor-pointer"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </button>
+
+                        <div className="font-semibold text-lg text-[#1A3463] mb-1 mr-2">Olá! Precisa de ajuda com algo?</div>
+                        <div className="font-medium text-xs text-[#1A3463]">Clique para falar com o nosso chatbot</div>
+                    </div>
+                )}
+
+                <button
+                    onClick={() => {
+                        setChatbotOpen(true);
+                        setShowHelp(false);
+                    }}
+                    className="bg-[#1A3463] p-3 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg cursor-pointer flex items-center justify-center w-14 h-14"
+                >
+                    <div className="text-white scale-125">
+                        <ChatbotIcon />
+                    </div>
+                </button>
+            </motion.div>
+
+            <div className={`flex-grow ${chatbotOpen ? 'blur-xs' : 'blur-0'} transition-all duration-300 pb-24`}>
+                <div className="flex flex-col lg:flex-row h-full">
+                    <div className="md:8/11 lg:w-6/11 lg:pl-20 px-8 lg:px-0 flex flex-col justify-center">
                         <div className="text-blue-950 text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-semibold lg:leading-[50px] xl:leading-[66px] [text-shadow:0px_4px_4px_rgb(0_0_0/0.25)]">
                             Uma equipa dedicada em transformar cada remada numa conquista
                         </div>
@@ -76,8 +133,8 @@ export default function HeroSection({ auth }) {
                         </div>
                     </div>
 
-                    <div className="mt-10 lg:mt-0 w-full md:3/11 lg:w-5/11">
-                        <div className="flex items-center justify-center">
+                    <div className="mt-10 lg:mt-0 w-full md:3/11 lg:w-5/11 flex items-center">
+                        <div className="flex items-center justify-center w-full">
                             <div className="w-[80%] lg:w-[60%] aspect-[5/2] lg:aspect-auto">
                                 <img
                                     src="images/home-page.png"
@@ -88,12 +145,14 @@ export default function HeroSection({ auth }) {
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div className="flex flex-col md:flex-row items-center justify-between px-2 lg:px-12 mt-10 gap-2 md:gap-0 py-2">
-                    <div className="hidden md:flex text-sm md:text-md text-[#1A3463] font-normal ml-4 md:ml-8">
+            <div className={`absolute bottom-0 w-full left-0 ${chatbotOpen ? 'blur-xs' : 'blur-0'} transition-all duration-300`}>
+                <div className="flex flex-col md:flex-row items-center justify-between px-2 lg:px-12 py-6">
+                    <div className="text-sm md:text-md text-[#1A3463] font-normal ml-4 md:ml-8 text-center md:text-left">
                         Copyright © 2025 WaveRewards | All Rights Reserved
                     </div>
-                    <div className="flex flex-row items-center gap-2 md:gap-4">
+                    <div className="flex flex-row items-center gap-2 md:gap-4 mt-2 md:mt-0 mr-4 md:mr-8">
                         <Link href="/#" className="transform hover:scale-110 transition duration-200 scale-85 md:scale-100">
                             <FacebookIcon />
                         </Link>
@@ -109,17 +168,7 @@ export default function HeroSection({ auth }) {
                         <Link href="/#" className="transform hover:scale-110 transition duration-200 scale-85 md:scale-100">
                             <YoutubeIcon />
                         </Link>
-                        <button
-                            onClick={() => setChatbotOpen(true)}
-                            className="transform hover:scale-110 transition duration-200 scale-85 md:scale-100 cursor-pointer"
-                        >
-                            <ChatbotIcon size={72} />
-                        </button>
-
                     </div>
-                </div>
-                <div className="md:hidden text-sm md:text-md text-[#1A3463] font-normal mt-4 ml-4 md:ml-8">
-                    Copyright © 2025 WaveRewards | All Rights Reserved
                 </div>
             </div>
 
@@ -127,9 +176,9 @@ export default function HeroSection({ auth }) {
                 <>
                     <div
                         onClick={() => setChatbotOpen(false)}
-                        className="fixed inset-0 bg-black/60 transition-opacity duration-300"
+                        className="fixed inset-0 bg-black/60 transition-opacity duration-300 z-50"
                     />
-                    <div className="fixed bottom-1 right-1 z-50 transition-all duration-500 opacity-100 scale-100">
+                    <div className="fixed bottom-4 right-4 z-50 transition-all duration-500 opacity-100 scale-100">
                         <Chatbot onClose={() => setChatbotOpen(false)} />
                     </div>
                 </>

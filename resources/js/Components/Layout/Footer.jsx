@@ -3,10 +3,8 @@ import InstagramIcon from "../Icons/InstagramIcon";
 import LinkedinIcon from "../Icons/LinkedinIcon";
 import TwitterIcon from "../Icons/TwitterIcon";
 import YoutubeIcon from "../Icons/YoutubeIcon";
-import ChatbotIcon from "../Icons/ChatbotIcon";
-import Chatbot from "../Chatbot/Chatbot";
 
-export default function Footer({ chatbotOpen, setChatbotOpen }) {
+export default function Footer() {
     return (
         <footer className="relative w-full mt-auto bg-transparent py-6 flex flex-col items-center justify-center">
             <div className="text-[#1A3463] text-sm md:text-md font-normal mb-3 text-center md:text-left">
@@ -30,25 +28,6 @@ export default function Footer({ chatbotOpen, setChatbotOpen }) {
                     <YoutubeIcon />
                 </a>
             </div>
-
-            <button
-                onClick={() => setChatbotOpen(true)}
-                className="fixed bottom-6 right-6 z-50 transform hover:scale-110 transition duration-200 cursor-pointer"
-            >
-                <ChatbotIcon size={72} />
-            </button>
-
-            {chatbotOpen && (
-                <>
-                    <div
-                        onClick={() => setChatbotOpen(false)}
-                        className="fixed inset-0 bg-black/60 transition-opacity duration-300 z-40"
-                    />
-                    <div className="fixed bottom-1 right-1 z-50 transition-all duration-500 opacity-100 scale-100">
-                        <Chatbot onClose={() => setChatbotOpen(false)} />
-                    </div>
-                </>
-            )}
         </footer>
     );
 }

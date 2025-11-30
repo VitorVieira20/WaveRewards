@@ -23,7 +23,7 @@ export default function ActivitiesHistory({ auth, activities }) {
                     {activities.map((activity) => (
                         <Link
                             key={activity.id}
-                            href={route('activities.show', activity.id)}
+                            href={route('activities.show', activity.activity_id)}
                             className="group block"
                         >
                             <div className="

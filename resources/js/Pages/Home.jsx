@@ -11,7 +11,6 @@ export default function Home({ auth, hero }) {
     const heroRef = useRef(null);
     const [scrolledToHero, setScrolledToHero] = useState(false);
 
-
     useEffect(() => {
         if (hero && heroRef.current) {
             document.body.style.overflow = "auto";

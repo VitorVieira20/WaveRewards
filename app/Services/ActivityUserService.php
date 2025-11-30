@@ -63,6 +63,7 @@ class ActivityUserService
         return $history->map(function ($record) {
             return [
                 'id' => $record->id,
+                'activity_id' => $record->activity_id,
                 'images' => collect($record->activity->images ?? [])->map(fn($img) => asset($img))->toArray(),
                 'title' => $record->activity->title,
                 'date' => $record->created_at->format('d/m/Y'),
