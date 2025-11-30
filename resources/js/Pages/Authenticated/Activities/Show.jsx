@@ -16,6 +16,7 @@ export default function ActivityShow({ auth, activity }) {
         'wasted_calories': 298,
         'frequency': 98,
         'effort': 5,
+        'counts_for_goal': true,
         'observations': ''
     });
 
@@ -178,6 +179,28 @@ export default function ActivityShow({ auth, activity }) {
                                 onChange={(e) => setData("observations", e.target.value)}
                                 className="rounded-2xl bg-white border-none py-2 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40 resize-none"
                             ></textarea>
+                        </div>
+
+                        <div className="flex items-center justify-between bg-white/50 p-3 rounded-2xl border border-[#1A3463]/5 mt-1">
+                            <div className="flex flex-col">
+                                <span className="text-[#1C5E8F] font-semibold text-sm">Objetivo Diário</span>
+                                <span className="text-[#1C5E8F]/70 text-xs">Contar para a meta de hoje?</span>
+                            </div>
+
+                            <label className="relative inline-flex items-center cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    checked={data.counts_for_goal}
+                                    onChange={(e) => setData('counts_for_goal', e.target.checked)}
+                                    className="sr-only peer"
+                                />
+                                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer
+                                                peer-checked:after:translate-x-full peer-checked:after:border-white
+                                                after:content-[''] after:absolute after:top-0.5 after:left-0.5
+                                                after:bg-white after:border-gray-300 after:border after:rounded-full
+                                                after:h-5 after:w-5 after:transition-all peer-checked:bg-[#6EA8C5]">
+                                </div>
+                            </label>
                         </div>
 
                         <div className="mt-2 flex justify-center">

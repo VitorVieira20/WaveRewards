@@ -30,6 +30,7 @@ class CreateActivityLogRequest extends FormRequest
             'frequency' => ['required', 'integer', 'min:30', 'max:230'],
             'effort' => ['required', 'integer', 'min:1', 'max:10'],
             'observations' => ['nullable', 'string', 'max:500'],
+            'counts_for_goal' => ['required', 'boolean'],
         ];
     }
 

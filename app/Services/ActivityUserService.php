@@ -29,6 +29,7 @@ class ActivityUserService
                     'frequency' => $data['frequency'],
                     'effort' => $data['effort'],
                     'observations' => $data['observations'] ?? null,
+                    'counts_for_goal' => $data['counts_for_goal'] ?? false,
                 ];
 
                 $userActivity = $this->activityUserRepository->create($activityData);

@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->integer('effort')->nullable();
             $table->text('observations')->nullable();
             $table->integer('points')->default(0);
+            $table->boolean('counts_for_goal')->default(true);
             $table->timestamps();
         });
     }

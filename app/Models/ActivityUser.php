@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Support\Facades\Log;
 
 class ActivityUser extends Pivot
 {
@@ -21,12 +22,14 @@ class ActivityUser extends Pivot
         'effort',
         'observations',
         'points',
+        'counts_for_goal',
         'created_at'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
+        'counts_for_goal' => 'boolean',
     ];
 
     protected static function booted()
@@ -41,7 +44,9 @@ class ActivityUser extends Pivot
             if ($userActivity->user_id) {
                 $userActivity->user()->increment('total_points', $userActivity->points);
 
-                self::updateDailyProgress($userActivity);
+                if ($userActivity->counts_for_goal) {
+                    self::updateDailyProgress($userActivity);
+                }
             }
         });
 
