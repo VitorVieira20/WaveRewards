@@ -26,8 +26,9 @@ class ActivityUserController extends Controller
             return back()->with('error', 'Ocorreu um erro ao registar a atividade.');
         }
 
-        return redirect()->route('dashboard.index')
-            ->with('success', "Atividade registada! Ganhaste {$activity->points} pontos.");
+        return redirect()->route('dashboard.index');
+        //return redirect()->route('dashboard.index')->with('success', "Atividade registada! Ganhaste {$activity->points} pontos.");
+
     }
 
 

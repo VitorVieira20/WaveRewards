@@ -40,12 +40,15 @@ class ActivityUser extends Pivot
         static::created(function ($userActivity) {
             if ($userActivity->user_id) {
                 $userActivity->user()->increment('total_points', $userActivity->points);
+
+                self::updateDailyProgress($userActivity);
             }
         });
 
         static::deleted(function ($userActivity) {
             if ($userActivity->user_id) {
                 $userActivity->user()->decrement('total_points', $userActivity->points);
+                self::decrementDailyProgress($userActivity);
             }
         });
     }
@@ -71,5 +74,54 @@ class ActivityUser extends Pivot
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected static function updateDailyProgress($activity)
+    {
+        $dailyTarget = 5000;
+
+        $goal = DailyGoal::firstOrCreate(
+            [
+                'user_id' => $activity->user_id,
+                'date' => $activity->created_at->format('Y-m-d')
+            ],
+            [
+                'target_distance' => $dailyTarget,
+                'current_distance' => 0
+            ]
+        );
+
+        $goal->current_distance += $activity->distance;
+
+        if (!$goal->is_completed && $goal->current_distance >= $goal->target_distance) {
+            $goal->is_completed = true;
+
+            // Pontos por ter concluído o objetivo diário
+            $activity->user()->increment('total_points', 100);
+
+            session()->flash('daily_goal', [
+                'status' => 'completed',
+            ]);
+        }
+
+        $goal->save();
+    }
+
+
+    protected static function decrementDailyProgress($activity)
+    {
+        $goal = DailyGoal::where('user_id', $activity->user_id)
+            ->where('date', $activity->created_at->format('Y-m-d'))
+            ->first();
+
+        if ($goal) {
+            $goal->current_distance = max(0, $goal->current_distance - $activity->distance);
+
+            if ($goal->is_completed && $goal->current_distance < $goal->target_distance) {
+                $goal->is_completed = false;
+            }
+
+            $goal->save();
+        }
     }
 }

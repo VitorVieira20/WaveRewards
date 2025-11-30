@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DailyGoal;
 use App\Models\Team;
 use App\Services\WeatherApiService;
 use Illuminate\Support\Facades\Auth;
@@ -45,9 +46,19 @@ class DashboardController extends Controller
             ];
         }
 
+        $todayGoal = DailyGoal::firstOrCreate(
+            ['user_id' => $user->id, 'date' => now()->format('Y-m-d')],
+            ['target_distance' => 5000]
+        );
+
+        if (!isset($todayGoal->current_distance)) {
+            $todayGoal->refresh();
+        }
+
         return Inertia::render('Authenticated/Dashboard', [
             'weatherData' => $data,
-            'team' => $teamData
+            'team' => $teamData,
+            'goal' => $todayGoal
         ]);
     }
 }
