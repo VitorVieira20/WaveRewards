@@ -52,7 +52,7 @@ export default function TeamChatModal({ auth, team, isOpen, onClose }) {
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4 custom-scrollbar">
+                <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                     <div className="text-center text-white/50 text-md font-medium mb-4">
                         {new Date().toLocaleDateString()} - {new Date().toLocaleTimeString().slice(0, 5)}
                     </div>
