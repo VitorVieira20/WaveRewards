@@ -16,8 +16,6 @@ export default function Rankings({ auth, rankings }) {
 
     const podiumUsers = rankings.slice(0, 3);
 
-    console.log(podiumUsers)
-
     return (
         <AuthenticatedLayout auth={auth}>
             <h1 className="fixed flex gap-3 w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">

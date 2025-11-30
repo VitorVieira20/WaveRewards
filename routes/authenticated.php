@@ -74,5 +74,4 @@ Route::middleware('auth.redirect')->group(function () {
     // CHAT
     Route::get('/chat/token/{team}', [ChatController::class, 'getToken'])->name('chat.token');
     Route::get('/chat/messages/{team}', [ChatController::class, 'index'])->name('chat.history');
-    Route::get('/teams/{team}/chat', [ChatController::class, 'show'])->name('chat.show');
 });

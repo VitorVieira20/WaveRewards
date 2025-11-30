@@ -21,7 +21,7 @@ export default function Dashboard({ auth, weatherData, team, goal }) {
             <div className="flex flex-row gap-8 w-full pt-20 px-4 md:px-16">
                 <div className="flex flex-col gap-4 w-full lg:w-1/2">
                     <div className="flex flex-col lg:flex-row">
-                        <TeamInfoCard team={team} />
+                        <TeamInfoCard auth={auth} team={team} />
 
                         <MeteorologyCard weatherData={weatherData} />
                     </div>

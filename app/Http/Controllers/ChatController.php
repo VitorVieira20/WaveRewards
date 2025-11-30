@@ -48,16 +48,4 @@ class ChatController extends Controller
 
         return response()->json($messages);
     }
-
-
-    public function show(Team $team)
-    {
-        if (!Auth::user()->teams()->where('teams.id', $team->id)->exists()) {
-            return redirect()->route('home.index')->with('error', 'Não pertence a esta equipa ou esta não existe!');
-        }
-
-        return Inertia::render("Authenticated/Team/Chat", [
-            'team' => $team
-        ]);
-    }
 }

@@ -40,6 +40,7 @@ class DashboardController extends Controller
                 ->search($team->id) + 1;
 
             $teamData = [
+                'id' => $team->id,
                 'name' => $team->name,
                 'points' => $teamTotalPoints,
                 'rank' => $ranking,
