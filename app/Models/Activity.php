@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
 
 class Activity extends Model
 {
@@ -42,4 +43,14 @@ class Activity extends Model
             ->withTimestamps();
     }
 
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'activity_likes')->withTimestamps();
+    }
+
+    public function getIsLikedAttribute()
+    {
+        return Auth::check() && $this->likes()->where('user_id', Auth::id())->exists();
+    }
 }

@@ -1,15 +1,19 @@
-import { Link, useForm } from "@inertiajs/react";
+import { router, useForm, usePage } from "@inertiajs/react";
 import AuthenticatedLayout from "../../../Layouts/AuthenticatedLayout";
 import LeftArrowIcon from "../../../Components/Icons/LeftArrowIcon";
 import LocationPinIcon from "../../../Components/Icons/LocationPinIcon";
 import ClockIcon from "../../../Components/Icons/ClockIcon";
-import HeartIcon from "../../../Components/Icons/HeartIcon";
-import StarIcon from "../../../Components/Icons/StarIcon";
 import PlusIcon from "../../../Components/Icons/PlusIcon";
 import { route } from "ziggy-js";
+import { useEffect, useState } from "react";
+import ActivityRegistered from "../../../Components/Modals/Activities/ActivityResgistered";
+import HeartButton from "../../../Components/HeartButton";
+import ActivityPeopleIcon from "../../../Components/Icons/ActivityPeopleIcon";
 
 export default function ActivityShow({ auth, activity }) {
-    const { data, setData, post, processing, errors, clearErrors } = useForm({
+    const { flash } = usePage().props;
+    const [showActivityResgisteredModal, setShowActivityResgisteredModal] = useState(false);
+    const { data, setData, post, processing, reset, errors, clearErrors } = useForm({
         'activity_id': activity.id,
         'distance': 15000,
         'practice_time': 45,
@@ -20,10 +24,29 @@ export default function ActivityShow({ auth, activity }) {
         'observations': ''
     });
 
+    console.log(activity)
+
+    useEffect(() => {
+        if (flash?.activity_completed?.status === "completed") {
+            setShowActivityResgisteredModal(true);
+        }
+    }, [flash]);
+
     const handleSumbit = (e) => {
         e.preventDefault();
-        post(route('activities.user.create'));
+        post(route('activities.user.create'), {
+            onSuccess: () => {
+                reset();
+                clearErrors();
+            }
+        });
     }
+
+    const handleLikeToggle = () => {
+        router.post(route('activities.like.toggle', activity.id), {}, {
+            preserveScroll: true
+        });
+    };
 
     return (
         <AuthenticatedLayout auth={auth}>
@@ -73,7 +96,7 @@ export default function ActivityShow({ auth, activity }) {
                             <h2 className="text-[#1C5E8F] text-2xl md:text-3xl font-semibold">
                                 Informação da atividade
                             </h2>
-                            <StarIcon className="w-6 h-6 text-[#1C5E8F] cursor-pointer hover:fill-current" />
+                            <HeartButton isLiked={activity.is_liked} onClick={handleLikeToggle} />
                         </div>
 
                         <h3 className="text-[#1C5E8F] font-semibold text-lg mb-1">Descrição:</h3>
@@ -90,17 +113,17 @@ export default function ActivityShow({ auth, activity }) {
                     </div>
 
                     <div className="mt-8 flex flex-col gap-3 text-[#1D87BC] font-medium text-sm">
-                        <div className="flex items-center gap-3">
-                            <div className="w-5 ml-[3px]"><LocationPinIcon color="#1D87BC" /></div>
+                        <div className="flex items-center gap-5">
+                            <div className="w-5"><LocationPinIcon color="#1D87BC" /></div>
                             <span>{activity.location}</span>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-5">
                             <div className="w-5"><ClockIcon color="#1D87BC" /></div>
                             <span>{activity.datetime}</span>
                         </div>
-                        <div className="flex items-center gap-3">
-                            <div className="w-5"><HeartIcon color="#1D87BC" /></div>
-                            <span>{activity.registered_count} pessoas inscritas</span>
+                        <div className="flex items-center gap-5">
+                            <div className="w-5"><ActivityPeopleIcon /></div>
+                            <span>{activity.registered_count} pessoas realizaram a atividade</span>
                         </div>
                     </div>
                 </div>
@@ -211,6 +234,13 @@ export default function ActivityShow({ auth, activity }) {
                     </form>
                 </div>
 
+                {showActivityResgisteredModal && (
+                    <ActivityRegistered
+                        isOpen={showActivityResgisteredModal}
+                        onClose={() => setShowActivityResgisteredModal(false)}
+                        points={flash?.activity_completed?.points}
+                    />
+                )}
             </div>
         </AuthenticatedLayout>
     );

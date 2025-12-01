@@ -99,4 +99,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(Settings::class);
     }
+
+    public function likedActivities()
+    {
+        return $this->belongsToMany(Activity::class, 'activity_likes')->withTimestamps();
+    }
 }

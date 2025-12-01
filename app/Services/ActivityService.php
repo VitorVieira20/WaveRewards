@@ -74,8 +74,8 @@ class ActivityService
             'datetime' => $activity->datetime ? $activity->datetime->format('d/m/Y H:i') : null,
             'category' => $activity->category instanceof ActivityCategory ? $activity->category->value : $activity->category,
             'level' => $activity->level instanceof ActivityLevel ? $activity->level->value : $activity->level,
-            'registered_count' => $activity->users_count ?? 0,
-
+            'registered_count' => $activity->unique_users_count ?? 0,
+            'is_liked' => $activity->is_liked,
         ];
     }
 }

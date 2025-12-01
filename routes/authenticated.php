@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\ActivityLikeController;
 use App\Http\Controllers\ActivityUserController;
 use App\Http\Controllers\Auth\UpdatePasswordController;
 use App\Http\Controllers\ChatController;
@@ -55,6 +56,7 @@ Route::middleware('auth.redirect')->group(function () {
     Route::get('/activities/history', [ActivityUserController::class, 'activityHistory'])->name('activities.history');
     Route::get('/activities/{id}', [ActivityController::class, 'show'])->name('activities.show');
     Route::post('/activities/user', [ActivityUserController::class, 'store'])->name('activities.user.create');
+    Route::post('/activities/{activity}/like', [ActivityLikeController::class, 'toggle'])->name('activities.like.toggle');
 
 
     // PROFILE
