@@ -1,7 +1,4 @@
-import { Link } from "@inertiajs/react";
-import { route } from "ziggy-js";
 import ObjectiveIcon from "../Icons/ObjectiveIcon";
-import PlusIcon from "../Icons/PlusIcon";
 
 export default function DailyGoalCard({ goal }) {
     const currentMeters = goal ? parseFloat(goal.current_distance) : 0;
@@ -15,7 +12,7 @@ export default function DailyGoalCard({ goal }) {
         : 0;
 
     return (
-        <div className="flex flex-col items-center bg-white/40 p-4 pb-6 w-full mx-auto md:mx-0 max-w-[600px] lg:max-w-[300px] relative border-b border-b-[#1A3463]/75 lg:border-b-0 lg:border-r lg:border-r-[#1A3463]/75 rounded-t-xl lg:rounded-t-none lg:rounded-l-xl backdrop-blur-sm">
+        <div className="flex flex-col items-center bg-white/40 p-4 pb-6 w-full mx-auto md:mx-0 max-w-[700px] lg:max-w-[350px] relative border-b border-b-[#1A3463]/75 lg:border-b-0 lg:border-r lg:border-r-[#1A3463]/75 rounded-t-xl lg:rounded-t-none lg:rounded-l-xl backdrop-blur-sm">
 
             <div className="mb-2 flex flex-col items-center">
                 <ObjectiveIcon />

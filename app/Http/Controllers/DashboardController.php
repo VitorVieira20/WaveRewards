@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
 use App\Models\DailyGoal;
 use App\Models\Team;
 use App\Services\WeatherApiService;
@@ -56,10 +57,13 @@ class DashboardController extends Controller
             $todayGoal->refresh();
         }
 
+        $activities = Activity::take(3)->get();
+
         return Inertia::render('Authenticated/Dashboard', [
             'weatherData' => $data,
             'team' => $teamData,
-            'goal' => $todayGoal
+            'goal' => $todayGoal,
+            'activities' => $activities
         ]);
     }
 }

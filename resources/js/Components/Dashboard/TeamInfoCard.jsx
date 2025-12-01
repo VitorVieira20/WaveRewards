@@ -1,4 +1,4 @@
-import { useState } from 'react'; // Importar useState
+import { useState } from 'react';
 import TeamChatIcon from "../Icons/TeamChatIcon";
 import TeamIcon from "../Icons/TeamIcon";
 import TeamChatModal from '../Modals/Team/TeamChat';
@@ -8,11 +8,11 @@ export default function TeamInfoCard({ auth, team }) {
 
     return (
         <>
-            <div className="flex flex-col items-center text-center bg-white/40 p-2 pb-4 w-full mx-auto md:mx-0 max-w-[600px] lg:max-w-[300px] relative border-b border-b-[#1A3463]/75 lg:border-b-0 lg:border-r lg:border-r-[#1A3463]/75 rounded-t-xl lg:rounded-t-none lg:rounded-l-xl backdrop-blur-sm">
+            <div className="flex flex-col items-center text-center bg-white/40 p-2 pb-4 w-full mx-auto md:mx-0 max-w-[700px] lg:max-w-[350px] relative border-b border-b-[#1A3463]/75 lg:border-b-0 lg:border-r lg:border-r-[#1A3463]/75 rounded-t-xl lg:rounded-t-none lg:rounded-l-xl backdrop-blur-sm">
                 <div className="relative w-full flex justify-center items-center mb-1">
                     <TeamIcon />
                     <button
-                        onClick={() => setIsChatOpen(true)} // Abrir o modal
+                        onClick={() => setIsChatOpen(true)}
                         className="absolute top-0 right-0 p-1 rounded-full hover:bg-[#1D87BC]/20 transition cursor-pointer"
                     >
                         <TeamChatIcon className="w-6 h-6 text-[#1D87BC]" />
