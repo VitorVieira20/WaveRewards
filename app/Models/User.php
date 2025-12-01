@@ -77,6 +77,7 @@ class User extends Authenticatable
                 'practice_time',
                 'wasted_calories',
                 'points',
+                'trash_collected',
                 'created_at'
             ])
             ->withTimestamps();

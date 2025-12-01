@@ -43,4 +43,10 @@ class ActivityController extends Controller
             'activity' => $activity
         ]);
     }
+
+
+    public function freeActivity()
+    {
+        return Inertia::render("Authenticated/Activities/FreeActivityCreate");
+    }
 }

@@ -21,17 +21,31 @@ export default function ActivitiesIndex({ auth, activities, categories }) {
 
             <div className="flex flex-col gap-12 w-full pt-18 px-4 md:px-16 pb-20">
 
-                {categories.map((categoryName) => {
-
+                {categories.map((categoryName, idx) => {
                     const categoryActivities = activities.filter(act => act.category === categoryName);
 
                     if (categoryActivities.length === 0) return null;
 
                     return (
                         <section key={categoryName} className="flex flex-col gap-6">
-                            <Link href={route("activities.indexByCategory", categoryName)} className="flex justify-center items-center text-[#1C5E8F] text-2xl font-semibold bg-[#FFFFFF]/40 shadow-xl p-6 rounded-xl w-full max-w-[320px]">
-                                {categoryName}
-                            </Link>
+                            {idx == 0 ? (
+                                <div className="flex flex-col md:flex-row gap-4 w-full justify-between">
+                                    <Link href={route("activities.free")} className="flex md:hidden bg-[#60B4D9] font-bold text-sm justify-center items-center text-white py-4 px-6 h-12 rounded-full hover:scale-105 transition-all">
+                                        Registar atividade livre
+                                    </Link>
+                                    <Link href={route("activities.indexByCategory", categoryName)} className="flex justify-center items-center text-[#1C5E8F] text-2xl font-semibold bg-[#FFFFFF]/40 shadow-xl p-6 rounded-xl w-full max-w-[320px]">
+                                        {categoryName}
+                                    </Link>
+                                    <Link href={route("activities.free")} className="hidden md:flex bg-[#60B4D9] font-bold text-sm justify-center items-center text-white py-4 px-6 h-12 rounded-full hover:scale-105 transition-all">
+                                        Registar atividade livre
+                                    </Link>
+                                </div>
+                            ) : (
+                                <Link href={route("activities.indexByCategory", categoryName)} className="flex justify-center items-center text-[#1C5E8F] text-2xl font-semibold bg-[#FFFFFF]/40 shadow-xl p-6 rounded-xl w-full max-w-[320px]">
+                                    {categoryName}
+                                </Link>
+                            )}
+
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                                 {categoryActivities.map((activity) => (

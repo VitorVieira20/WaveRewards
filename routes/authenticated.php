@@ -54,9 +54,11 @@ Route::middleware('auth.redirect')->group(function () {
     Route::get('/activities', [ActivityController::class, 'index'])->name('activities.index');
     Route::get('/activities/category/{category}', [ActivityController::class, 'indexByCategory'])->name('activities.indexByCategory');
     Route::get('/activities/history', [ActivityUserController::class, 'activityHistory'])->name('activities.history');
+    Route::get('/activities/free', [ActivityController::class, 'freeActivity'])->name('activities.free');
     Route::get('/activities/{id}', [ActivityController::class, 'show'])->name('activities.show');
     Route::post('/activities/user', [ActivityUserController::class, 'store'])->name('activities.user.create');
     Route::post('/activities/{activity}/like', [ActivityLikeController::class, 'toggle'])->name('activities.like.toggle');
+    Route::post('/activities/free', [ActivityUserController::class, 'storeFree'])->name('activities.free.store');
 
 
     // PROFILE

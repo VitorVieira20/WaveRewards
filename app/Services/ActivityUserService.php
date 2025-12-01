@@ -22,13 +22,20 @@ class ActivityUserService
             return DB::transaction(function () use ($user, $data) {
                 $activityData = [
                     'user_id' => $user->id,
-                    'activity_id' => $data['activity_id'],
+                    'activity_id' => $data['activity_id'] ?? null,
                     'distance' => $data['distance'],
                     'practice_time' => $data['practice_time'],
                     'wasted_calories' => $data['wasted_calories'],
                     'frequency' => $data['frequency'],
                     'effort' => $data['effort'],
                     'observations' => $data['observations'] ?? null,
+                    'custom_title' => $data['custom_title'] ?? null,
+                    'custom_location' => $data['custom_location'] ?? null,
+                    'custom_conditions' => $data['custom_conditions'] ?? null,
+                    'custom_equipment' => $data['custom_equipment'] ?? null,
+                    'trash_collected' => $data['trash_collected'] ?? null,
+                    'photo_path' => $data['photo_path'] ?? null,
+                    'performed_at' => $data['performed_at'] ?? null,
                     'counts_for_goal' => $data['counts_for_goal'] ?? false,
                 ];
 
@@ -36,7 +43,7 @@ class ActivityUserService
 
                 Log::info('User performed an activity.', [
                     'user_id' => $user->id,
-                    'activity_id' => $data['activity_id'],
+                    'activity_id' => $data['activity_id'] ?? null,
                     'points_earned' => $userActivity->points,
                     'timestamp' => now()->toDateTimeString(),
                 ]);
@@ -64,13 +71,20 @@ class ActivityUserService
         return $history->map(function ($record) {
             return [
                 'id' => $record->id,
-                'activity_id' => $record->activity_id,
+                'activity_id' => $record->activity_id ?? null,
                 'images' => collect($record->activity->images ?? [])->map(fn($img) => asset($img))->toArray(),
-                'title' => $record->activity->title,
-                'date' => $record->created_at->format('d/m/Y'),
+                'title' => $record->activity->title ?? null,
+                'date' => $record->created_at->format('d/m/Y') ?? null,
                 'points' => $record->points,
                 'distance' => $record->distance . 'm',
                 'calories' => $record->wasted_calories . 'kcal',
+                'custom_title' => $record->custom_title ?? null,
+                'custom_location' => $record->custom_location ?? null,
+                'custom_conditions' => $record->custom_conditions ?? null,
+                'custom_equipment' => $record->custom_equipment ?? null,
+                'trash_collected' => $record->trash_collected ?? null,
+                'image' => $record->photo_path ? asset($record->photo_path) : null,
+                'performed_at' => $record->performed_at ? $record->performed_at->format('d/m/Y') : null,
             ];
         })->toArray();
     }

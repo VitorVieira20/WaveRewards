@@ -24,8 +24,6 @@ export default function ActivityShow({ auth, activity }) {
         'observations': ''
     });
 
-    console.log(activity)
-
     useEffect(() => {
         if (flash?.activity_completed?.status === "completed") {
             setShowActivityResgisteredModal(true);

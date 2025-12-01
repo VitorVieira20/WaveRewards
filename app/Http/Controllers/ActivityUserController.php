@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Activity\CreateActivityLogRequest;
+use App\Http\Requests\Activity\CreateFreeActivityLogRequest;
 use App\Services\ActivityUserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,8 +36,44 @@ class ActivityUserController extends Controller
         }
 
         return redirect()->route('dashboard.index');
-        //return redirect()->route('dashboard.index')->with('success', "Atividade registada! Ganhaste {$activity->points} pontos.");
+    }
 
+
+    public function storeFree(CreateFreeActivityLogRequest $request)
+    {
+        $validated = $request->validated();
+
+        $photoPath = null;
+        if ($request->hasFile('photo')) {
+            $photoPath = $request->file('photo')->store('activity_photos', 'public');
+            $photoPath = 'storage/' . $photoPath;
+        }
+
+        $performedAt = $validated['date'] . ' ' . $validated['start_time'];
+
+        $activity = $this->activityUserService->registerActivity($request->user(), array_merge($validated, [
+            'custom_title' => $validated['custom_title'],
+            'custom_location' => $validated['custom_title'],
+            'custom_conditions' => $validated['custom_title'],
+            'custom_equipment' => $validated['custom_title'],
+            'trash_collected' => $validated['trash_collected'] ?? 0,
+            'photo_path' => $photoPath,
+            'performed_at' => $performedAt,
+        ]));
+
+        if (!$activity) {
+            return back()->with('error', 'Ocorreu um erro ao registar a atividade.');
+        }
+
+        if (!session()->has('daily_goal')) {
+            return redirect()->route('activities.free')
+                ->with('activity_completed', [
+                    'status' => 'completed',
+                    'points' => $activity->points
+                ]);
+        }
+
+        return redirect()->route('dashboard.index');
     }
 
 

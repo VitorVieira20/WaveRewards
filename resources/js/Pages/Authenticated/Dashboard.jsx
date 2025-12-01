@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import DailyGoalCompleted from "../../Components/Modals/DailyGoal/DailyGoalCompleted";
 import CommunityCard from "../../Components/Dashboard/CommunityCard";
 import ActivitiesCard from "../../Components/Dashboard/ActivitiesCard";
-import HeartIcon from "../../Components/Icons/HeartIcon";
 
 export default function Dashboard({ auth, weatherData, team, goal, activities }) {
     const { flash } = usePage().props;
@@ -23,7 +22,7 @@ export default function Dashboard({ auth, weatherData, team, goal, activities })
     return (
         <AuthenticatedLayout auth={auth}>
             <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-4xl lg:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
-                <span className="hidden text-3xl md:text-4xl lg:text-5xl min-[480px]:inline">, {auth.user.name}</span>
+                Bem vindo<span className="hidden text-3xl md:text-4xl lg:text-5xl min-[480px]:inline">, {auth.user.name}</span>
             </h1>
 
             <div className="flex flex-col lg:flex-row gap-6 w-full pt-20 px-4 md:px-16">

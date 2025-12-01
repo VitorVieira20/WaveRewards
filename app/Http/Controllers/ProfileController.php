@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityUser;
 use App\Models\Team;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -16,12 +17,24 @@ class ProfileController extends Controller
             ->orderByPivot('created_at', 'desc')
             ->get();
 
+        $globalStats = ActivityUser::where('user_id', $user->id)
+            ->selectRaw('
+            sum(distance) as total_dist,
+            sum(wasted_calories) as total_cal,
+            sum(points) as total_pts,
+            count(*) as total_count,
+            sum(practice_time) as total_time,
+            sum(trash_collected) as total_trash
+        ')
+            ->first();
+
         $stats = [
-            'total_distance' => round($rawActivities->sum('pivot.distance') / 1000, 1),
-            'total_calories' => $rawActivities->sum('pivot.wasted_calories'),
-            'total_points' => $rawActivities->sum('pivot.points'),
-            'total_activities' => $rawActivities->count(),
-            'total_hours' => round($rawActivities->sum('pivot.practice_time') / 60, 1),
+            'total_distance' => round(($globalStats->total_dist ?? 0) / 1000, 1),
+            'total_calories' => (int) $globalStats->total_cal,
+            'total_points' => (int) $globalStats->total_pts,
+            'total_activities' => (int) $globalStats->total_count,
+            'total_hours' => round(($globalStats->total_time ?? 0) / 60, 1),
+            'total_trash' => round(($globalStats->total_trash ?? 0) / 1000, 1),
         ];
 
         $formattedActivities = $rawActivities

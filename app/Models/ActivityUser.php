@@ -23,10 +23,18 @@ class ActivityUser extends Pivot
         'observations',
         'points',
         'counts_for_goal',
+        'custom_title',
+        'custom_location',
+        'custom_conditions',
+        'custom_equipment',
+        'trash_collected',
+        'photo_path',
+        'performed_at',
         'created_at'
     ];
 
     protected $casts = [
+        'performed_at' => 'datetime',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
         'counts_for_goal' => 'boolean',

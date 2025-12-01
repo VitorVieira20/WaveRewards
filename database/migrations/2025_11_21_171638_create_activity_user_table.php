@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('activity_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('activity_id')->constrained()->onDelete('cascade');
+            $table->foreignId('activity_id')->nullable()->constrained()->onDelete('cascade');
 
             $table->integer('distance')->default(0);
             $table->integer('practice_time')->nullable();
@@ -23,6 +23,13 @@ return new class extends Migration {
             $table->text('observations')->nullable();
             $table->integer('points')->default(0);
             $table->boolean('counts_for_goal')->default(true);
+            $table->string('custom_title')->nullable();
+            $table->string('custom_location')->nullable();
+            $table->string('custom_conditions')->nullable();
+            $table->string('custom_equipment')->nullable();
+            $table->decimal('trash_collected', 8, 2)->default(0);
+            $table->string('photo_path')->nullable();
+            $table->dateTime('performed_at')->nullable();
             $table->timestamps();
         });
     }
