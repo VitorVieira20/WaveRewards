@@ -5,6 +5,7 @@ use App\Http\Controllers\ActivityLikeController;
 use App\Http\Controllers\ActivityUserController;
 use App\Http\Controllers\Auth\UpdatePasswordController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformationsController;
 use App\Http\Controllers\LibraryController;
@@ -78,4 +79,9 @@ Route::middleware('auth.redirect')->group(function () {
     // CHAT
     Route::get('/chat/token/{team}', [ChatController::class, 'getToken'])->name('chat.token');
     Route::get('/chat/messages/{team}', [ChatController::class, 'index'])->name('chat.history');
+
+    // COMMUNITY
+    Route::get('/community', [CommunityController::class, 'index'])->name('community.index');
+    Route::get('/community/create', [CommunityController::class, 'create'])->name('community.create');
+    Route::post('/community/create', [CommunityController::class, 'store'])->name('community.store');
 });

@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             TeamSeeder::class,
             TeamUserSeeder::class,
             SettingsSeeder::class,
+            TagSeeder::class,
         ]);
     }
 }

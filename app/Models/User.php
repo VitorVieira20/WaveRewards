@@ -105,4 +105,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Activity::class, 'activity_likes')->withTimestamps();
     }
+
+    public function communityPosts(): HasMany
+    {
+        return $this->hasMany(CommunityPost::class);
+    }
 }

@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Activity;
+use App\Models\CommunityPost;
 use App\Models\DailyGoal;
 use App\Models\Team;
 use App\Services\WeatherApiService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+
+use function PHPSTORM_META\map;
 
 class DashboardController extends Controller
 {
@@ -59,11 +62,24 @@ class DashboardController extends Controller
 
         $activities = Activity::take(3)->get();
 
+        $messages = CommunityPost::with('user:id,name,avatar')
+            ->latest()
+            ->take(4)
+            ->get(['id', 'user_id', 'content', 'created_at']);
+
+        $formattedMessages = $messages->map(function ($message) {
+            return [
+                'content' => $message->content,
+                'name' => $message->user?->name ?? 'Utilizador Desconhecido',
+            ];
+        });
+
         return Inertia::render('Authenticated/Dashboard', [
             'weatherData' => $data,
             'team' => $teamData,
             'goal' => $todayGoal,
-            'activities' => $activities
+            'activities' => $activities,
+            'messages' => $formattedMessages
         ]);
     }
 }

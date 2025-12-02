@@ -9,7 +9,7 @@ import DailyGoalCompleted from "../../Components/Modals/DailyGoal/DailyGoalCompl
 import CommunityCard from "../../Components/Dashboard/CommunityCard";
 import ActivitiesCard from "../../Components/Dashboard/ActivitiesCard";
 
-export default function Dashboard({ auth, weatherData, team, goal, activities }) {
+export default function Dashboard({ auth, weatherData, team, goal, activities, messages }) {
     const { flash } = usePage().props;
     const [showDailyGoalModal, setShowDailyGoalModal] = useState(false);
 
@@ -18,6 +18,8 @@ export default function Dashboard({ auth, weatherData, team, goal, activities })
             setShowDailyGoalModal(true);
         }
     }, [flash]);
+
+    console.log(messages)
 
     return (
         <AuthenticatedLayout auth={auth}>
@@ -41,7 +43,7 @@ export default function Dashboard({ auth, weatherData, team, goal, activities })
                 </div>
 
                 <div className="flex flex-col gap-3.5 w-full lg:w-1/2">
-                    <CommunityCard />
+                    <CommunityCard messages={messages} />
 
                     <ActivitiesCard activities={activities} />
                 </div>
