@@ -21,6 +21,9 @@ const REQUIRED_KEYS = [
     'CHAT_SECRET_KEY',
     'GEMINI_API_KEY',
     'CHROMA_URL',
+    'CHROMA_DB_HOST',
+    'CHROMA_DB_PORT',
+    'CHROMA_DB_API_KEY',
 ];
 
 const RED = '\x1b[31m';
@@ -44,14 +47,14 @@ const missingKeys = [];
 const envVars = {};
 envContent.split('\n').forEach(line => {
     if (!line || line.startsWith('#') || !line.includes('=')) return;
-    
+
     const [key, ...valueParts] = line.split('=');
     let value = valueParts.join('=').trim();
-    
+
     if (value.startsWith('"') && value.endsWith('"')) {
         value = value.slice(1, -1);
     }
-    
+
     envVars[key.trim()] = value;
 });
 

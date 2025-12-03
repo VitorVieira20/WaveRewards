@@ -7,6 +7,8 @@ export const useChat = (teamId) => {
     const [isConnected, setIsConnected] = useState(false);
     const socketRef = useRef(null);
 
+    const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:3000'
+
     useEffect(() => {
         axios.get(`/chat/messages/${teamId}`)
             .then(res => {
@@ -18,18 +20,17 @@ export const useChat = (teamId) => {
             .then(res => {
                 const token = res.data.token;
 
-                socketRef.current = io('http://localhost:3000', {
+                socketRef.current = io(socketUrl, {
                     auth: { token },
-                    transports: ['websocket']
+                    transports: ['websocket'],
+                    secure: true
                 });
 
                 socketRef.current.on('connect', () => {
-                    //console.log("✅ Conectado ao WebSocket!");
                     setIsConnected(true);
                 });
 
                 socketRef.current.on('disconnect', () => {
-                    //console.log("❌ Desconectado.");
                     setIsConnected(false);
                 });
 
@@ -37,9 +38,7 @@ export const useChat = (teamId) => {
                     console.error("Erro de conexão socket:", err.message);
                 });
 
-                // C. Ouvir Novas Mensagens
                 socketRef.current.on('newMessage', (newMessage) => {
-                    //console.log("📩 Nova mensagem recebida:", newMessage);
                     setMessages((prev) => [...prev, newMessage]);
                 });
             })

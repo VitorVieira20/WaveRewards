@@ -68,7 +68,8 @@ Este projeto requer dois serviços de base de dados: MySQL (dados normais) e Chr
 **Levantar Serviços:**
 
 ```bash
-npm run up:db
+npm run up:db #Se usares o docker para a base de dados
+npm run up:chroma
 ```
 
 Isto irá iniciar:
@@ -117,6 +118,7 @@ Se a base de dados foi iniciada via Docker, corre este comando para parar e remo
 
 ```bash
 npm run down:db
+npm run down:chroma
 ```
 
 
@@ -133,8 +135,10 @@ Abaixo encontras a explicação de todos os scripts úteis configurados no `pack
 | `npm run serve` | Inicia servidor Laravel (`php artisan serve`). |
 | `npm run dev` | Inicia servidor Vite (Frontend). |
 | **Base de Dados** | |
-| `npm run up:db` | Inicia contentores Docker (MySQL + phpMyAdmin). |
-| `npm run down:db` | Para e remove os contentores Docker. |
+| `npm run up:db` | Inicia containers Docker (MySQL + phpMyAdmin). |
+| `npm run down:db` | Para e remove os containers Docker (MySQL + phpMyAdmin). |
+| `npm run up:chroma` | Inicia container Docker (Chroma DB). |
+| `npm run down:chroma` | Para e remove o container Docker (Chroma DB). |
 | `npm run db:migrate` | Executa as migrações pendentes. |
 | `npm run db:seed` | Popula a base de dados com dados falsos (Seeds). |
 | `npm run db:reset` | **Reset:** Apaga a BD, corre migrações do zero e seeds. |
