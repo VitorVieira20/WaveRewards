@@ -8,7 +8,7 @@ import TwitterIcon from "../Components/Icons/TwitterIcon";
 import FlashMessages from "../Components/FlashMessages";
 import FormOverlay from "../Components/Auth/FormOverlay";
 import SignInForm from "../Components/Auth/SignInForm";
-import SignUpForm from "../Components/Auth/SignupForm";
+import SignUpForm from "../Components/Auth/SignUpForm";
 
 export default function Auth({ method }) {
     const [isLogin, setIsLogin] = useState(method === "login");
