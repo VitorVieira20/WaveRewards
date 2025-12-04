@@ -68,7 +68,10 @@ Este projeto requer dois serviços de base de dados: MySQL (dados normais) e Chr
 **Levantar Serviços:**
 
 ```bash
-npm run up:db #Se usares o docker para a base de dados
+# Se usares o docker para a base de dados
+npm run up:db
+
+# Correr o Chroma DB para o Chatbot
 npm run up:chroma
 ```
 
