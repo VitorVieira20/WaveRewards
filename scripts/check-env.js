@@ -20,6 +20,8 @@ const REQUIRED_KEYS = [
     'WEATHER_API_KEY',
     'CHAT_SECRET_KEY',
     'GEMINI_API_KEY',
+    'GROQ_API_KEY',
+    'AI_DRIVER',
     'CHROMA_URL',
     'CHROMA_DB_HOST',
     'CHROMA_DB_PORT',
