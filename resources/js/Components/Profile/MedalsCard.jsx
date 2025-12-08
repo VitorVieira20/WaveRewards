@@ -1,7 +1,7 @@
 const medalsInformation = [
-    { medal: '/storage/medals/gold.png', quantity: 4 },
-    { medal: '/storage/medals/silver.png', quantity: 5 },
-    { medal: '/storage/medals/bronze.png', quantity: 6 },
+    { medal: '/images/medals/gold.png', quantity: 4 },
+    { medal: '/images/medals/silver.png', quantity: 5 },
+    { medal: '/images/medals/bronze.png', quantity: 6 },
 ];
 
 export default function MedalsCard() {
