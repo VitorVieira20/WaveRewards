@@ -15,7 +15,7 @@
         "storage:link": "php artisan storage:link",
         "queue": "php artisan queue:work",
         "serve": "npm run check:env && php artisan serve",
-        "project:setup": "npm run setup:php && npm run setup:key && npm run db:migrate && npm run db:seed && npm run up:chroma && sleep 5 && npm run db:chroma && npm run storage:link",
+        "project:setup": "npm run setup:php && npm run setup:key && npm run db:migrate && npm run db:seed && npm run storage:link",
         "up:db": "docker compose -f docker/docker-compose.mysql.yml up -d",
         "down:db": "docker compose -f docker/docker-compose.mysql.yml down",
         "up:chroma": "docker compose --env-file .env -f docker/docker-compose.chroma.yml up -d",
