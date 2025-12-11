@@ -22,12 +22,27 @@ class UserService
     {
         $data = $request->validated();
 
+        $defaultAvatars = [
+            'images/avatars/avatar1.png',
+            'images/avatars/avatar2.png',
+            'images/avatars/avatar3.png',
+            'images/avatars/avatar4.png',
+        ];
+
+        $baseUsername = strtolower(str_replace(' ', '_', $data['name']));
+
+        do {
+            $username = $baseUsername . '_' . rand(1000, 9999);
+        } while (User::where('username', $username)->exists());
+
+        $avatar = $defaultAvatars[array_rand($defaultAvatars)];
+
         try {
-            return DB::transaction(function () use ($data) {
+            return DB::transaction(function () use ($data, $username, $avatar) {
                 $user = $this->userRepository->create([
                     'name' => $data['name'],
-                    'username' => strtolower(str_replace(' ', '_', $data['name'])),
-                    'avatar' => 'images/team/vitor.png',
+                    'username' => $username,
+                    'avatar' => $avatar,
                     'email' => $data['email'],
                     'address' => 'Funchal',
                     'password' => Hash::make($data['password']),

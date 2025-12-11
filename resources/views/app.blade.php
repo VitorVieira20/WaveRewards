@@ -31,6 +31,10 @@
     <link rel="preload" as="image" href="{{ asset('images/partners/StartUpMadeira.png') }}">
     <link rel="preload" as="image" href="{{ asset('images/partners/UMa.png') }}">
     <link rel="preload" as="image" href="{{ asset('images/strava-icon.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/avatars/avatar1.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/avatars/avatar2.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/avatars/avatar3.png') }}">
+    <link rel="preload" as="image" href="{{ asset('images/avatars/avatar4.png') }}">
 
     {{--
     <meta property="og:title" content="Wave" />

@@ -1,4 +1,15 @@
 export default function TeamCard({ team }) {
+    if (!team) return (
+        <div className="flex flex-col justify-between bg-white/40 w-full lg:w-2/5 rounded-2xl p-4 md:p-6 h-full shadow-sm">
+
+            <div className="text-center">
+                <h2 className="text-[#1C5E8F] text-lg md:text-xl font-semibold leading-none mb-1">
+                    Sem equipa
+                </h2>
+            </div>
+
+        </div>
+    )
 
     return (
         <div className="flex flex-col justify-between bg-white/40 w-full lg:w-2/5 rounded-2xl p-4 md:p-6 h-full shadow-sm">
