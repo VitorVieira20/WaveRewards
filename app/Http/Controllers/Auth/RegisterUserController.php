@@ -28,7 +28,7 @@ class RegisterUserController extends Controller
         $user->update(['email_verified_at' => now()]);
         $user->fresh();
 
-        Settings::create(['user_id' => $user->id]);
+        Settings::firstOrCreate(['user_id' => $user->id]);
 
         return redirect()->route('auth.index', 'login')->with('success', 'Conta criada com sucesso.');
     }
