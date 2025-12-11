@@ -21,8 +21,8 @@ return new class extends Migration {
             $table->boolean('public_profile')->default(false);
             $table->boolean('share_activities')->default(false);
             $table->boolean('share_location')->default(false);
-            $table->string('language')->default('km');
-            $table->string('distance_unit')->default('pt');
+            $table->string('language')->default('pt');
+            $table->string('distance_unit')->default('km');
             $table->string('temperature_unit')->default('c');
             $table->string('timezone')->default('Europe/Lisbon');
             $table->timestamps();

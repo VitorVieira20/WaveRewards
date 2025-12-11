@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\CreateUserRequest;
+use App\Models\Settings;
 use App\Services\UserService;
 
 class RegisterUserController extends Controller
@@ -26,6 +27,8 @@ class RegisterUserController extends Controller
         // Como a parte do email ainda não está implementada, vamos validar o email do user aqui
         $user->update(['email_verified_at' => now()]);
         $user->fresh();
+
+        Settings::create(['user_id', $user->id]);
 
         return redirect()->route('auth.index', 'login')->with('success', 'Conta criada com sucesso.');
     }

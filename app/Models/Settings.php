@@ -11,6 +11,7 @@ class Settings extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'email_notifications',
         'push_notifications',
         'weekly_digest',
