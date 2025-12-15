@@ -19,19 +19,26 @@ export default function Meteorology({ auth, weatherData }) {
 
     return (
         <AuthenticatedLayout auth={auth}>
-            <h1 className="fixed flex gap-3 w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
-                <button
-                    type="button"
-                    onClick={() => window.history.back()}
-                    className="flex items-center cursor-pointer"
-                >
-                    <LeftArrowIcon color="#1C5E8F" />
-                </button>
+            <div className="flex flex-col lg:flex-row justify-between">
+                <h1 className="lg:fixed flex gap-3 w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">
+                    <button
+                        type="button"
+                        onClick={() => window.history.back()}
+                        className="flex items-center cursor-pointer"
+                    >
+                        <LeftArrowIcon color="#1C5E8F" />
+                    </button>
 
-                Meteorologia
-            </h1>
+                    Meteorologia
+                </h1>
+                <div className="lg:fixed top-20 right-6 z-50 mt-2 lg:mt-0 py-2 px-4 bg-[#60B4D9]/30 rounded-lg">
+                    <p className="text-[#1A3463] text-sm font-medium cursor-pointer transition-colors duration-300 hover:text-[#1A3463]">
+                        Slide para visualizar mais regiões →
+                    </p>
+                </div>
+            </div>
 
-            <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full h-[calc(100vh-110px)] mt-10">
+            <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar w-full h-[calc(100vh-110px)] mt-16">
                 {weatherData.map((city, index) => (
                     <motion.div
                         key={index}
