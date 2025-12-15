@@ -4,7 +4,7 @@ import { route } from 'ziggy-js';
 import MobileMenu from './MobileMenu';
 
 const navLinks = [
-    { dropdown: false, name: 'Dashboard', route: 'home.index' },
+    { dropdown: false, name: 'Dashboard', route: 'dashboard.index' },
     { dropdown: false, name: 'Meteorologia', route: 'meteorology.index' },
     { dropdown: false, name: 'Biblioteca', route: 'library.index' },
     { dropdown: false, name: 'Atividades', route: 'activities.index' },
@@ -21,6 +21,11 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
         { text: 'Perfil', href: route('profile.index'), primary: false },
         { text: 'Definições', href: route('settings.index'), primary: true },
     ];
+
+    const getRoutePath = (routeName) => {
+        // Garante que só se obtém o caminho relativo (/home, /meteorology, etc.)
+        return route(routeName).replace(window.location.origin, '');
+    };
 
     return (
         <nav className="fixed top-0 left-0 w-full z-100 bg-linear-to-b from-[#FFFFFF] to-[#EAF5FA]">
