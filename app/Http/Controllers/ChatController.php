@@ -26,7 +26,7 @@ class ChatController extends Controller
             'exp' => now()->addHours(8)->timestamp,
         ];
 
-        $token = JWT::encode($payload, env('CHAT_SECRET_KEY'), 'HS256');
+        $token = JWT::encode($payload, config('chat.secret'), 'HS256');
 
         return response()->json(['token' => $token]);
     }
