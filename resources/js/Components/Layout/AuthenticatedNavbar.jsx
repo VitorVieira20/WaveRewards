@@ -10,7 +10,6 @@ const navLinks = [
     { dropdown: false, name: 'Atividades', route: 'activities.index' },
     { dropdown: false, name: 'Histórico', route: 'activities.history' },
     { dropdown: false, name: 'Rankings', route: 'rankings.index' },
-    { dropdown: false, name: 'Contacto', route: 'contacts.index' },
 ];
 
 export default function AuthenticatedLayoutNavbar({ auth }) {
@@ -39,7 +38,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
                     </Link>
 
 
-                    <div className="hidden xl:flex items-center gap-7 2xl:gap-14 w-132 mr-70 2xl:mr-30 justify-start">
+                    <div className="hidden xl:flex items-center gap-7 2xl:gap-14 w-132 mr-50 2xl:mr-30 justify-start">
                         {navLinks.map((item) => (
                             <Link
                                 key={item.name}
