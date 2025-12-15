@@ -44,7 +44,7 @@ class GroqService implements LLMServiceInterface
         EOT;
 
         $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . env('GROQ_API_KEY'),
+            'Authorization' => 'Bearer ' . config('services.groq.key'),
             'Content-Type' => 'application/json'
         ])->post('https://api.groq.com/openai/v1/chat/completions', [
             'model' => 'llama-3.3-70b-versatile',

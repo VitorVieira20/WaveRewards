@@ -43,7 +43,7 @@ class GeminiService implements LLMServiceInterface
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . env('GEMINI_API_KEY'), [
+        ])->post('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' . config('services.gemini.key'), [
             'contents' => [
                 ['parts' => [['text' => $fullPrompt]]]
             ],
