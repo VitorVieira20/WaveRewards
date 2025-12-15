@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout";
 import FiltersIcon from "../../Components/Icons/FiltersIcon";
@@ -8,8 +8,27 @@ export default function Rankings({ auth, rankings }) {
     const [currentPage, setCurrentPage] = useState(1);
     const [showFilters, setShowFilters] = useState(false);
     const perPage = 8;
-    const totalPages = Math.ceil(rankings.length / perPage);
-    const currentData = rankings.slice((currentPage - 1) * perPage, currentPage * perPage);
+
+    const totalPages = useMemo(() => {
+        return Math.ceil(rankings.length / perPage);
+    }, [rankings.length, perPage]);
+
+    useEffect(() => {
+        if (currentPage > totalPages && totalPages > 0) {
+            setCurrentPage(totalPages);
+        }
+
+        else if (totalPages === 0 && currentPage !== 1) {
+            setCurrentPage(1);
+        }
+
+    }, [rankings.length, totalPages, currentPage]);
+
+    const currentData = useMemo(() => {
+        const start = (currentPage - 1) * perPage;
+        const end = currentPage * perPage;
+        return rankings.slice(start, end);
+    }, [rankings, currentPage, perPage]);
 
     const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
     const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
@@ -55,7 +74,7 @@ export default function Rankings({ auth, rankings }) {
                         <tbody>
                             {currentData.map((ranking) => (
                                 <tr
-                                    key={ranking.user.avatar}
+                                    key={ranking.user.rank}
                                     className="text-[#5A5A5A] border-b border-white hover:bg-white/50 transition-colors"
                                 >
                                     <td className="px-6 py-3 text-start">{ranking.user.name}</td>

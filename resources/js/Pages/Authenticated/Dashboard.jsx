@@ -19,8 +19,6 @@ export default function Dashboard({ auth, weatherData, team, goal, activities, m
         }
     }, [flash]);
 
-    console.log(messages)
-
     return (
         <AuthenticatedLayout auth={auth}>
             <h1 className="fixed w-full text-[#1A3463] pb-4 px-6 md:px-16 text-3xl md:text-4xl lg:text-5xl font-semibold z-50 bg-linear-to-b from-[#EAF5FA] to-[#DDEFF7] 3xl:to-[#E7F3F9]">

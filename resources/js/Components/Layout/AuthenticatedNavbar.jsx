@@ -4,6 +4,7 @@ import { route } from 'ziggy-js';
 import MobileMenu from './MobileMenu';
 
 const navLinks = [
+    { dropdown: false, name: 'Dashboard', route: 'home.index' },
     { dropdown: false, name: 'Meteorologia', route: 'meteorology.index' },
     { dropdown: false, name: 'Biblioteca', route: 'library.index' },
     { dropdown: false, name: 'Atividades', route: 'activities.index' },
@@ -24,7 +25,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
     return (
         <nav className="fixed top-0 left-0 w-full z-100 bg-linear-to-b from-[#FFFFFF] to-[#EAF5FA]">
             <div className="px-4 md:px-8">
-                <div className="flex justify-between items-center h-20 md:h-20">
+                <div className="flex justify-between items-center h-20">
                     <Link href={route('home.index')} className="flex items-center cursor-pointer">
                         <img src="/images/logo.png" alt="Wave Rewards Logo" className="h-10 md:h-14 w-auto rounded-full" />
                         <div className="w-40 md:w-64 h-7 md:h-9 mt-2">
@@ -33,7 +34,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
                     </Link>
 
 
-                    <div className="hidden xl:flex items-center gap-7 2xl:gap-14 w-132 justify-start">
+                    <div className="hidden xl:flex items-center gap-7 2xl:gap-14 w-132 mr-70 2xl:mr-30 justify-start">
                         {navLinks.map((item) => (
                             <Link
                                 key={item.name}
