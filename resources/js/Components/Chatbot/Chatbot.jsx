@@ -14,33 +14,6 @@ const normalizeText = (text) => {
         .replace(/[?!.,;:]/g, "");
 };
 
-const getBotResponse = (input) => {
-    const cleanInput = normalizeText(input);
-
-    const inputWords = cleanInput.split(/\s+/);
-
-    let bestMatch = null;
-    let maxScore = 0;
-
-    knowledgeBase.forEach(item => {
-        if (item.id === 'default') return;
-
-        let score = 0;
-        item.keywords.forEach(keyword => {
-            if (cleanInput.includes(keyword)) {
-                score += keyword.split(' ').length;
-            }
-        });
-
-        if (score > maxScore) {
-            maxScore = score;
-            bestMatch = item;
-        }
-    });
-
-    return bestMatch ? bestMatch.answer : knowledgeBase.find(i => i.id === 'default').answer;
-};
-
 
 export default function Chatbot({ onClose }) {
     const [dateTime, setDateTime] = useState("");

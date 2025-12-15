@@ -6,9 +6,14 @@ export default function UserCard({ user, onOpenPasswordModal }) {
     const { post, processing } = useForm();
 
     const handleLogout = (e) => {
-            e.preventDefault();
-            post(route("logout"));
-        };
+        e.preventDefault();
+        
+        post(route("logout"), {
+            onSuccess: () => {
+                sessionStorage.removeItem("chatbotMessages");
+            },
+        });
+    };
 
     return (
         <div className="flex flex-col justify-between gap-1 bg-white/40 w-full lg:w-2/5 rounded-2xl p-4 h-full shadow-sm">
