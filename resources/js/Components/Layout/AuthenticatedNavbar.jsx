@@ -38,7 +38,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
                     </Link>
 
 
-                    <div className="hidden xl:flex items-center gap-7 2xl:gap-14 w-132 mr-50 2xl:mr-30 justify-start">
+                    <div className="hidden xl:flex items-center gap-7 xl:gap-10 3xl:gap-14 w-132 mr-50 3xl:mr-30 justify-start">
                         {navLinks.map((item) => (
                             <Link
                                 key={item.name}

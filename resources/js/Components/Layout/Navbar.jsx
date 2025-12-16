@@ -54,7 +54,7 @@ export default function LayoutNavbar({ auth }) {
                         </div>
                     </Link>
 
-                    <div className="hidden xl:flex items-center gap-7 2xl:gap-14 w-132 ml-30 2xl:ml-80 justify-start">
+                    <div className="hidden xl:flex items-center gap-7 xl:gap-10 3xl:gap-14 w-132 ml-30 3xl:ml-80 justify-start">
                         {dynamicLinks.map((item) => {
                             const itemPath = route(item.route).replace(window.location.origin, '');
 
