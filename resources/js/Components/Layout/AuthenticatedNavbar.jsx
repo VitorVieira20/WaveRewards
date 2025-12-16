@@ -43,20 +43,14 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
                                 key={item.name}
                                 href={route(item.route)}
                                 className={`relative flex items-center justify-cente text-lg font-medium leading-none transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#1D87BC]/50 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left
-                // Código a ser inserido (solução):
-${(() => {
+                                ${(() => {
                                         const linkPath = getRoutePath(item.route);
 
                                         if (linkPath === '/activities') {
-                                            // Para a rota 'activities.index' (/activities):
-                                            // Só está ativo se for EXATAMENTE '/activities' (ou '/activities/')
                                             return url === linkPath || url === `${linkPath}/`;
                                         } else if (linkPath === '/activities/history') {
-                                            // Para a rota 'activities.history' (/activities/history):
-                                            // Está ativo se for EXATAMENTE '/activities/history' (ou '/activities/history/')
                                             return url === linkPath || url === `${linkPath}/`;
                                         } else {
-                                            // Para TODAS as outras rotas (não aninhadas), use a lógica startsWith:
                                             return url.startsWith(linkPath);
                                         }
                                     })()

@@ -11,7 +11,8 @@ export default function TeamInfoCard({ auth, team }) {
             <div className="relative w-full flex justify-center items-center mb-1">
                 <TeamIcon />
             </div>
-            <h2 className="text-[#1C5E8F] text-lg font-semibold">Sem equipa</h2>
+            <h2 className="text-[#1C5E8F] text-lg font-semibold">A tua equipa</h2>
+            <h2 className="text-[#1C5E8F] text-sm font-normal opacity-90 mt-5">Ainda não pertences a nenhuma equipa</h2>
         </div>
     )
 

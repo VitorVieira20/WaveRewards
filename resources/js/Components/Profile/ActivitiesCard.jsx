@@ -17,6 +17,13 @@ export default function ActivitiesCard({ activities }) {
             </div>
 
             <div className="flex flex-col lg:flex-row gap-6 overflow-x-auto">
+                {activities.length < 1 &&
+                    <div className="w-full text-center">
+                        <h3 className="text-[#1C5E8F] text-lg font-normal opacity-90 mt-5">
+                            Ainda não tens nenhuma atividade registada
+                        </h3>
+                    </div>
+                }
                 {activities.map((activity, index) => (
                     <div key={index} className="flex flex-row justify-between items-end w-full lg:w-1/2 min-w-[300px] border-b lg:border-b-0 lg:border-r border-[#1C5E8F]/20 last:border-0 p-2 pt-">
 
