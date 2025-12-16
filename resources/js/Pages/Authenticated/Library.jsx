@@ -17,7 +17,7 @@ export default function Library({ auth, workshops, tutorials, informations }) {
                     <LeftArrowIcon color="#1C5E8F" />
                 </button>
 
-                Biblioteca
+                Aprende+
             </h1>
 
             <div className="flex flex-col gap-12 w-full pt-20 px-4 md:px-16">
