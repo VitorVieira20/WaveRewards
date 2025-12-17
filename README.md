@@ -151,3 +151,30 @@ Abaixo encontras a explicação de todos os scripts úteis configurados no `pack
 | `npm run setup:key` | Gera a `APP_KEY` do Laravel. |
 | `npm run storage:link` | Cria o link simbólico para a pasta `storage`. |
 | `npm run queue` | Inicia o worker de filas do Laravel. |
+
+
+---
+
+## 👥 Autores
+
+Este projeto foi desenvolvido pela equipa **WaveRewards**:
+- **David França**
+- **Leonor Freitas**
+- **Roberto Andrade**
+- **Vitor Vieira**
+
+---
+
+## 🔒 Licença e Direitos de Autor
+
+**© 2025 WaveRewards Team. Todos os direitos reservados.**
+
+Este código foi desenvolvido para fins **estritamente académicos e educacionais**.
+O repositório é público para facilitar a avaliação por parte dos docentes.
+
+**É estritamente proibido:**
+- A utilização deste código para fins comerciais.
+- A venda, aluguer ou sublicenciamento de qualquer parte do software.
+- A reprodução ou redistribuição sem autorização prévia por escrito dos autores.
+
+Qualquer uso não autorizado será considerado uma violação de direitos de autor.
