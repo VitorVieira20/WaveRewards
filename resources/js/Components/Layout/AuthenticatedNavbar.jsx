@@ -25,6 +25,10 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
         return route(routeName).replace(window.location.origin, '');
     };
 
+    const isProfileOrSettings = 
+        url.startsWith(getRoutePath('profile.index')) ||
+        url.startsWith(getRoutePath('settings.index'));
+
     return (
         <nav className="fixed top-0 left-0 w-full z-100 bg-linear-to-b from-[#FFFFFF] to-[#EAF5FA]">
             <div className="px-4 md:px-8">
@@ -37,30 +41,31 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
                     </Link>
 
 
-                    <div className="hidden xl:flex items-center gap-7 xl:gap-10 3xl:gap-14 w-132 mr-50 3xl:mr-30 justify-start">
-                        {navLinks.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={route(item.route)}
-                                className={`relative flex items-center justify-cente text-lg font-medium leading-none transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#1D87BC]/50 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left
-                                ${(() => {
-                                        const linkPath = getRoutePath(item.route);
+                    <div className={`hidden xl:flex items-center gap-7 2xl:gap-10 3xl:gap-14 w-132 ${isProfileOrSettings ? "mr-60" : "mr-10"} justify-start`}>
+                        {navLinks.map((item) => {
+                            const linkPath = getRoutePath(item.route);
+                            let isActive = false;
 
-                                        if (linkPath === '/activities') {
-                                            return url === linkPath || url === `${linkPath}/`;
-                                        } else if (linkPath === '/activities/history') {
-                                            return url === linkPath || url === `${linkPath}/`;
-                                        } else {
-                                            return url.startsWith(linkPath);
-                                        }
-                                    })()
-                                        ? 'text-[#1D87BC]'
-                                        : 'text-[#1A3463] hover:[#1D87BC]'}
-            `}
-                            >
-                                {item.name}
-                            </Link>
-                        ))}
+                            if (linkPath === '/activities') {
+                                isActive = url === linkPath || url === `${linkPath}/`;
+                            } else if (linkPath === '/activities/history') {
+                                isActive = url === linkPath || url === `${linkPath}/`;
+                            } else {
+                                isActive = url.startsWith(linkPath);
+                            }
+
+                            if (isActive) return null;
+
+                            return (
+                                <Link
+                                    key={item.name}
+                                    href={route(item.route)}
+                                    className="relative flex items-center justify-cente text-lg font-medium leading-none transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#1D87BC]/50 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left text-[#1A3463] hover:text-[#1D87BC]"
+                                >
+                                    {item.name}
+                                </Link>
+                            );
+                        })}
                     </div>
 
 

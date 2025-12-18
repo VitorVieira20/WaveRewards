@@ -4,7 +4,7 @@ import { route } from 'ziggy-js';
 import MobileMenu from './MobileMenu';
 
 const navLinks = [
-    { dropdown: false, name: 'Início', route: 'home.index' },
+    { dropdown: false, name: 'Início', route: 'home.index', params: { hero: '1' } },
     { dropdown: false, name: 'Equipa', route: 'team.index' },
     { dropdown: false, name: 'Benefícios', route: 'benefits.index' },
     { dropdown: false, name: 'Parcerias', route: 'partners.index' },
@@ -47,6 +47,7 @@ export default function LayoutNavbar({ auth }) {
         <nav className="fixed top-0 left-0 w-full z-100 bg-linear-to-b from-[#FFFFFF] to-[#EAF5FA]">
             <div className="px-4 md:px-8">
                 <div className="flex justify-between items-center h-20 md:h-20">
+                    {/* Link do Logótipo - Redireciona para a Home */}
                     <Link href={route('home.index', { hero: true })} className="flex items-center cursor-pointer">
                         <img src="/images/logo.png" alt="Wave Rewards Logo" className="h-10 md:h-14 w-auto rounded-full" />
                         <div className="w-40 md:w-64 h-7 md:h-9 mt-2">
@@ -54,30 +55,30 @@ export default function LayoutNavbar({ auth }) {
                         </div>
                     </Link>
 
-                    <div className="hidden xl:flex items-center gap-7 xl:gap-10 3xl:gap-14 w-132 ml-30 3xl:ml-80 justify-start">
+                    <div className="hidden xl:flex items-center gap-7 2xl:gap-10 3xl:gap-14 w-132 ml-30 3xl:ml-80 justify-start">
                         {dynamicLinks.map((item) => {
                             const itemPath = route(item.route).replace(window.location.origin, '');
+                            let isActive = false;
 
-                            const isActive = itemPath === ''
-                                ? url === '/'
-                                : url.startsWith(itemPath);
+                            if (item.route === 'home.index') {
+                                isActive = url === '/';
+                            } else {
+                                isActive = url.startsWith(itemPath);
+                            }
 
-                            return (
+                            if (isActive) return null;
+
+                            return(
                                 <Link
                                     key={item.name}
-                                    href={route(item.route)}
-                                    className={`relative flex items-center justify-cente text-lg font-medium leading-none transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#1D87BC]/50 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left
-                ${isActive
-                                            ? 'text-[#1D87BC]'
-                                            : 'text-[#1A3463] hover:text-[#1D87BC]'}
-                `}
+                                    href={route(item.route, item.params)}
+                                    className="relative flex items-center justify-cente text-lg font-medium leading-none transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#1D87BC]/50 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left text-[#1A3463] hover:text-[#1D87BC]"
                                 >
                                     {item.name}
                                 </Link>
                             );
                         })}
                     </div>
-
 
                     <div className="hidden xl:flex items-center gap-1">
                         {auth && auth.user ? (
@@ -108,7 +109,6 @@ export default function LayoutNavbar({ auth }) {
                                     </div>
                                 </Link></>
                         )}
-
                     </div>
 
                     <div className="xl:hidden flex items-center gap-4">
@@ -131,7 +131,6 @@ export default function LayoutNavbar({ auth }) {
             </div>
 
             <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} navLinks={navLinks} authButtons={authButtons} />
-
         </nav >
     );
 }
