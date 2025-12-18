@@ -1,9 +1,10 @@
-import { Link } from "@inertiajs/react";
+import { useState } from "react";
 import AuthenticatedLayout from "../../../Layouts/AuthenticatedLayout";
 import LeftArrowIcon from "../../../Components/Icons/LeftArrowIcon";
-import { route } from "ziggy-js";
+import ActivityDetailsModal from "../../../Components/Modals/Activities/ActivityDetails";
 
 export default function ActivitiesHistory({ auth, activities }) {
+    const [selectedActivity, setSelectedActivity] = useState(null);
 
     return (
         <AuthenticatedLayout auth={auth}>
@@ -28,7 +29,7 @@ export default function ActivitiesHistory({ auth, activities }) {
                             ? activity.title 
                             : activity.custom_title;
 
-                        let displayImage = "https://placehold.co/600x400/DDEFF7/1A3463?text=Sem+Imagem"; // Imagem padrão
+                        let displayImage = "https://placehold.co/600x400/DDEFF7/1A3463?text=Sem+Imagem";
 
                         if (isSystemActivity && activity.images && activity.images.length > 0) {
                             displayImage = activity.images[0];
@@ -36,16 +37,12 @@ export default function ActivitiesHistory({ auth, activities }) {
                             displayImage = activity.image;
                         }
 
-                        const Wrapper = isSystemActivity ? Link : 'div';
-                        const wrapperProps = isSystemActivity ? {
-                            href: route('activities.show', activity.activity_id),
-                            className: "group block cursor-pointer"
-                        } : {
-                            className: "group block cursor-default"
-                        };
-
                         return (
-                            <Wrapper key={activity.id} {...wrapperProps}>
+                            <div 
+                                key={activity.id} 
+                                onClick={() => setSelectedActivity(activity)}
+                                className="group block cursor-pointer h-full"
+                            >
                                 <div className="
                                     bg-[#DDEFF7]/60 backdrop-blur-sm
                                     border border-white/40
@@ -55,7 +52,6 @@ export default function ActivitiesHistory({ auth, activities }) {
                                     transition-all duration-300
                                     hover:-translate-y-1
                                 ">
-                                    {/* Container da Imagem */}
                                     <div className="w-full aspect-4/3 overflow-hidden rounded-xl bg-white relative">
                                         <img
                                             src={displayImage}
@@ -66,7 +62,6 @@ export default function ActivitiesHistory({ auth, activities }) {
                                             }}
                                         />
                                         
-                                        {/* Badge opcional para distinguir visualmente */}
                                         {!isSystemActivity && (
                                             <div className="absolute top-2 right-2 bg-[#1C5E8F]/80 text-white text-[10px] font-bold px-2 py-1 rounded-full backdrop-blur-md">
                                                 LIVRE
@@ -74,22 +69,26 @@ export default function ActivitiesHistory({ auth, activities }) {
                                         )}
                                     </div>
 
-                                    {/* Título e Data */}
                                     <div className="mt-3 text-center grow flex flex-col items-center justify-start px-1">
                                         <h3 className="text-[#1D87BC] font-semibold text-lg leading-tight mb-1">
                                             {displayTitle}
                                         </h3>
-                                        {/* Mostra a data se disponível */}
                                         <span className="text-[#1A3463]/60 text-xs">
                                             {activity.date || (activity.created_at && new Date(activity.created_at).toLocaleDateString())}
                                         </span>
                                     </div>
                                 </div>
-                            </Wrapper>
+                            </div>
                         );
                     })}
                 </div>
             </div>
+
+            <ActivityDetailsModal 
+                isOpen={!!selectedActivity} 
+                onClose={() => setSelectedActivity(null)} 
+                activity={selectedActivity} 
+            />
 
         </AuthenticatedLayout >
     );
