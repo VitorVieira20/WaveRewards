@@ -87,7 +87,7 @@ export default function CommunityIndex({ auth, posts, tags, currentTag }) {
                                         </div>
                                         <p className="text-[#1C5E8F] text-sm md:text-base font-medium truncate">
                                             <span className="font-normal mr-1">{post.user.name}:</span>
-                                            <span className="font-normal opacity-90">{post.content}</span>
+                                            <span className="font-normal opacity-90">{post.content.charAt(0).toUpperCase() + post.content.slice(1)}</span>
                                         </p>
                                     </div>
 
