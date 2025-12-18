@@ -33,7 +33,7 @@ export default function Meteorology({ auth, weatherData }) {
                 </h1>
                 <div className="lg:fixed top-20 right-6 z-50 mt-2 lg:mt-0 py-2 px-4 bg-[#60B4D9]/30 rounded-lg">
                     <p className="text-[#1A3463] text-sm font-medium cursor-pointer transition-colors duration-300 hover:text-[#1A3463]">
-                        Slide para visualizar mais regiões →
+                        Arrasta para visualizar mais regiões →
                     </p>
                 </div>
             </div>
