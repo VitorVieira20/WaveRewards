@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react";
 import { useState, useRef, useEffect } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion"; // <--- Adicionado AnimatePresence
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import Chatbot from "../Chatbot/Chatbot";
 import FacebookIcon from "../Icons/FacebookIcon";
 import TwitterIcon from "../Icons/TwitterIcon";
@@ -121,7 +121,7 @@ export default function HeroSection({ auth }) {
 
                     <div className="mt-10 lg:mt-0 w-full md:3/11 lg:w-5/11 flex items-center">
                         <div className="flex items-center justify-center w-full">
-                            <div className="w-[80%] lg:w-[60%] aspect-[5/2] lg:aspect-auto">
+                            <div className="w-[80%] lg:w-[60%] aspect-5/2 lg:aspect-auto">
                                 <img
                                     src="images/home-page.png"
                                     alt="Home"
