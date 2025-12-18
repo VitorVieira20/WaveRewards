@@ -6,14 +6,6 @@ import BotMessageCard from "./BotMessageCard";
 import UserMessageCard from "./UserMessageCard";
 import UserIcon from "../Icons/UserIcon";
 
-const normalizeText = (text) => {
-    return text
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[?!.,;:]/g, "");
-};
-
 
 export default function Chatbot({ onClose }) {
     const [dateTime, setDateTime] = useState("");

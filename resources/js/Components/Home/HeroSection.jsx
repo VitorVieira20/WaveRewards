@@ -1,6 +1,6 @@
 import { Link } from "@inertiajs/react";
 import { useState, useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion"; // <--- Adicionado AnimatePresence
 import Chatbot from "../Chatbot/Chatbot";
 import FacebookIcon from "../Icons/FacebookIcon";
 import TwitterIcon from "../Icons/TwitterIcon";
@@ -19,16 +19,6 @@ export default function HeroSection({ auth }) {
     const [marginTop, setMarginTop] = useState("-500px");
 
     const isHeroInView = useInView(heroRef, { margin: `0px 0px ${marginTop} 0px` });
-
-    useEffect(() => {
-        if (isHeroInView) {
-            const timer = setTimeout(() => {
-                setShowHelp(true);
-            }, 2000);
-
-            return () => clearTimeout(timer);
-        }
-    }, [isHeroInView]);
 
     useEffect(() => {
         function updateMargin() {
@@ -66,43 +56,39 @@ export default function HeroSection({ auth }) {
                     ? { opacity: 1, scale: 1, pointerEvents: "auto" }
                     : { opacity: 0, scale: 0.8, pointerEvents: "none" }
                 }
-                transition={{ duration: 0.5 }}
+                transition={{ duration: 0.8 }}
                 className={`fixed top-28 right-4 z-40 flex flex-col items-end gap-2 ${chatbotOpen ? 'blur-xs pointer-events-none' : ''}`}
             >
+                <div className="relative flex items-center">
+                    <AnimatePresence>
+                        {showHelp && !chatbotOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                className="bg-[#60B4D9]/30 text-blue-900 p-3 pr-6 rounded-xl shadow-lg text-sm max-w-[420px] relative mb-1 mr-4 backdrop-blur-sm"
+                            >
 
-                {showHelp && !chatbotOpen && (
-                    <div
-                        className="bg-[#60B4D9]/30 text-blue-900 p-3 pr-6 rounded-xl shadow-lg text-sm max-w-[420px] relative mb-1 mr-2 backdrop-blur-sm"
+                                <div className="font-semibold text-lg text-[#1A3463] mb-1 mr-2">Olá! Precisa de ajuda com algo?</div>
+                                <div className="font-medium text-xs text-[#1A3463]">Clique para falar com o nosso chatbot</div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    <button
+                        onMouseEnter={() => setShowHelp(true)}
+                        onMouseLeave={() => setShowHelp(false)}
+                        onClick={() => {
+                            setChatbotOpen(true);
+                            setShowHelp(false);
+                        }}
+                        className="bg-[#1A3463] p-3 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg cursor-pointer flex items-center justify-center w-14 h-14 z-50"
                     >
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowHelp(false);
-                            }}
-                            className="absolute top-1 right-1 text-blue-400 hover:text-blue-700 hover:bg-blue-200 rounded-full p-0.5 transition-colors cursor-pointer"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
-
-                        <div className="font-semibold text-lg text-[#1A3463] mb-1 mr-2">Olá! Precisa de ajuda com algo?</div>
-                        <div className="font-medium text-xs text-[#1A3463]">Clique para falar com o nosso chatbot</div>
-                    </div>
-                )}
-
-                <button
-                    onClick={() => {
-                        setChatbotOpen(true);
-                        setShowHelp(false);
-                    }}
-                    className="bg-[#1A3463] p-3 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg cursor-pointer flex items-center justify-center w-14 h-14"
-                >
-                    <div className="text-white scale-125">
-                        <ChatbotIcon />
-                    </div>
-                </button>
+                        <div className="text-white scale-125">
+                            <ChatbotIcon />
+                        </div>
+                    </button>
+                </div>
             </motion.div>
 
             <div className={`flex-grow ${chatbotOpen ? 'blur-xs' : 'blur-0'} transition-all duration-300 pb-24`}>

@@ -31,7 +31,7 @@ export default function AuthenticatedLayout({ auth, children }) {
                 <Footer />
             </div>
 
-            <div className={`fixed top-28 right-4 z-50 flex flex-col items-end gap-2 ${chatbotOpen ? 'blur-xs pointer-events-none' : ''}`}>
+            <div className={`fixed top-34 right-4 z-50 flex flex-col items-end gap-2 ${chatbotOpen ? 'blur-xs pointer-events-none' : ''}`}>
                 <button
                     onClick={() => setChatbotOpen(true)}
                     className="bg-[#1A3463] p-3 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg cursor-pointer flex items-center justify-center w-14 h-14"

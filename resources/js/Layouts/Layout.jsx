@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import FlashMessages from "../Components/FlashMessages";
 import Footer from "../Components/Layout/Footer";
 import LayoutNavbar from "../Components/Layout/Navbar";
@@ -8,14 +9,6 @@ import Chatbot from "../Components/Chatbot/Chatbot";
 export default function Layout({ auth, children }) {
     const [chatbotOpen, setChatbotOpen] = useState(false);
     const [showHelp, setShowHelp] = useState(false);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setShowHelp(true);
-        }, 2000);
-
-        return () => clearTimeout(timer);
-    }, []);
 
     return (
         <div
@@ -42,39 +35,36 @@ export default function Layout({ auth, children }) {
 
             <div className={`fixed top-28 right-4 z-50 flex flex-col items-end gap-2 ${chatbotOpen ? 'blur-xs pointer-events-none' : ''}`}>
 
-                {showHelp && !chatbotOpen && (
-                    <div
-                        className="bg-[#60B4D9]/30 text-blue-900 p-3 pr-6 rounded-xl shadow-lg text-sm max-w-[420px] relative mb-1 mr-2 backdrop-blur-sm"
+                <div className="relative flex items-center">
+                    <AnimatePresence>
+                        {showHelp && !chatbotOpen && (
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                                className="bg-[#60B4D9]/30 text-blue-900 p-3 pr-6 rounded-xl shadow-lg text-sm max-w-[420px] relative mb-1 mr-4 backdrop-blur-sm"
+                            >
+
+                                <div className="font-semibold text-lg text-[#1A3463] mb-1 mr-2">Olá! Precisa de ajuda com algo?</div>
+                                <div className="font-medium text-xs text-[#1A3463]">Clique para falar com o nosso chatbot</div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    <button
+                        onMouseEnter={() => setShowHelp(true)}
+                        onMouseLeave={() => setShowHelp(false)}
+                        onClick={() => {
+                            setChatbotOpen(true);
+                            setShowHelp(false);
+                        }}
+                        className="bg-[#1A3463] p-3 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg cursor-pointer flex items-center justify-center w-14 h-14 z-50"
                     >
-                        <button
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setShowHelp(false);
-                            }}
-                            className="absolute top-1 right-1 text-blue-400 hover:text-blue-700 hover:bg-blue-200 rounded-full p-0.5 transition-colors cursor-pointer"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                            </svg>
-                        </button>
-
-                        <div className="font-semibold text-lg text-[#1A3463] mb-1 mr-2">Olá! Precisa de ajuda com algo?</div>
-                        <div className="font-medium text-xs text-[#1A3463]">Clique para falar com o nosso chatbot</div>
-                    </div>
-                )}
-
-                <button
-                    onClick={() => {
-                        setChatbotOpen(true);
-                        setShowHelp(false);
-                    }}
-                    className="bg-[#1A3463] p-3 rounded-full hover:scale-110 transition-transform duration-300 shadow-lg cursor-pointer flex items-center justify-center w-14 h-14"
-                >
-                    <div className="text-white scale-125">
-                        <ChatbotIcon />
-                    </div>
-                </button>
+                        <div className="text-white scale-125">
+                            <ChatbotIcon />
+                        </div>
+                    </button>
+                </div>
             </div>
 
             {chatbotOpen && (
