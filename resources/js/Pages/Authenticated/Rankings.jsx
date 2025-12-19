@@ -1,39 +1,51 @@
 import { useEffect, useMemo, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Users, User, Filter } from "lucide-react";
+import { motion } from "framer-motion";
 import AuthenticatedLayout from "../../Layouts/AuthenticatedLayout";
-import FiltersIcon from "../../Components/Icons/FiltersIcon";
 import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
+import Podium from "../../Components/Ranking/Podium";
+import Pagination from "../../Components/Ranking/Pagination";
+import RankingTable from "../../Components/Ranking/RankingTable";
 
-export default function Rankings({ auth, rankings }) {
+export default function Rankings({ auth, rankings, teams }) {
+    const [activeTab, setActiveTab] = useState('users');
     const [currentPage, setCurrentPage] = useState(1);
-    const [showFilters, setShowFilters] = useState(false);
+    const [sortBy, setSortBy] = useState("points");
     const perPage = 8;
 
-    const totalPages = useMemo(() => {
-        return Math.ceil(rankings.length / perPage);
-    }, [rankings.length, perPage]);
+    const rawData = activeTab === 'users' ? rankings : (teams || []);
 
-    useEffect(() => {
-        if (currentPage > totalPages && totalPages > 0) {
-            setCurrentPage(totalPages);
-        }
+    const processedData = useMemo(() => {
+        let data = [...rawData];
+        data.sort((a, b) => b[sortBy] - a[sortBy]);
+        return data.map((item, index) => ({
+            ...item,
+            calculatedRank: index + 1,
+            displayName: activeTab === 'users' ? item.user.name : item.name,
+            displayAvatar: activeTab === 'users' ? item.user.avatar : item.avatar
+        }));
+    }, [rawData, sortBy, activeTab]);
 
-        else if (totalPages === 0 && currentPage !== 1) {
-            setCurrentPage(1);
-        }
-
-    }, [rankings.length, totalPages, currentPage]);
+    const totalPages = Math.ceil(processedData.length / perPage);
 
     const currentData = useMemo(() => {
         const start = (currentPage - 1) * perPage;
         const end = currentPage * perPage;
-        return rankings.slice(start, end);
-    }, [rankings, currentPage, perPage]);
+        return processedData.slice(start, end);
+    }, [processedData, currentPage, perPage]);
 
-    const nextPage = () => currentPage < totalPages && setCurrentPage(currentPage + 1);
-    const prevPage = () => currentPage > 1 && setCurrentPage(currentPage - 1);
+    const podiumUsers = processedData.slice(0, 3);
 
-    const podiumUsers = rankings.slice(0, 3);
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [activeTab, sortBy]);
+
+    const sortOptions = [
+        { key: 'points', label: 'Pontos' },
+        { key: 'challenges', label: 'Desafios' },
+        { key: 'distance', label: 'Distância' },
+        { key: 'medals', label: 'Medalhas' },
+    ];
 
     return (
         <AuthenticatedLayout auth={auth}>
@@ -45,128 +57,82 @@ export default function Rankings({ auth, rankings }) {
                 >
                     <LeftArrowIcon color="#1C5E8F" />
                 </button>
-
                 Rankings
             </h1>
 
-            <div className="flex flex-col lg:flex-row items-center justify-center gap-8 w-full pt-20 px-4 md:px-16">
-                <div className="w-full lg:w-3/5 overflow-x-auto relative">
-                    <div className="flex justify-between items-end mb-3">
-                        <button
-                            onClick={() => setShowFilters(!showFilters)}
-                            className="flex items-end gap-2 bg-transparent text-[#1C5E8F] p-2 rounded-lg text-lg font-medium transition-all cursor-pointer"
-                        >
-                            <FiltersIcon />
-                            Filtros
-                        </button>
-                    </div>
-
-                    <table className="min-w-full table-auto bg-white/30 rounded-2xl overflow-hidden text-xs shadow-md">
-                        <thead className="bg-[#60B4D9] text-left text-[#1A3463] font-medium">
-                            <tr>
-                                <th className="px-6 py-4 w-1/5 text-start">Utilizador</th>
-                                <th className="px-2 py-4 w-1/5 text-center">Pontos Ganhos</th>
-                                <th className="px-2 py-4 w-1/5 text-center">Desafios Cumpridos</th>
-                                <th className="px-2 py-4 w-1/5 text-center">Distância Remada</th>
-                                <th className="px-6 py-4 w-1/5 text-center">Medalhas</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {currentData.map((ranking) => (
-                                <tr
-                                    key={ranking.user.rank}
-                                    className="text-[#5A5A5A] border-b border-white hover:bg-white/50 transition-colors"
-                                >
-                                    <td className="px-6 py-3 text-start">{ranking.user.name}</td>
-                                    <td className="px-4 py-3 text-center">{ranking.points}</td>
-                                    <td className="px-4 py-3 text-center">{ranking.challenges}</td>
-                                    <td className="px-4 py-3 text-center">{ranking.distance}</td>
-                                    <td className="px-4 py-3 text-center">{ranking.medals}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-
-                    {/* PAGINAÇÃO */}
-                    <div className="flex justify-center items-center gap-2 mt-6">
-                        <button
-                            onClick={prevPage}
-                            disabled={currentPage === 1}
-                            className={`p-2 rounded-lg ${currentPage === 1
-                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                : "bg-[#EAF5FA] text-[#1A3463] hover:bg-[#60B4D9] hover:text-white"
-                                }`}
-                        >
-                            <ChevronLeft size={18} />
-                        </button>
-
-                        {Array.from({ length: totalPages }, (_, i) => (
+            <div className="flex flex-col lg:flex-row items-start justify-center gap-8 w-full pt-28 px-4 md:px-16 pb-10">
+                <div className="w-full lg:w-3/5 relative flex flex-col gap-6">
+                    <div className="bg-white/30 p-2 rounded-2xl shadow-sm border border-gray-100 flex flex-col xl:flex-row items-center justify-between gap-4">
+                        <div className="w-full xl:w-auto bg-gray-100/80 p-1.5 rounded-xl flex relative isolate">
                             <button
-                                key={i}
-                                onClick={() => setCurrentPage(i + 1)}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200
-                                ${currentPage === i + 1
-                                        ? "bg-[#1A3463] text-white shadow-md"
-                                        : "bg-[#EAF5FA] text-[#1A3463] hover:bg-[#60B4D9] hover:text-white"
-                                    }`}
+                                onClick={() => setActiveTab('users')}
+                                className={`relative z-10 flex-1 xl:flex-none flex items-center justify-center gap-2 px-6 py-2 rounded-lg text-sm font-semibold transition-colors duration-300 ${activeTab === 'users' ? 'text-[#1A3463]' : 'text-gray-800 hover:text-[#1A3463]'
+                                    } cursor-pointer`}
                             >
-                                {i + 1}
+                                {activeTab === 'users' && (
+                                    <motion.div
+                                        layoutId="activeTabBackground"
+                                        className="absolute inset-0 bg-[#60B4D9] rounded-lg shadow-md -z-10"
+                                        transition={{ type: "spring", stiffness: 200, damping: 30 }}
+                                    />
+                                )}
+                                <User size={16} />
+                                Individual
                             </button>
-                        ))}
 
-                        <button
-                            onClick={nextPage}
-                            disabled={currentPage === totalPages}
-                            className={`p-2 rounded-lg ${currentPage === totalPages
-                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                : "bg-[#EAF5FA] text-[#1A3463] hover:bg-[#60B4D9] hover:text-white"
-                                }`}
-                        >
-                            <ChevronRight size={18} />
-                        </button>
-                    </div>
-                </div>
-
-                {/* PÓDIO */}
-                <div className="w-full lg:w-2/5 relative flex items-center justify-center px-4 md:px-16 lg:pt-0">
-                    <img
-                        src="/images/podium.png"
-                        alt="Pódio"
-                        className="w-full h-auto object-contain drop-shadow-lg"
-                    />
-
-                    {/* POSIÇÕES DOS UTILIZADORES */}
-                    {podiumUsers.map((ranking) => (
-                        <div
-                            key={ranking.rank}
-                            className="absolute flex flex-col items-center text-center"
-                            style={{
-                                top:
-                                    ranking.rank === 1
-                                        ? "-90%"
-                                        : ranking.rank === 2
-                                            ? "-55%"
-                                            : "-45%",
-                                left:
-                                    ranking.rank === 1
-                                        ? "50%"
-                                        : ranking.rank === 2
-                                            ? "25%"
-                                            : "75%",
-                                transform: "translate(-50%, 0)",
-                            }}
-                        >
-                            <img
-                                src={ranking.user.avatar}
-                                alt={ranking.user.name}
-                                className="w-20 h-20 md:w-24 md:h-24 rounded-full border-4 border-white shadow-md object-cover"
-                            />
-                            <p className="text-[#1A3463] text-sm font-medium mt-2">
-                                {ranking.user.name}
-                            </p>
+                            <button
+                                onClick={() => setActiveTab('teams')}
+                                className={`relative z-10 flex-1 xl:flex-none flex items-center justify-center gap-2 px-6 py-2 rounded-lg text-sm font-semibold transition-colors duration-300 ${activeTab === 'teams' ? 'text-[#1A3463]' : 'text-gray-800 hover:text-[#1A3463]'
+                                    } cursor-pointer`}
+                            >
+                                {activeTab === 'teams' && (
+                                    <motion.div
+                                        layoutId="activeTabBackground"
+                                        className="absolute inset-0 bg-[#60B4D9] rounded-lg shadow-md -z-10"
+                                        transition={{ type: "spring", stiffness: 200, damping: 30 }}
+                                    />
+                                )}
+                                <Users size={16} />
+                                Equipas
+                            </button>
                         </div>
-                    ))}
+
+                        <div className="hidden xl:block h-8 w-px bg-[#1A3463]"></div>
+
+                        <div className="w-full xl:flex-1 flex flex-col md:flex-row gap-4 items-center justify-center">
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
+                                <div className="flex items-center gap-1 text-[#1A3463]">
+                                    <Filter size={14} />
+                                    <span className="text-xs font-bold uppercase tracking-wide">Ordenar:</span>
+                                </div>
+                                <div className="flex bg-gray-50 rounded-lg p-1 gap-1">
+                                    {sortOptions.map((opt) => (
+                                        <button
+                                            key={opt.key}
+                                            onClick={() => setSortBy(opt.key)}
+                                            className={`relative px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors z-10 ${sortBy === opt.key ? 'text-[#1A3463]' : 'text-gray-800 hover:text-[#1A3463]'
+                                                } cursor-pointer`}
+                                        >
+                                            {sortBy === opt.key && (
+                                                <motion.div
+                                                    layoutId="sortBackground"
+                                                    className="absolute inset-0 bg-[#60B4D9] rounded-md shadow-sm ring-1 ring-black/5 -z-10"
+                                                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                                                />
+                                            )}
+                                            {opt.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <RankingTable activeTab={activeTab} sortBy={sortBy} currentData={currentData} />
+                    <Pagination totalPages={totalPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
                 </div>
+
+                <Podium activeTab={activeTab} sortOptions={sortOptions} sortBy={sortBy} podiumUsers={podiumUsers} />
             </div>
         </AuthenticatedLayout>
     );

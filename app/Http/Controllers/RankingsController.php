@@ -2,34 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Team;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class RankingsController extends Controller
 {
     public function index()
     {
-        /* $currentUser = Auth::user();
-
-        $rawActivities = $currentUser->activities()
-            ->orderByPivot('created_at', 'desc')
-            ->get();
-
-        $myStats = [
-            'total_distance' => round($rawActivities->sum('pivot.distance') / 1000, 1),
-            'total_calories' => $rawActivities->sum('pivot.wasted_calories'),
-            'total_points' => $rawActivities->sum('pivot.points'),
-            'total_activities' => $rawActivities->count(),
-            'total_hours' => round($rawActivities->sum('pivot.practice_time') / 60, 1),
-        ]; */
-
-        $rankings = User::query()
+        $userRankings = User::query()
             ->select('id', 'name', 'avatar', 'total_points')
             ->withCount('activities as challenges_completed')
             ->withSum('activities as total_distance', 'activity_user.distance')
             ->orderByDesc('total_points')
-            ->orderByDesc('total_distance')
             ->limit(50)
             ->get()
             ->map(function ($user, $index) {
@@ -41,14 +27,43 @@ class RankingsController extends Controller
                     ],
                     'points' => $user->total_points,
                     'challenges' => $user->challenges_completed,
-                    'distance' => round(($user->total_distance ?? 0) / 1000, 1) . ' km',
+                    'distance' => round(($user->total_distance ?? 0) / 1000, 1),
                     'medals' => random_int(1, 12)
                 ];
             });
 
+        $teamRankings = Team::with('users:id,total_points')
+            ->get()
+            ->map(function ($team) {
+                $memberIds = $team->users->pluck('id');
+
+                $stats = DB::table('activity_user')
+                    ->whereIn('user_id', $memberIds)
+                    ->selectRaw('SUM(distance) as total_distance, COUNT(*) as total_challenges')
+                    ->first();
+
+                $totalPoints = $team->users->sum('total_points');
+
+                return [
+                    'id' => $team->id,
+                    'name' => $team->name,
+                    'avatar' => "https://ui-avatars.com/api/?name=" . urlencode($team->name) . "&background=1A3463&color=fff&size=128",
+                    'points' => $totalPoints,
+                    'challenges' => $stats->total_challenges ?? 0,
+                    'distance' => round(($stats->total_distance ?? 0) / 1000, 1),
+                    'medals' => random_int(5, 50)
+                ];
+            })
+            ->sortByDesc('points')
+            ->values()
+            ->map(function ($team, $index) {
+                $team['rank'] = $index + 1;
+                return $team;
+            });
+
         return Inertia::render('Authenticated/Rankings', [
-            /* 'myStats' => $myStats, */
-            'rankings' => $rankings
+            'rankings' => $userRankings,
+            'teams' => $teamRankings
         ]);
     }
 }
