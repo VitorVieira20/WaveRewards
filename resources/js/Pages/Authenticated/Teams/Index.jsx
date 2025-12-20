@@ -89,12 +89,6 @@ export default function TeamsIndex({ auth, allTeams, canCreate }) {
                                 {team.name}
                             </h3>
 
-                            {team.description && (
-                                <p className="text-[#1A3463]/60 text-xs mb-3 line-clamp-2 px-2 h-8">
-                                    {team.description}
-                                </p>
-                            )}
-
                             <div className="flex items-center gap-2 text-[#1A3463]/60 text-sm font-medium mb-6">
                                 <span>{team.users_count} membros</span>
                                 <span className="w-1 h-1 bg-[#1A3463]/40 rounded-full"></span>

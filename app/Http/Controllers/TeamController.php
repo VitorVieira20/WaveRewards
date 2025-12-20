@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Jobs\SendDiscordTeamApprovalJob;
 use App\Models\Team;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
@@ -34,11 +36,24 @@ class TeamController extends Controller
         $allTeams = Team::where('status', 'approved')
             ->withCount([
                 'users' => function ($query) {
-                    $query->where('status', 'approved');
+                    $query->where('team_user.status', 'approved');
                 }
             ])
-            ->withSum('users', 'total_points')
-            ->paginate(9);
+            ->withSum([
+                'users' => function ($query) {
+                    $query->where('team_user.status', 'approved');
+                }
+            ], 'total_points')
+            ->paginate(9)
+            ->through(fn($team) => [
+                'id' => $team->id,
+                'name' => $team->name,
+                'description' => $team->description,
+                'image' => $team->image ? asset('storage/' . $team->image) : null,
+                'users_count' => $team->users_count,
+                'users_sum_total_points' => $team->users_sum_total_points ?? 0,
+                'created_at' => $team->created_at,
+            ]);
 
         return Inertia::render('Authenticated/Teams/Index', [
             'canCreate' => $canCreate,
@@ -94,8 +109,30 @@ class TeamController extends Controller
 
     public function join(Team $team)
     {
-        $team->users()->attach(Auth::id(), ['role' => 'member', 'status' => 'pending']);
-        return back();
+        $user = Auth::user();
+
+        $alreadyInTeam = $user->teams()
+            ->wherePivot('status', 'approved')
+            ->exists();
+
+        if ($alreadyInTeam) {
+            return back()->with('error', 'Já pertences a uma equipa.');
+        }
+
+        $hasPendingRequest = $user->teams()
+            ->wherePivot('status', 'pending')
+            ->exists();
+
+        if ($hasPendingRequest) {
+            return back()->with('error', 'Já tens um pedido de adesão pendente.');
+        }
+
+        $team->users()->attach($user->id, [
+            'role' => 'member',
+            'status' => 'pending'
+        ]);
+
+        return back()->with('success', 'Pedido de adesão enviado com sucesso! Aguarda a aprovação do capitão.');
     }
 
 
@@ -154,21 +191,41 @@ class TeamController extends Controller
             return back()->withErrors(['error' => 'Não tens permissão para gerir esta equipa.']);
         }
 
-        $targetUser = $team->users()
+        $targetRequest = $team->users()
             ->where('user_id', $user->id)
             ->wherePivot('status', 'pending')
             ->first();
 
-        if (!$targetUser) {
+        if (!$targetRequest) {
             return back()->withErrors(['error' => 'Este pedido já não existe.']);
         }
 
-        $team->users()->updateExistingPivot($user->id, [
-            'status' => 'approved',
-            'updated_at' => now(),
-        ]);
+        DB::beginTransaction();
 
-        return back()->with('success', 'Membro aceite na equipa!');
+        try {
+            $team->users()->updateExistingPivot($user->id, [
+                'status' => 'approved',
+                'updated_at' => now(),
+            ]);
+
+            $user->teams()->wherePivot('status', 'pending')->detach();
+
+            $pendingTeamsToCreate = $user->teams()
+                ->where('teams.status', 'pending')
+                ->wherePivot('role', 'admin')
+                ->get();
+
+            foreach ($pendingTeamsToCreate as $pTeam) {
+                $pTeam->delete();
+            }
+
+            DB::commit();
+            return back()->with('success', 'Membro aceite e pedidos duplicados limpos!');
+
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->withErrors(['error' => 'Ocorreu um erro ao processar o pedido. Tenta novamente.']);
+        }
     }
 
     public function rejectRequest(User $user)
