@@ -13,6 +13,7 @@ use App\Http\Controllers\MeteorologyController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RankingsController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TutorialController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WorkshopController;
@@ -80,8 +81,18 @@ Route::middleware('auth.redirect')->group(function () {
     Route::get('/chat/token/{team}', [ChatController::class, 'getToken'])->name('chat.token');
     Route::get('/chat/messages/{team}', [ChatController::class, 'index'])->name('chat.history');
 
+
     // COMMUNITY
     Route::get('/community', [CommunityController::class, 'index'])->name('community.index');
     Route::get('/community/create', [CommunityController::class, 'create'])->name('community.create');
     Route::post('/community/create', [CommunityController::class, 'store'])->name('community.store');
+
+
+    // TEAMS
+    Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
+    Route::post('/teams/join/{team}', [TeamController::class, 'join'])->name('teams.join');
+    Route::post('/teams', [TeamController::class, 'store'])->name('teams.store');
+    Route::get('/teams/my-team', [TeamController::class, 'myTeam'])->name('teams.myTeam');
+    Route::post('/teams/requests/{user}/accept', [TeamController::class, 'acceptRequest'])->name('teams.requests.accept');
+    Route::delete('/teams/requests/{user}/reject', [TeamController::class, 'rejectRequest'])->name('teams.requests.reject');
 });

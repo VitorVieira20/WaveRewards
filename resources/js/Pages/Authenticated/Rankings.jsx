@@ -66,13 +66,13 @@ export default function Rankings({ auth, rankings, teams }) {
                         <div className="w-full xl:w-auto bg-gray-100/80 p-1.5 rounded-xl flex relative isolate">
                             <button
                                 onClick={() => setActiveTab('users')}
-                                className={`relative z-10 flex-1 xl:flex-none flex items-center justify-center gap-2 px-6 py-2 rounded-lg text-sm font-semibold transition-colors duration-300 ${activeTab === 'users' ? 'text-[#1A3463]' : 'text-gray-800 hover:text-[#1A3463]'
+                                className={`relative z-10 flex-1 xl:flex-none flex items-center justify-center gap-2 px-6 py-2 rounded-2xl text-md font-medium transition-colors duration-300 ${activeTab === 'users' ? 'text-white' : 'text-gray-800 hover:text-[#1A3463]'
                                     } cursor-pointer`}
                             >
                                 {activeTab === 'users' && (
                                     <motion.div
                                         layoutId="activeTabBackground"
-                                        className="absolute inset-0 bg-[#60B4D9] rounded-lg shadow-md -z-10"
+                                        className="absolute inset-0 bg-[#6EA8C5] rounded-2xl shadow-md -z-10"
                                         transition={{ type: "spring", stiffness: 200, damping: 30 }}
                                     />
                                 )}
@@ -82,13 +82,13 @@ export default function Rankings({ auth, rankings, teams }) {
 
                             <button
                                 onClick={() => setActiveTab('teams')}
-                                className={`relative z-10 flex-1 xl:flex-none flex items-center justify-center gap-2 px-6 py-2 rounded-lg text-sm font-semibold transition-colors duration-300 ${activeTab === 'teams' ? 'text-[#1A3463]' : 'text-gray-800 hover:text-[#1A3463]'
+                                className={`relative z-10 flex-1 xl:flex-none flex items-center justify-center gap-2 px-6 py-2 rounded-2xl text-md font-medium transition-colors duration-300 ${activeTab === 'teams' ? 'text-white' : 'text-gray-800 hover:text-[#1A3463]'
                                     } cursor-pointer`}
                             >
                                 {activeTab === 'teams' && (
                                     <motion.div
                                         layoutId="activeTabBackground"
-                                        className="absolute inset-0 bg-[#60B4D9] rounded-lg shadow-md -z-10"
+                                        className="absolute inset-0 bg-[#6EA8C5] rounded-2xl shadow-md -z-10"
                                         transition={{ type: "spring", stiffness: 200, damping: 30 }}
                                     />
                                 )}
@@ -97,26 +97,24 @@ export default function Rankings({ auth, rankings, teams }) {
                             </button>
                         </div>
 
-                        <div className="hidden xl:block h-8 w-px bg-[#1A3463]"></div>
-
-                        <div className="w-full xl:flex-1 flex flex-col md:flex-row gap-4 items-center justify-center">
+                        <div className="w-full xl:flex-1 flex flex-col md:flex-row gap-4 items-center justify-center lg:justify-end">
                             <div className="flex flex-col md:flex-row items-center justify-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
                                 <div className="flex items-center gap-1 text-[#1A3463]">
                                     <Filter size={14} />
-                                    <span className="text-xs font-bold uppercase tracking-wide">Ordenar:</span>
+                                    <span className="text-md font-semibold uppercase tracking-wide">Ordenar:</span>
                                 </div>
-                                <div className="flex bg-gray-50 rounded-lg p-1 gap-1">
+                                <div className="flex bg-gray-50 rounded-2xl p-1 gap-1">
                                     {sortOptions.map((opt) => (
                                         <button
                                             key={opt.key}
                                             onClick={() => setSortBy(opt.key)}
-                                            className={`relative px-3 py-1.5 rounded-md text-xs font-semibold whitespace-nowrap transition-colors z-10 ${sortBy === opt.key ? 'text-[#1A3463]' : 'text-gray-800 hover:text-[#1A3463]'
+                                            className={`relative px-4 py-1.5 rounded-2xl text-md font-normal whitespace-nowrap transition-colors z-10 ${sortBy === opt.key ? 'text-white' : 'text-gray-800 hover:text-[#1A3463]'
                                                 } cursor-pointer`}
                                         >
                                             {sortBy === opt.key && (
                                                 <motion.div
                                                     layoutId="sortBackground"
-                                                    className="absolute inset-0 bg-[#60B4D9] rounded-md shadow-sm ring-1 ring-black/5 -z-10"
+                                                    className="absolute inset-0 bg-[#6EA8C5] rounded-2xl shadow-sm ring-1 ring-black/5 -z-10"
                                                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                                                 />
                                             )}

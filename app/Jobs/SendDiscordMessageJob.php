@@ -13,45 +13,41 @@ class SendDiscordMessageJob implements ShouldQueue
 {
     use Dispatchable, Queueable;
 
-    protected string $message;
+    protected array $payload;
+    protected ?string $webhookUrl;
 
-    public function __construct(string $message)
+    public function __construct(array $payload, ?string $webhookUrl = null)
     {
-        $this->message = $message;
+        $this->payload = $payload;
+        $this->webhookUrl = $webhookUrl;
     }
 
-
-    /**
-     * Execute the job.
-     */
     public function handle(): void
     {
         $client = new Client();
 
-        $webhook_url = env('DISCORD_WEBHOOK');
+        $url = $this->webhookUrl ?? config('services.discord.contact');
 
-        if (!$webhook_url) throw new Exception('Discord webhook request failed');
+        if (!$url) throw new Exception('Discord webhook URL not found');
 
         try {
-            $response = $client->post($webhook_url, [
-                'form_params' => ['content' => $this->message],
+            $response = $client->post($url, [
+                'json' => $this->payload,
                 'verify' => false,
             ]);
 
             if ($response->getStatusCode() >= 400) {
-                throw new Exception('Discord webhook request failed');
+                throw new Exception('Discord webhook request failed with status ' . $response->getStatusCode());
             }
 
-            Log::info('Mensagem enviada para o Discord com sucesso!', [
+            Log::info('Notificação enviada para o Discord via Queue!', [
                 'status' => 'SENT',
                 'sent_at' => now(),
             ]);
         } catch (Exception $e) {
-            Log::info('Occorreu um erro ao enviar a mensagem para o Discord.', [
-                'status' => 'FAILED',
-                'error_message' => $e->getMessage(),
+            Log::error('Erro ao enviar mensagem para o Discord.', [
+                'error' => $e->getMessage(),
             ]);
-
             throw $e;
         }
     }

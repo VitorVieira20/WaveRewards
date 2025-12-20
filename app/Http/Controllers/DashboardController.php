@@ -32,7 +32,10 @@ class DashboardController extends Controller
 
         $data = $this->weatherApiService->getHourlyAndWeekForecats($locations);
 
-        $team = $user->teams()->first();
+        $team = $user->teams()
+            ->where('teams.status', 'approved')
+            ->wherePivot('status', 'approved')
+            ->first();
 
         $teamData = null;
 

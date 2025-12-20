@@ -53,7 +53,10 @@ class ProfileController extends Controller
 
         $teamData = null;
 
-        $team = $user->teams()->first();
+        $team = $user->teams()
+            ->where('teams.status', 'approved')
+            ->wherePivot('status', 'approved')
+            ->first();
 
         if ($team) {
             $teamData = $this->formatTeamData($team);

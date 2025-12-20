@@ -52,4 +52,14 @@ return [
     'groq' => [
         'key' => env('GROQ_API_KEY'),
     ],
+
+    'discord' => [
+        'contact' => env('DISCORD_WEBHOOK'),
+        'team' => env('DISCORD_TEAM_WEBHOOK'),
+        'bot' => [
+            'public' => env('DISCORD_BOT_PUBLIC_KEY'),
+            'token' => env('DISCORD_BOT_TOKEN'),
+            'password' => env('DISCORD_ADMIN_PASSWORD')
+        ]
+    ]
 ];
