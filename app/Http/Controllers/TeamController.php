@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Jobs\SendDiscordMessageJob;
+use App\Jobs\SendDiscordTeamApprovalJob;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
-use Illuminate\Support\Facades\Http;
 use Inertia\Inertia;
 
 class TeamController extends Controller
@@ -229,6 +228,8 @@ class TeamController extends Controller
 
     private function sendDiscordNotification($team, $user)
     {
+        $imageUrl = $team->image ? asset('storage/' . $team->image) : null;
+
         $payload = [
             "content" => "🚀 **Novo pedido de criação de equipa!**",
             "embeds" => [
@@ -237,8 +238,22 @@ class TeamController extends Controller
                     "description" => $team->description ?? "Sem descrição.",
                     "color" => 1935292,
                     "fields" => [
-                        ["name" => "👤 Criador", "value" => $user->name, "inline" => true]
-                    ]
+                        [
+                            "name" => "👤 Criador",
+                            "value" => $user->name,
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "🆔 ID da Equipa",
+                            "value" => (string) $team->id,
+                            "inline" => true
+                        ]
+                    ],
+                    "image" => $imageUrl ? ["url" => $imageUrl] : null,
+                    "footer" => [
+                        "text" => "WaveRewards Admin • ID: " . $team->id
+                    ],
+                    "timestamp" => now()->toIso8601String()
                 ]
             ],
             "components" => [
@@ -247,13 +262,13 @@ class TeamController extends Controller
                     "components" => [
                         [
                             "type" => 2,
-                            "style" => 3, // Verde (Success)
+                            "style" => 3,
                             "label" => "Aprovar",
                             "custom_id" => "approve_team_{$team->id}"
                         ],
                         [
                             "type" => 2,
-                            "style" => 4, // Vermelho (Danger)
+                            "style" => 4,
                             "label" => "Rejeitar",
                             "custom_id" => "reject_team_{$team->id}"
                         ]
@@ -262,6 +277,6 @@ class TeamController extends Controller
             ]
         ];
 
-        SendDiscordMessageJob::dispatch($payload, config('services.discord.team'));
+        SendDiscordTeamApprovalJob::dispatch($payload);
     }
 }

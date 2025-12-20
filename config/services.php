@@ -59,7 +59,8 @@ return [
         'bot' => [
             'public' => env('DISCORD_BOT_PUBLIC_KEY'),
             'token' => env('DISCORD_BOT_TOKEN'),
-            'password' => env('DISCORD_ADMIN_PASSWORD')
+            'password' => env('DISCORD_ADMIN_PASSWORD'),
+            'channel' => env('DISCORD_CHANNEL_ID')
         ]
     ]
 ];
