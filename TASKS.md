@@ -22,7 +22,33 @@
     - [x] Criar QR Code com o nosso logo e fazer com que redirecione para o nosso site
     - [ ] Implementar um modal/card para poderem partilhar o QR Code com alguém
 - [ ] **Equipas**
-    - [ ] Criar uma página onde é possível ver todas as equipas a que o user se pode juntar
-    - [ ] **A Minha Equioa**
-        - [ ] Criar uma página para o user as informações da sua equipa, quando pertence a uma
-        - [ ] Quando o user é admin, pode ver os pedidos pendentes para se juntarem à equipa 
+    - [x] Criar uma página onde é possível ver todas as equipas a que o user se pode juntar
+    - [x] Implementação do pedido de adesão a uma equipa
+    - [x] Quando um pedido de criação de equipa é feito, é enviada uma notificação para o Discord
+    - [x] **A Minha Equipa**
+        - [x] Criar uma página para o user as informações da sua equipa, quando pertence a uma
+        - [x] Quando o user é admin, pode ver os pedidos pendentes para se juntarem à equipa 
+        - [x] Implementação da aceitação ou rejeição de um pedido
+        - [ ] Implementar a funcionalidade de SAIR ou EXPULSAR de uma equipa
+- [ ] **Autenticação**
+    - [ ] Implementar a autenticação com o google (OAuth)
+- [ ] **Validações**
+    - [ ] **Atividades**
+        - [ ] Máximo de 100km por atividade
+        - [ ] Máximo de 24 * 60 min por atividade
+        - [ ] Máximo de 100kcal por atividade
+      - [ ] Máximo de 100kg por atividade (Quando aplicável)
+- [ ] **Perfil**
+    - [ ] Implementar os objetivos do perfil
+    - [ ] Implementar o sistema de badges
+    - [ ] Implementar os pontos no gráficos de atividades
+    - [ ] Mudança de foto de perfil
+- [ ] **Definições** 
+    - [ ] Implementar o "Eliminar Conta" (Adicionar um campo "is_active" no user e meter false)
+    - [ ] Implementar o "Export Dados" (Export um PDF com)
+        - [ ] Workshops feitos
+        - [ ] Atividades feitas
+        - [ ] Estatísticas
+        - [ ] Objetivos
+        - [ ] Medalhas
+        - [ ] Informação da conta (nome, username, etc)
