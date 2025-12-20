@@ -3,6 +3,7 @@
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RedirectIfNotAuthenticated;
+use App\Http\Middleware\VerifyDiscordSignature;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'auth.redirect' => RedirectIfNotAuthenticated::class,
             'guest.redirect' => RedirectIfAuthenticated::class,
+            'discord.verify' => VerifyDiscordSignature::class
         ]);
 
     })

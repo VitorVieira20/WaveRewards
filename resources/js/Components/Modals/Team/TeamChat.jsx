@@ -30,7 +30,7 @@ export default function TeamChatModal({ auth, team, isOpen, onClose }) {
             <div className="absolute inset-0" onClick={onClose}></div>
 
             <div
-                className="relative w-full max-w-2xl bg-[#1C679A]/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[600px] border border-white/20 backdrop-blur-lg"
+                className="relative w-full max-w-2xl xl:max-w-3xl 2xl:max-w-5xl bg-[#1C679A]/80 rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[600px] 2xl:h-[900px] border border-white/20 backdrop-blur-lg"
                 style={{ boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)" }}
             >
                 {/* HEADER */}

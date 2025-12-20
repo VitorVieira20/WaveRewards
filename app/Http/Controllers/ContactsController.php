@@ -41,7 +41,11 @@ class ContactsController extends Controller
             🕒 Enviado em: *{$timestamp}*
             MD;
 
-        SendDiscordMessageJob::dispatch($markdownMessage);
+        $payload = [
+            'content' => $markdownMessage
+        ];
+
+        SendDiscordMessageJob::dispatch($payload);
 
         return back()->with('success', 'A tua mensagem foi recebida e será processada em breve. Aguarda por um email de confirmação.');
     }

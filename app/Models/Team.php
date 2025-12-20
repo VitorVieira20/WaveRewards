@@ -11,12 +11,13 @@ class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
-
+    protected $fillable = ['name', 'description', 'image', 'status'];
 
     public function users(): BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+            ->withPivot(['role', 'status'])
+            ->withTimestamps();
     }
 
 

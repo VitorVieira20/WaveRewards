@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,12 +24,31 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $defaultAvatars = [
+            'images/avatars/avatar1.png',
+            'images/avatars/avatar2.png',
+            'images/avatars/avatar3.png',
+            'images/avatars/avatar4.png',
+        ];
+
+        $avatar = $defaultAvatars[array_rand($defaultAvatars)];
+
+        $name = fake()->name();
+        $baseUsername = strtolower(str_replace(' ', '_', $name));
+        do {
+            $username = $baseUsername . '_' . rand(1000, 9999);
+        } while (User::where('username', $username)->exists());
+
         return [
-            'name' => fake()->name(),
+            'name' => $name,
+            'username' => $username,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'avatar' => $avatar,
+            'address' => fake()->address,
+            'total_points' => 0
         ];
     }
 

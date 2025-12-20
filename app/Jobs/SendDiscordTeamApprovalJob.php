@@ -9,7 +9,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 
-class SendDiscordMessageJob implements ShouldQueue
+class SendDiscordTeamApprovalJob implements ShouldQueue
 {
     use Dispatchable, Queueable;
 
@@ -22,32 +22,38 @@ class SendDiscordMessageJob implements ShouldQueue
         $this->webhookUrl = $webhookUrl;
     }
 
+    /**
+     * Execute the job.
+     */
     public function handle(): void
     {
         $client = new Client();
 
-        $url = $this->webhookUrl ?? config('services.discord.contact');
+        $token = config('services.discord.bot.token');
+        $channelId = config('services.discord.bot.channel');
+        $url = "https://discord.com/api/v10/channels/{$channelId}/messages";
 
-        if (!$url) throw new Exception('Discord webhook URL not found');
+        if (!$token || !$channelId) {
+            throw new Exception('Configurações do Bot do Discord em falta no .env');
+        }
 
         try {
             $response = $client->post($url, [
+                'headers' => [
+                    'Authorization' => "Bot {$token}",
+                    'Content-Type' => 'application/json',
+                ],
                 'json' => $this->payload,
                 'verify' => false,
             ]);
 
             if ($response->getStatusCode() >= 400) {
-                throw new Exception('Discord webhook request failed with status ' . $response->getStatusCode());
+                throw new Exception('A API do Discord devolveu um erro: ' . $response->getStatusCode());
             }
 
-            Log::info('Notificação enviada para o Discord via Queue!', [
-                'status' => 'SENT',
-                'sent_at' => now(),
-            ]);
+            Log::info('Notificação de equipa enviada com botões!');
         } catch (Exception $e) {
-            Log::error('Erro ao enviar mensagem para o Discord.', [
-                'error' => $e->getMessage(),
-            ]);
+            Log::error('Erro no Discord Job: ' . $e->getMessage());
             throw $e;
         }
     }
