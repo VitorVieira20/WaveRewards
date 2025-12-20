@@ -14,10 +14,18 @@ export default function MyTeamInformation({ myTeam, pendingRequests, onOpenChat 
             <div className="relative z-10 flex flex-col xl:flex-row items-center xl:items-start justify-between gap-8">
 
                 <div className="flex flex-col md:flex-row items-center gap-8 flex-1 text-center md:text-left">
-                    {/* Avatar da Equipa */}
-                    <div className="shrink-0 w-32 h-32 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-5xl font-bold border-4 border-white/30 shadow-inner">
-                        {myTeam.name.charAt(0)}
+                    <div className="shrink-0 w-32 h-32 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-5xl font-bold border-4 border-white/30 shadow-inner overflow-hidden">
+                        {myTeam.image ? (
+                            <img
+                                src={myTeam.image}
+                                alt={myTeam.name}
+                                className="w-full h-full object-cover"
+                            />
+                        ) : (
+                            myTeam.name.charAt(0)
+                        )}
                     </div>
+
 
                     <div className="flex flex-col">
                         <div className="flex flex-col md:flex-row items-center gap-3 mb-2 justify-center md:justify-start">
@@ -27,10 +35,12 @@ export default function MyTeamInformation({ myTeam, pendingRequests, onOpenChat 
                                 {isAdmin ? 'Administrador' : 'Membro'}
                             </span>
                         </div>
-                        
-                        <p className="text-blue-100 max-w-lg mb-6">
-                            Juntos vamos mais longe! Participa nos desafios e acumula pontos para a tua equipa subir no ranking.
-                        </p>
+
+                        {myTeam.description && (
+                            <p className="text-blue-100 max-w-lg mb-6">
+                                {myTeam.description}
+                            </p>
+                        )}
 
                         <div className="flex flex-col sm:flex-row items-center gap-6">
                             <div className="flex items-center justify-center md:justify-start gap-6">
@@ -58,7 +68,7 @@ export default function MyTeamInformation({ myTeam, pendingRequests, onOpenChat 
                                     transition-all duration-300 shadow-md cursor-pointer
                                 "
                             >
-                                <MessageCircle size={20} fill="currentColor" className="opacity-80"/>
+                                <MessageCircle size={20} fill="currentColor" className="opacity-80" />
                                 Chat de Equipa
                             </button>
                         </div>

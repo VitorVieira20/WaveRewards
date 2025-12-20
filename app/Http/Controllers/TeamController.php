@@ -209,6 +209,8 @@ class TeamController extends Controller
         return [
             'id' => $team->id,
             'name' => $team->name,
+            'description' => $team->description ?? null,
+            'image' => $team->image ? asset('storage/' . $team->image) : null,
             'points' => $teamTotalPoints,
             'rank' => $ranking,
             'role' => $team->pivot->role,
