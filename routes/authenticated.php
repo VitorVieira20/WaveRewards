@@ -65,6 +65,7 @@ Route::middleware('auth.redirect')->group(function () {
 
     // PROFILE
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::patch('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
 
 
     // CHANGE PASSWORD

@@ -15,6 +15,7 @@ class RankingsController extends Controller
             ->select('id', 'name', 'avatar', 'total_points')
             ->withCount('activities as challenges_completed')
             ->withSum('activities as total_distance', 'activity_user.distance')
+            ->withCount('badges as total_badges')
             ->orderByDesc('total_points')
             ->limit(50)
             ->get()
@@ -28,7 +29,7 @@ class RankingsController extends Controller
                     'points' => $user->total_points,
                     'challenges' => $user->challenges_completed,
                     'distance' => round(($user->total_distance ?? 0) / 1000, 1),
-                    'medals' => random_int(1, 12)
+                    'medals' => $user->total_badges // Valor real da base de dados
                 ];
             });
 
@@ -42,6 +43,10 @@ class RankingsController extends Controller
                     ->selectRaw('SUM(distance) as total_distance, COUNT(*) as total_challenges')
                     ->first();
 
+                $totalTeamMedals = DB::table('badge_user')
+                    ->whereIn('user_id', $memberIds)
+                    ->count();
+
                 $totalPoints = $team->users->sum('total_points');
 
                 return [
@@ -51,7 +56,7 @@ class RankingsController extends Controller
                     'points' => $totalPoints,
                     'challenges' => $stats->total_challenges ?? 0,
                     'distance' => round(($stats->total_distance ?? 0) / 1000, 1),
-                    'medals' => random_int(5, 50)
+                    'medals' => $totalTeamMedals
                 ];
             })
             ->sortByDesc('points')

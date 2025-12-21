@@ -6,10 +6,11 @@ use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateProfileRequest;
 use App\Models\User;
 use App\Repositories\UserRepository;
-use Barryvdh\DomPDF\Facade\Pdf;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class UserService
@@ -77,50 +78,32 @@ class UserService
     }
 
 
-    public function updateProfile(UpdateProfileRequest $request, User $user)
+    public function updateProfile(UpdateProfileRequest $request, User $user): bool
     {
-        $data = $request->validated();
-
         try {
-            return DB::transaction(function () use ($data, $user) {
-                if (!empty($data)) {
-                    $user->update($data);
-
-                    Log::info('User Profile Updated.', [
-                        'user_id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'username' => $user->username,
-                        'address' => $user->address,
-                        'timestamp' => now()->toDateTimeString(),
-                    ]);
-                } else {
-                    Log::info('User tried to update profile but no new data was passed', [
-                        'user_id' => $user->id,
-                        'name' => $user->name,
-                        'email' => $user->email,
-                        'username' => $user->username,
-                        'address' => $user->address,
-                        'timestamp' => now()->toDateTimeString(),
-                    ]);
+            if ($request->hasFile('avatar')) {
+                if ($user->avatar && !str_contains($user->avatar, 'default-avatar')) {
+                    $oldPath = str_replace(asset('storage/'), '', $user->avatar);
+                    Storage::disk('public')->delete($oldPath);
                 }
 
-                return $user;
-            });
-        } catch (Throwable $e) {
-            Log::error('Error while updating User Profile.', [
-                'error_message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-                'input_data' => [
-                    'name' => $data['name'] ?? null,
-                    'email' => $data['email'] ?? null,
-                    'username' => $data['username'] ?? null,
-                    'address' => $data['address'] ?? null,
-                ],
-                'timestamp' => now()->toDateTimeString(),
-            ]);
+                // Guardar o novo ficheiro
+                $path = $request->file('avatar')->store('avatars', 'public');
+                $user->avatar = asset('storage/' . $path);
+            }
 
-            return null;
+            if ($request->has('name'))
+                $user->name = $request->name;
+            if ($request->has('username'))
+                $user->username = $request->username;
+            if ($request->has('email'))
+                $user->email = $request->email;
+            if ($request->has('address'))
+                $user->address = $request->address;
+
+            return $user->save();
+        } catch (Exception $e) {
+            return false;
         }
     }
 
