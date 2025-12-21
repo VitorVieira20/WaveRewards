@@ -42,7 +42,7 @@ export default function MedalsCard({ medals, recent_achievements, all_earned_bad
                         </div>
                     ))}
                     {recent_achievements.length === 0 && (
-                        <p className="text-[10px] text-center text-[#1C5E8F]/50 py-2">Ainda sem conquistas.</p>
+                        <p className="text-sm text-center text-[#1C5E8F]/50 py-2">Ainda sem conquistas.</p>
                     )}
                 </div>
             </div>

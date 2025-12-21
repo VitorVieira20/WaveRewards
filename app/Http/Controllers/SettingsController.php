@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\SettingsService;
+use App\Services\UserService;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,7 +11,10 @@ use Inertia\Inertia;
 
 class SettingsController extends Controller
 {
-    public function __construct(protected SettingsService $settingsService)
+    public function __construct(
+        protected SettingsService $settingsService,
+        protected UserService $userService
+        )
     {
     }
 
@@ -60,5 +64,12 @@ class SettingsController extends Controller
         $this->settingsService->updateSetting($field, $value);
 
         return back();
+    }
+
+
+    public function export()
+    {
+        $pdf = $this->userService->exportUserData(Auth::user());
+        return $pdf->download('meus_dados_waverewards.pdf');
     }
 }

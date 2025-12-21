@@ -8,6 +8,7 @@ use App\Models\Activity;
 use App\Models\ActivityUser;
 use App\Models\User;
 use App\Repositories\ActivityRepository;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
@@ -142,6 +143,35 @@ class ActivityService
             'mes' => $monthly,
             'ano' => $yearly
         ];
+    }
+
+
+    public function exportUserData(User $user)
+    {
+        $activityService = app(ActivityService::class);
+        $globalStats = $activityService->getUserGlobalStats($user);
+        $formattedStats = $activityService->getUserStats($globalStats);
+
+        $allActivities = DB::table('activity_user')
+            ->leftJoin('activities', 'activity_user.activity_id', '=', 'activities.id')
+            ->where('activity_user.user_id', $user->id)
+            ->select(
+                'activity_user.*',
+                'activities.title as base_title'
+            )
+            ->orderBy('activity_user.performed_at', 'desc')
+            ->get();
+
+        $data = [
+            'user' => $user,
+            'stats' => $formattedStats,
+            'workshops' => $user->workshops()->withPivot('created_at')->get(),
+            'activities' => $allActivities,
+            'badges' => $user->badges()->get(),
+            'generated_at' => now()->format('d/m/Y H:i')
+        ];
+
+        return Pdf::loadView('pdf.user_data', $data);
     }
 
 

@@ -15,8 +15,11 @@ use Throwable;
 
 class UserService
 {
-    public function __construct(protected UserRepository $userRepository)
-    {
+    public function __construct(
+        protected UserRepository $userRepository,
+        protected ActivityService $activityService,
+        protected BadgeService $badgeService
+    ) {
     }
 
 
@@ -102,5 +105,34 @@ class UserService
         } catch (Exception $e) {
             return false;
         }
+    }
+
+
+    public function exportUserData(User $user)
+    {
+
+        $globalStats = $this->activityService->getUserGlobalStats($user);
+        $formattedStats = $this->activityService->getUserStats($globalStats);
+
+        $allActivities = DB::table('activity_user')
+            ->leftJoin('activities', 'activity_user.activity_id', '=', 'activities.id')
+            ->where('activity_user.user_id', $user->id)
+            ->select(
+                'activity_user.*',
+                'activities.title as base_title'
+            )
+            ->orderBy('activity_user.performed_at', 'desc')
+            ->get();
+
+        $data = [
+            'user' => $user,
+            'stats' => $formattedStats,
+            'workshops' => $user->workshops()->withPivot('created_at')->get(),
+            'activities' => $allActivities, // Lista completa: Predefinidas + Livres
+            'badges' => $user->badges()->get(),
+            'generated_at' => now()->format('d/m/Y H:i')
+        ];
+
+        return Pdf::loadView('pdf.user_data', $data);
     }
 }

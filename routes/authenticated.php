@@ -76,6 +76,7 @@ Route::middleware('auth.redirect')->group(function () {
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::patch('/settings/profile', [UserController::class, 'updateProfile'])->name('settings.profile.update');
+    Route::get('/settins/export', [SettingsController::class, 'export'])->name('settings.export');
 
 
     // CHAT
