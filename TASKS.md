@@ -37,18 +37,17 @@
         - [ ] Máximo de 100km por atividade
         - [ ] Máximo de 24 * 60 min por atividade
         - [ ] Máximo de 100kcal por atividade
-      - [ ] Máximo de 100kg por atividade (Quando aplicável)
+        - [ ] Máximo de 100kg por atividade (Quando aplicável)
 - [x] **Perfil**
     - [x] Implementar os objetivos do perfil
     - [x] Implementar o sistema de badges
     - [x] Implementar os pontos no gráficos de atividades
     - [x] Mudança de foto de perfil
-- [ ] **Definições** 
-    - [ ] Implementar o "Eliminar Conta" (Adicionar um campo "is_active" no user e meter false)
-    - [ ] Implementar o "Export Dados" (Export um PDF com)
-        - [ ] Workshops feitos
-        - [ ] Atividades feitas
-        - [ ] Estatísticas
-        - [ ] Objetivos
-        - [ ] Medalhas
-        - [ ] Informação da conta (nome, username, etc)
+- [x] **Definições** 
+    - [x] Implementar o "Eliminar Conta"
+    - [x] Implementar o "Export Dados" (Export um PDF com)
+        - [x] Workshops feitos
+        - [x] Atividades feitas
+        - [x] Estatísticas
+        - [x] Medalhas
+        - [x] Informação da conta (nome, username, etc)

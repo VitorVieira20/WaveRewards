@@ -14,8 +14,7 @@ class SettingsController extends Controller
     public function __construct(
         protected SettingsService $settingsService,
         protected UserService $userService
-        )
-    {
+    ) {
     }
 
 
@@ -71,5 +70,19 @@ class SettingsController extends Controller
     {
         $pdf = $this->userService->exportUserData(Auth::user());
         return $pdf->download('meus_dados_waverewards.pdf');
+    }
+
+
+    public function destroy(Request $request)
+    {
+        $user = Auth::user();
+
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        $this->userService->deleteAccount($user);
+
+        return redirect()->route('auth.index', 'login')->with('success', 'A sua conta foi eliminada permanentemente.');
     }
 }

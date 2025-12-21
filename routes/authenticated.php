@@ -77,6 +77,7 @@ Route::middleware('auth.redirect')->group(function () {
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
     Route::patch('/settings/profile', [UserController::class, 'updateProfile'])->name('settings.profile.update');
     Route::get('/settins/export', [SettingsController::class, 'export'])->name('settings.export');
+    Route::delete('/settins/destroy', [SettingsController::class, 'destroy'])->name('settings.destroy');
 
 
     // CHAT

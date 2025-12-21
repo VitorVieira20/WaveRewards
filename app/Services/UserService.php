@@ -136,4 +136,15 @@ class UserService
 
         return Pdf::loadView('pdf.user_data', $data);
     }
+
+
+    public function deleteAccount(User $user): void
+    {
+        if ($user->avatar && str_contains($user->avatar, 'storage/avatars')) {
+            $path = str_replace(asset('storage/'), '', $user->avatar);
+            Storage::disk('public')->delete($path);
+        }
+
+        $user->delete();
+    }
 }
