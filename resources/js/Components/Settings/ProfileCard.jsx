@@ -2,11 +2,11 @@ import { router, useForm } from "@inertiajs/react";
 import { route } from "ziggy-js";
 
 export default function ProfileCard({ user }) {
-    const { data, setData, put, processing, errors, clearErrors } = useForm({
-        name: user.name,
-        email: user.email,
-        username: user.username,
-        address: user.address
+    const { data, setData, processing } = useForm({
+        name: user.name || '',
+        email: user.email || '',
+        username: user.username || '',
+        address: user.address || ''
     });
 
     const resetUserFields = () => {
@@ -22,10 +22,12 @@ export default function ProfileCard({ user }) {
         );
 
         if (Object.keys(changedData).length > 0) {
-            put(route('settings.profile.update'), {
-                data: changedData,
+            router.post(route("settings.profile.update"), {
+                _method: 'PATCH',
+                ...changedData
+            }, {
+                forceFormData: true,
                 preserveScroll: true,
-                preserveState: true,
             });
         }
     };

@@ -27,6 +27,7 @@ class UpdateProfileRequest extends FormRequest
 
         return [
             'name' => ['sometimes', 'string', 'min:2', 'max:100', 'regex:/^[A-Za-zÀ-ÿ\s\'-]+$/u'],
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'email' => [ 'sometimes', 'string', 'email:rfc,dns', 'max:255', Rule::unique('users', 'email')->ignore($userId),],
             'username' => ['sometimes', 'string', 'min:2', 'max:100'],
             'address' => ['sometimes', 'string', 'min:2', 'max:100'],

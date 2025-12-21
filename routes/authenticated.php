@@ -65,6 +65,7 @@ Route::middleware('auth.redirect')->group(function () {
 
     // PROFILE
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+    Route::patch('/profile', [UserController::class, 'updateProfile'])->name('profile.update');
 
 
     // CHANGE PASSWORD
@@ -74,7 +75,7 @@ Route::middleware('auth.redirect')->group(function () {
     // SETTINGS
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
     Route::put('/settings', [SettingsController::class, 'update'])->name('settings.update');
-    Route::put('/settings/profile', [UserController::class, 'updateProfile'])->name('settings.profile.update');
+    Route::patch('/settings/profile', [UserController::class, 'updateProfile'])->name('settings.profile.update');
 
 
     // CHAT

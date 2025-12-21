@@ -1,29 +1,77 @@
-import { useForm } from "@inertiajs/react";
+import { router, useForm } from "@inertiajs/react";
+import { useRef } from "react";
 import LocationPinIcon from "../Icons/LocationPinIcon";
 
 export default function UserCard({ user, onOpenPasswordModal }) {
+    const fileInputRef = useRef();
 
-    const { post, processing } = useForm();
+    const {processing } = useForm({
+        _method: 'PATCH',
+        avatar: null,
+    });
+
+    const handleAvatarClick = () => {
+        fileInputRef.current.click();
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            router.post(route("profile.update"), {
+                _method: 'PATCH',
+                avatar: file,
+            }, {
+                forceFormData: true,
+                preserveScroll: true,
+            });
+        }
+    };
 
     const handleLogout = (e) => {
         e.preventDefault();
-        
-        post(route("logout"), {
-            onSuccess: () => {
-                sessionStorage.removeItem("chatbotMessages");
-            },
+        router.post(route("logout"), {
+            _method: 'POST',
+        }, {
+            onSuccess: () => sessionStorage.removeItem("chatbotMessages"),
         });
     };
 
     return (
         <div className="flex flex-col justify-between gap-1 bg-white/40 w-full lg:w-2/5 rounded-2xl p-4 h-full shadow-sm">
             <div className="flex flex-col md:flex-row items-center md:items-start pt-2">
-                <div className="flex flex-row justify-center items-center gap-2 px-4">
+
+                <div className="relative px-4 group cursor-pointer" onClick={handleAvatarClick}>
+                    <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        className="hidden"
+                        accept="image/*"
+                    />
+
                     <img
                         src={user.avatar}
-                        className="border-4 border-[#60B4D9] w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover"
+                        className="border-4 border-[#60B4D9] w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover shadow-md transition-all group-hover:brightness-90"
+                        alt="Avatar do utilizador"
                     />
+
+                    <div className="absolute bottom-0 right-4 bg-[#3699C5] p-1.5 rounded-full border-2 border-white shadow-lg text-white transition-transform group-hover:scale-110">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                        </svg>
+                    </div>
                 </div>
+
                 <div className="flex flex-col gap-1 text-sm font-medium text-[#1C5E8F] pl-4 md:pl-2 mt-2 md:mt-0 text-center md:text-left leading-tight">
                     <p>Nome: <span className="font-normal">{user.name}</span></p>
                     <p>Username: <span className="font-normal">{user.username}</span></p>
@@ -31,7 +79,7 @@ export default function UserCard({ user, onOpenPasswordModal }) {
                         <LocationPinIcon color="#3699C5" className="w-4 h-4" />
                         <span className="font-normal">{user.address}</span>
                     </div>
-                    <p>Membro desde: <span className="font-normal">{user.created_at.charAt(0).toUpperCase() + user.created_at.slice(1)}</span></p>
+                    <p>Membro desde: <span className="font-normal">{user.created_at}</span></p>
                     <p>Nível: <span className="font-normal">Avançado</span></p>
                 </div>
             </div>
