@@ -28,6 +28,7 @@ class ProfileController extends Controller
 
         $globalStats = $this->activityService->getUserGlobalStats($user);
         $stats = $this->activityService->getUserStats($globalStats);
+        $chartData = $this->activityService->getChartData($user);
 
         $upcomingAchievements = $this->badgeService->getUpcomingAchievements($user, $globalStats);
         $recentAchievements = $this->badgeService->getRecentAchievements($user);
@@ -46,6 +47,7 @@ class ProfileController extends Controller
             ],
             'activities' => $activities,
             'stats' => $stats,
+            'chart_data' => $chartData,
             'team' => $teamData,
             'medals' => $medals,
             'upcoming_achievements' => $upcomingAchievements,

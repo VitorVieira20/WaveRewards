@@ -38,11 +38,11 @@
         - [ ] Máximo de 24 * 60 min por atividade
         - [ ] Máximo de 100kcal por atividade
       - [ ] Máximo de 100kg por atividade (Quando aplicável)
-- [ ] **Perfil**
+- [x] **Perfil**
     - [x] Implementar os objetivos do perfil
     - [x] Implementar o sistema de badges
-    - [ ] Implementar os pontos no gráficos de atividades
-    - [ ] Mudança de foto de perfil
+    - [x] Implementar os pontos no gráficos de atividades
+    - [x] Mudança de foto de perfil
 - [ ] **Definições** 
     - [ ] Implementar o "Eliminar Conta" (Adicionar um campo "is_active" no user e meter false)
     - [ ] Implementar o "Export Dados" (Export um PDF com)

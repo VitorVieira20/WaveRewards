@@ -19,7 +19,7 @@ export default function CommunityCard({ messages }) {
             <div className="bg-[#1D87BC]/40 w-full rounded-xl p-4 flex flex-col h-full justify-center gap-1.5">
                 {messages.map((item, index) => (
                     <div
-                        key={item.name + item.content}
+                        key={index}
                         className={`
                             flex flex-row items-center gap-3 py-3 
                             ${index !== messages.length - 1 ? 'border-b border-white/40' : ''}
