@@ -10,7 +10,7 @@ import { useState } from "react";
 import UpdatePasswordModal from "../../Components/Profile/UpdatePasswordModal";
 import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
 
-export default function Profile({ auth, user, activities, stats, team }) {
+export default function Profile({ auth, user, activities, stats, team, medals, upcoming_achievements, recent_achievements, all_earned_badges }) {
     const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
 
     return (
@@ -37,9 +37,9 @@ export default function Profile({ auth, user, activities, stats, team }) {
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 w-full p-4">
                     <StatsCard stats={stats} />
 
-                    <ObjectivesCard />
+                    <ObjectivesCard upcoming_achievements={upcoming_achievements} />
 
-                    <MedalsCard />
+                    <MedalsCard medals={medals} recent_achievements={recent_achievements} all_earned_badges={all_earned_badges} />
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-4 w-full p-4 items-stretch lg:h-[300px]">

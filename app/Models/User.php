@@ -103,13 +103,23 @@ class User extends Authenticatable
         return $this->hasOne(Settings::class);
     }
 
+
     public function likedActivities()
     {
         return $this->belongsToMany(Activity::class, 'activity_likes')->withTimestamps();
     }
 
+
     public function communityPosts(): HasMany
     {
         return $this->hasMany(CommunityPost::class);
+    }
+
+
+    public function badges(): BelongsToMany
+    {
+        return $this->belongsToMany(Badge::class)
+            ->withPivot('created_at')
+            ->withTimestamps();
     }
 }

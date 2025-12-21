@@ -3,73 +3,54 @@
 namespace App\Http\Controllers;
 
 use App\Models\ActivityUser;
+use App\Models\Badge;
 use App\Models\Team;
+use App\Services\ActivityService;
+use App\Services\BadgeService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ProfileController extends Controller
 {
+    public function __construct(
+        protected BadgeService $badgeService,
+        protected ActivityService $activityService
+    ) {
+    }
+
+    
     public function index()
     {
         $user = Auth::user();
 
-        $rawActivities = $user->activities()
-            ->orderByPivot('created_at', 'desc')
-            ->get();
+        $activities = $this->activityService->getUserActivities($user);
 
-        $globalStats = ActivityUser::where('user_id', $user->id)
-            ->selectRaw('
-            sum(distance) as total_dist,
-            sum(wasted_calories) as total_cal,
-            sum(points) as total_pts,
-            count(*) as total_count,
-            sum(practice_time) as total_time,
-            sum(trash_collected) as total_trash
-        ')
-            ->first();
+        $globalStats = $this->activityService->getUserGlobalStats($user);
+        $stats = $this->activityService->getUserStats($globalStats);
 
-        $stats = [
-            'total_distance' => round(($globalStats->total_dist ?? 0) / 1000, 1),
-            'total_calories' => (int) $globalStats->total_cal,
-            'total_points' => (int) $globalStats->total_pts,
-            'total_activities' => (int) $globalStats->total_count,
-            'total_hours' => round(($globalStats->total_time ?? 0) / 60, 1),
-            'total_trash' => round(($globalStats->total_trash ?? 0) / 1000, 1),
-        ];
-
-        $formattedActivities = $rawActivities
-            ->take(2)
-            ->map(function ($activity) {
-                return [
-                    'id' => $activity->id,
-                    'date' => $activity->pivot->created_at->translatedFormat('d M Y - H:i'),
-                    'title' => $activity->title,
-                    'distance' => round($activity->pivot->distance / 1000, 1) . ' km',
-                    'duration' => $activity->pivot->practice_time . ' min',
-                    'points' => $activity->pivot->points,
-                    'calories' => $activity->pivot->wasted_calories . ' kcal',
-                ];
-            });
+        $upcomingAchievements = $this->badgeService->getUpcomingAchievements($user, $globalStats);
+        $recentAchievements = $this->badgeService->getRecentAchievements($user);
+        $medals = $this->badgeService->getMedals($user);
+        $allEarnedBadges = $this->badgeService->getAllEarnedBadges($user);
 
         $teamData = null;
-
-        $team = $user->teams()
-            ->where('teams.status', 'approved')
-            ->wherePivot('status', 'approved')
-            ->first();
-
-        if ($team) {
+        $team = $user->teams()->where('teams.status', 'approved')->wherePivot('status', 'approved')->first();
+        if ($team)
             $teamData = $this->formatTeamData($team);
-        }
 
         return Inertia::render("Authenticated/Profile", [
             'user' => [
                 ...$user->toArray(),
                 'created_at' => $user->created_at->translatedFormat('F Y'),
             ],
-            'activities' => $formattedActivities,
+            'activities' => $activities,
             'stats' => $stats,
-            'team' => $teamData
+            'team' => $teamData,
+            'medals' => $medals,
+            'upcoming_achievements' => $upcomingAchievements,
+            'recent_achievements' => $recentAchievements,
+            'all_earned_badges' => $allEarnedBadges,
         ]);
     }
 

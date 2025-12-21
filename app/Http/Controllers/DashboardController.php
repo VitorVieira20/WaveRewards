@@ -10,8 +10,6 @@ use App\Services\WeatherApiService;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-use function PHPSTORM_META\map;
-
 class DashboardController extends Controller
 {
     public function __construct(protected WeatherApiService $weatherApiService)
