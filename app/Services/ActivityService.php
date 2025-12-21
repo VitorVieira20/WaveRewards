@@ -5,6 +5,8 @@ namespace App\Services;
 use App\Enums\ActivityCategory;
 use App\Enums\ActivityLevel;
 use App\Models\Activity;
+use App\Models\ActivityUser;
+use App\Models\User;
 use App\Repositories\ActivityRepository;
 use Illuminate\Support\Collection;
 
@@ -58,6 +60,53 @@ class ActivityService
         return ActivityLevel::values();
     }
 
+
+    public function getUserActivities(User $user)
+    {
+        $rawActivities = $user->activities()
+            ->orderByPivot('created_at', 'desc')
+            ->take(2)
+            ->get()
+            ->map(fn($activity) => [
+                'id' => $activity->id,
+                'date' => $activity->pivot->created_at->translatedFormat('d M Y - H:i'),
+                'title' => $activity->title,
+                'distance' => round($activity->pivot->distance / 1000, 1) . ' km',
+                'duration' => $activity->pivot->practice_time . ' min',
+                'points' => $activity->pivot->points,
+                'calories' => $activity->pivot->wasted_calories . ' kcal',
+            ]);
+
+        return $rawActivities;
+    }
+
+
+    public function getUserGlobalStats(User $user)
+    {
+        return ActivityUser::where('user_id', $user->id)
+            ->selectRaw('
+            sum(distance) as total_dist,
+            sum(wasted_calories) as total_cal,
+            sum(points) as total_pts,
+            count(*) as total_count,
+            sum(practice_time) as total_time,
+            sum(trash_collected) as total_trash
+        ')
+            ->first();
+    }
+
+
+    public function getUserStats($globalStats)
+    {
+        return [
+            'total_distance' => round(($globalStats->total_dist ?? 0) / 1000, 1),
+            'total_calories' => (int) $globalStats->total_cal,
+            'total_points' => (int) $globalStats->total_pts,
+            'total_activities' => (int) $globalStats->total_count,
+            'total_hours' => round(($globalStats->total_time ?? 0) / 60, 1),
+            'total_trash' => $globalStats->total_trash ?? 0,
+        ];
+    }
 
 
     private function formatActivity(Activity $activity): array

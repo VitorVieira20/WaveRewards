@@ -5,127 +5,34 @@ namespace App\Http\Controllers;
 use App\Models\ActivityUser;
 use App\Models\Badge;
 use App\Models\Team;
+use App\Services\ActivityService;
+use App\Services\BadgeService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ProfileController extends Controller
 {
+    public function __construct(
+        protected BadgeService $badgeService,
+        protected ActivityService $activityService
+    ) {
+    }
+
+    
     public function index()
     {
         $user = Auth::user();
 
-        $rawActivities = $user->activities()
-            ->orderByPivot('created_at', 'desc')
-            ->get();
+        $activities = $this->activityService->getUserActivities($user);
 
-        $globalStats = ActivityUser::where('user_id', $user->id)
-            ->selectRaw('
-            sum(distance) as total_dist,
-            sum(wasted_calories) as total_cal,
-            sum(points) as total_pts,
-            count(*) as total_count,
-            sum(practice_time) as total_time,
-            sum(trash_collected) as total_trash
-        ')
-            ->first();
+        $globalStats = $this->activityService->getUserGlobalStats($user);
+        $stats = $this->activityService->getUserStats($globalStats);
 
-        $workshopCount = $user->workshops()->count();
-
-        $recentAchievements = $user->badges()
-            ->orderByPivot('created_at', 'desc')
-            ->take(3)
-            ->get()
-            ->map(fn($badge) => [
-                'name' => $badge->name,
-                'image' => asset($badge->image),
-                'tier' => $badge->tier,
-                'date' => $badge->pivot->created_at->translatedFormat('d M Y')
-            ]);
-
-        $stats = [
-            'total_distance' => round(($globalStats->total_dist ?? 0) / 1000, 1),
-            'total_calories' => (int) $globalStats->total_cal,
-            'total_points' => (int) $globalStats->total_pts,
-            'total_activities' => (int) $globalStats->total_count,
-            'total_hours' => round(($globalStats->total_time ?? 0) / 60, 1),
-            'total_trash' => $globalStats->total_trash ?? 0,
-        ];
-
-        $badgeData = DB::table('badge_user')
-            ->join('badges', 'badge_user.badge_id', '=', 'badges.id')
-            ->where('badge_user.user_id', $user->id)
-            ->select('badges.tier', 'badges.image')
-            ->selectRaw('count(*) as total')
-            ->groupBy('badges.tier', 'badges.image')
-            ->get();
-
-        $medals = [
-            'gold' => ['count' => 0, 'image' => asset('images/medals/gold.png')],
-            'silver' => ['count' => 0, 'image' => asset('images/medals/silver.png')],
-            'bronze' => ['count' => 0, 'image' => asset('images/medals/bronze.png')],
-        ];
-
-        foreach ($badgeData as $row) {
-            if (isset($medals[$row->tier])) {
-                $medals[$row->tier]['count'] = $row->total;
-                $medals[$row->tier]['image'] = asset($row->image);
-            }
-        }
-
-        $earnedBadgeIds = $user->badges()->pluck('badge_id');
-
-        $allEarnedBadges = $user->badges()
-            ->orderByPivot('created_at', 'desc')
-            ->get()
-            ->map(fn($badge) => [
-                'name' => $badge->name,
-                'description' => $badge->description,
-                'image' => asset($badge->image),
-                'tier' => $badge->tier,
-                'date' => $badge->pivot->created_at->translatedFormat('d M Y')
-            ])
-            ->groupBy('tier');
-
-        $upcomingAchievements = Badge::whereNotIn('id', $earnedBadgeIds)
-            ->orderBy('requirement_value', 'asc')
-            ->get()
-            ->groupBy('category')
-            ->map(fn($group) => $group->first())
-            ->take(3)
-            ->map(function ($badge) use ($globalStats, $workshopCount) {
-                $currentValue = match ($badge->category) {
-                    'distance' => ($globalStats->total_dist ?? 0) / 1000,
-                    'calories' => $globalStats->total_cal ?? 0,
-                    'trash' => $globalStats->total_trash ?? 0,
-                    'time' => $globalStats->total_time ?? 0,
-                    'activities' => $globalStats->total_count ?? 0,
-                    'workshops' => $workshopCount,
-                    default => 0,
-                };
-
-                $percentage = min(round(($currentValue / $badge->requirement_value) * 100), 100);
-
-                return [
-                    'id' => $badge->id,
-                    'name' => $badge->name,
-                    'category' => $badge->category,
-                    'current' => round($currentValue, 1),
-                    'target' => $badge->requirement_value,
-                    'percentage' => $percentage,
-                    'tier' => $badge->tier
-                ];
-            })->values();
-
-        $formattedActivities = $rawActivities->take(2)->map(fn($activity) => [
-            'id' => $activity->id,
-            'date' => $activity->pivot->created_at->translatedFormat('d M Y - H:i'),
-            'title' => $activity->title,
-            'distance' => round($activity->pivot->distance / 1000, 1) . ' km',
-            'duration' => $activity->pivot->practice_time . ' min',
-            'points' => $activity->pivot->points,
-            'calories' => $activity->pivot->wasted_calories . ' kcal',
-        ]);
+        $upcomingAchievements = $this->badgeService->getUpcomingAchievements($user, $globalStats);
+        $recentAchievements = $this->badgeService->getRecentAchievements($user);
+        $medals = $this->badgeService->getMedals($user);
+        $allEarnedBadges = $this->badgeService->getAllEarnedBadges($user);
 
         $teamData = null;
         $team = $user->teams()->where('teams.status', 'approved')->wherePivot('status', 'approved')->first();
@@ -137,7 +44,7 @@ class ProfileController extends Controller
                 ...$user->toArray(),
                 'created_at' => $user->created_at->translatedFormat('F Y'),
             ],
-            'activities' => $formattedActivities,
+            'activities' => $activities,
             'stats' => $stats,
             'team' => $teamData,
             'medals' => $medals,
