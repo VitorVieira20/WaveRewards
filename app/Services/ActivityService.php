@@ -9,6 +9,7 @@ use App\Models\ActivityUser;
 use App\Models\User;
 use App\Repositories\ActivityRepository;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ActivityService
 {
@@ -105,6 +106,41 @@ class ActivityService
             'total_activities' => (int) $globalStats->total_count,
             'total_hours' => round(($globalStats->total_time ?? 0) / 60, 1),
             'total_trash' => $globalStats->total_trash ?? 0,
+        ];
+    }
+
+
+    public function getChartData(User $user)
+    {
+        // Dados da Última Semana (agrupados por dia)
+        $weekly = DB::table('activity_user')
+            ->where('user_id', $user->id)
+            ->where('created_at', '>=', now()->subDays(7))
+            ->selectRaw('DATE_FORMAT(created_at, "%d/%m") as name, SUM(points) as valor')
+            ->groupBy('name')
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc') // Ordenar pelo timestamp mínimo do grupo
+            ->get();
+
+        $monthly = DB::table('activity_user')
+            ->where('user_id', $user->id)
+            ->where('created_at', '>=', now()->subMonth())
+            ->selectRaw('DATE_FORMAT(created_at, "Semana %u") as name, SUM(points) as valor')
+            ->groupBy('name')
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+            ->get();
+
+        $yearly = DB::table('activity_user')
+            ->where('user_id', $user->id)
+            ->where('created_at', '>=', now()->startOfYear())
+            ->selectRaw('DATE_FORMAT(created_at, "%M") as name, SUM(points) as valor')
+            ->groupBy('name')
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+            ->get();
+
+        return [
+            'semana' => $weekly,
+            'mes' => $monthly,
+            'ano' => $yearly
         ];
     }
 
