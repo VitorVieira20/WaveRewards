@@ -39,8 +39,8 @@
         - [ ] Máximo de 100kcal por atividade
       - [ ] Máximo de 100kg por atividade (Quando aplicável)
 - [ ] **Perfil**
-    - [ ] Implementar os objetivos do perfil
-    - [ ] Implementar o sistema de badges
+    - [x] Implementar os objetivos do perfil
+    - [x] Implementar o sistema de badges
     - [ ] Implementar os pontos no gráficos de atividades
     - [ ] Mudança de foto de perfil
 - [ ] **Definições** 
