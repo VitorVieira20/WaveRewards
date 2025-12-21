@@ -3,7 +3,7 @@ import { router } from "@inertiajs/react";
 import { Search, Users, Plus } from "lucide-react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import LeftArrowIcon from "@/Components/Icons/LeftArrowIcon";
-import CreateTeamModal from '../../../Components/Modals/Team/CreateTeamModal';
+import CreateTeamModal from '../../../Components/Modals/Team/CreateTeam';
 
 export default function TeamsIndex({ auth, allTeams, canCreate }) {
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);

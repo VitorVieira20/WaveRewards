@@ -101,14 +101,14 @@ export default function Rankings({ auth, rankings, teams }) {
                             <div className="flex flex-col md:flex-row items-center justify-center gap-3 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
                                 <div className="flex items-center gap-1 text-[#1A3463]">
                                     <Filter size={14} />
-                                    <span className="text-md font-semibold uppercase tracking-wide">Ordenar:</span>
+                                    <span className="text-sm font-semibold uppercase tracking-wide">Ordenar:</span>
                                 </div>
                                 <div className="flex bg-gray-50 rounded-2xl p-1 gap-1">
                                     {sortOptions.map((opt) => (
                                         <button
                                             key={opt.key}
                                             onClick={() => setSortBy(opt.key)}
-                                            className={`relative px-4 py-1.5 rounded-2xl text-md font-normal whitespace-nowrap transition-colors z-10 ${sortBy === opt.key ? 'text-white' : 'text-gray-800 hover:text-[#1A3463]'
+                                            className={`relative px-4 py-1.5 rounded-2xl text-sm font-normal whitespace-nowrap transition-colors z-10 ${sortBy === opt.key ? 'text-white' : 'text-gray-800 hover:text-[#1A3463]'
                                                 } cursor-pointer`}
                                         >
                                             {sortBy === opt.key && (

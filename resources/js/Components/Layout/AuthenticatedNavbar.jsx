@@ -25,7 +25,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
         return route(routeName).replace(window.location.origin, '');
     };
 
-    const isProfileOrSettings = 
+    const isProfileOrSettings =
         url.startsWith(getRoutePath('profile.index')) ||
         url.startsWith(getRoutePath('settings.index'));
 
@@ -46,8 +46,12 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
                             const linkPath = getRoutePath(item.route);
                             let isActive = false;
 
+                            const isActivityDetailPath = /^\/activities\/\d+$/.test(url);
+
+                            const isFreeActivityPath = url === '/activities/free' || url === '/activities/free/';
+
                             if (linkPath === '/activities') {
-                                isActive = url === linkPath || url === `${linkPath}/`;
+                                isActive = url === linkPath || url === `${linkPath}/` || isActivityDetailPath || isFreeActivityPath;
                             } else if (linkPath === '/activities/history') {
                                 isActive = url === linkPath || url === `${linkPath}/`;
                             } else {

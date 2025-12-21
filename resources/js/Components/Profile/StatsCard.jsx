@@ -5,11 +5,13 @@ import StarEmoji from "../Emojis/StarEmoji";
 
 export default function StatsCard({ stats }) {
 
+    const trash = (stats.total_trash / 1000).toFixed(2);
+
     const statsData = [
         { title: 'Distância Total', emoji: <BoatEmoji />, value: stats.total_distance, unit: 'Km', description: 'percorridos' },
         { title: 'Pontos Totais', emoji: <StarEmoji />, value: stats.total_points, unit: '', description: 'pontos acumulados' },
         { title: 'Calorias', emoji: <FireEmoji />, value: stats.total_calories, unit: '', description: 'calorias queimados' },
-        { title: 'Impacto Ambiental', emoji: <RecycleEmoji />, value: stats.total_trash ?? 0, unit: 'Kg', description: 'lixo recolhido' }
+        { title: 'Impacto Ambiental', emoji: <RecycleEmoji />, value: trash ?? 0, unit: 'Kg', description: 'lixo recolhido' }
     ];
 
     return (

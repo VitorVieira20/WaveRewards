@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Activity\CreateActivityLogRequest;
 use App\Http\Requests\Activity\CreateFreeActivityLogRequest;
 use App\Services\ActivityUserService;
+use App\Services\BadgeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ActivityUserController extends Controller
 {
-    public function __construct(protected ActivityUserService $activityUserService)
-    {
+    public function __construct(
+        protected ActivityUserService $activityUserService,
+        protected BadgeService $badgeService
+    ) {
     }
 
 
@@ -25,6 +28,12 @@ class ActivityUserController extends Controller
 
         if (!$activity) {
             return back()->with('error', 'Ocorreu um erro ao registar a atividade.');
+        }
+
+        $newBadges = $this->badgeService->checkAchievements(Auth::user());
+
+        if (!empty($newBadges)) {
+            return back()->with('new_badge', $newBadges);
         }
 
         if (!session()->has('daily_goal')) {
@@ -63,6 +72,12 @@ class ActivityUserController extends Controller
 
         if (!$activity) {
             return back()->with('error', 'Ocorreu um erro ao registar a atividade.');
+        }
+
+        $newBadges = $this->badgeService->checkAchievements(Auth::user());
+
+        if (!empty($newBadges)) {
+            return back()->with('new_badge', $newBadges);
         }
 
         if (!session()->has('daily_goal')) {
