@@ -8,7 +8,9 @@ use App\Models\Activity;
 use App\Models\ActivityUser;
 use App\Models\User;
 use App\Repositories\ActivityRepository;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class ActivityService
 {
@@ -106,6 +108,69 @@ class ActivityService
             'total_hours' => round(($globalStats->total_time ?? 0) / 60, 1),
             'total_trash' => $globalStats->total_trash ?? 0,
         ];
+    }
+
+
+    public function getChartData(User $user)
+    {
+        $weekly = DB::table('activity_user')
+            ->where('user_id', $user->id)
+            ->where('created_at', '>=', now()->subDays(7))
+            ->selectRaw('DATE_FORMAT(created_at, "%d/%m") as name, SUM(points) as valor')
+            ->groupBy('name')
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+            ->get();
+
+        $monthly = DB::table('activity_user')
+            ->where('user_id', $user->id)
+            ->where('created_at', '>=', now()->subMonth())
+            ->selectRaw('DATE_FORMAT(created_at, "Semana %u") as name, SUM(points) as valor')
+            ->groupBy('name')
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+            ->get();
+
+        $yearly = DB::table('activity_user')
+            ->where('user_id', $user->id)
+            ->where('created_at', '>=', now()->startOfYear())
+            ->selectRaw('DATE_FORMAT(created_at, "%M") as name, SUM(points) as valor')
+            ->groupBy('name')
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc')
+            ->get();
+
+        return [
+            'semana' => $weekly,
+            'mes' => $monthly,
+            'ano' => $yearly
+        ];
+    }
+
+
+    public function exportUserData(User $user)
+    {
+        $activityService = app(ActivityService::class);
+        $globalStats = $activityService->getUserGlobalStats($user);
+        $formattedStats = $activityService->getUserStats($globalStats);
+
+        $allActivities = DB::table('activity_user')
+            ->leftJoin('activities', 'activity_user.activity_id', '=', 'activities.id')
+            ->where('activity_user.user_id', $user->id)
+            ->select(
+                'activity_user.*',
+                'activities.title as base_title'
+            )
+            ->orderBy('activity_user.performed_at', 'desc')
+            ->get();
+
+        $data = [
+            'user' => $user,
+            'stats' => $formattedStats,
+            'workshops' => $user->workshops()->withPivot('created_at')->get(),
+            'activities' => $allActivities,
+            'badges' => $user->badges()->get(),
+            'generated_at' => now()->format('d/m/Y H:i')
+        ];
+
+        return Pdf::loadView('pdf.user_data', $data);
     }
 
 
