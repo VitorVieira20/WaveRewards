@@ -51,6 +51,7 @@ export default function UserCard({ user, onOpenPasswordModal }) {
 
                     <img
                         src={user.avatar}
+                        referrerPolicy="no-referrer"
                         className="border-4 border-[#60B4D9] w-20 h-20 sm:w-24 sm:h-24 rounded-full object-cover shadow-md transition-all group-hover:brightness-90"
                         alt="Avatar do utilizador"
                     />

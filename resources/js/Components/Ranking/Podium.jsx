@@ -75,6 +75,7 @@ export default function Podium({ podiumUsers }) {
 
                                     <img
                                         src={ranking.displayAvatar}
+                                        referrerPolicy="no-referrer"
                                         alt={ranking.displayName}
                                         className={`
                                             rounded-full border-4 border-white shadow-md object-cover bg-white

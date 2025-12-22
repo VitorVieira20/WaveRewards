@@ -33,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(function (\SocialiteProviders\Manager\SocialiteWasCalled $event) {
             $event->extendSocialite('strava', \SocialiteProviders\Strava\Provider::class);
+            $event->extendSocialite('google', \SocialiteProviders\Google\Provider::class);
         });
     }
 }

@@ -83,12 +83,11 @@ class UserService
     {
         try {
             if ($request->hasFile('avatar')) {
-                if ($user->avatar && !str_contains($user->avatar, 'default-avatar')) {
+                if ($user->avatar && str_contains($user->avatar, 'storage/avatars')) {
                     $oldPath = str_replace(asset('storage/'), '', $user->avatar);
                     Storage::disk('public')->delete($oldPath);
                 }
 
-                // Guardar o novo ficheiro
                 $path = $request->file('avatar')->store('avatars', 'public');
                 $user->avatar = asset('storage/' . $path);
             }

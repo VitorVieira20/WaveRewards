@@ -135,6 +135,7 @@ export default function MyTeamMembers({ auth, myTeam }) {
                                     <div className="relative mb-3">
                                         <img
                                             src={member.avatar || `https://ui-avatars.com/api/?name=${member.name}&background=random&size=256`}
+                                            referrerPolicy="no-referrer"
                                             alt={member.name}
                                             className="
                                                             w-20 h-20 xl:w-24 xl:h-24

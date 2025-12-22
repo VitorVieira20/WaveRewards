@@ -109,9 +109,11 @@ export default function SignInForm({ isLogin, setIsLogin }) {
                 </div>
 
                 <div className="flex flex-row md:flex-col items-center justify-center gap-8 md:gap-5 h-auto md:h-full pb-4 md:pb-0">
-                    <div className="scale-110"><FacebookIcon /></div>
-                    <div className="scale-110"><LinkedinIcon /></div>
-                    <div className="scale-110"><GoogleIcon /></div>
+                    <div className="scale-110 cursor-pointer hover:opacity-80 transition-opacity">
+                        <a href="/auth/google">
+                            <GoogleIcon />
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

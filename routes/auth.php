@@ -4,10 +4,17 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\StravaController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest.redirect')->group(function () {
+    // GOOGLE OAUTH AUTHENTICATION
+    Route::get('auth/google', [SocialAuthController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
+
+    // BASIC AUTHENTICATION
     Route::get('/auth/{method}', [AuthenticatedSessionController::class, 'auth'])->name('auth.index');
     Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
     Route::post('/signup', [RegisterUserController::class, 'store'])->name('signup.store');

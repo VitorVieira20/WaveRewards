@@ -38,6 +38,7 @@ export default function PendingRequests({ pendingRequests }) {
                             <div className="flex items-center gap-3 flex-1 min-w-0">
                                 <img
                                     src={req.avatar || `https://ui-avatars.com/api/?name=${req.name}&background=random`}
+                                    referrerPolicy="no-referrer"
                                     alt={req.name}
                                     className="w-8 h-8 2xl:w-10 2xl:h-10 rounded-full object-cover border border-white/30 shrink-0"
                                 />

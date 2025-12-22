@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -121,5 +122,27 @@ class User extends Authenticatable
         return $this->belongsToMany(Badge::class)
             ->withPivot('created_at')
             ->withTimestamps();
+    }
+
+
+    protected function avatar(): Attribute
+    {
+        return Attribute::make(
+            get: function ($value) {
+                if (!$value) {
+                    return asset('images/avatars/avatar1.png');
+                }
+
+                if (filter_var($value, FILTER_VALIDATE_URL)) {
+                    return $value;
+                }
+
+                if (str_starts_with($value, 'images/avatars')) {
+                    return asset($value);
+                }
+
+                return asset($value);
+            },
+        );
     }
 }

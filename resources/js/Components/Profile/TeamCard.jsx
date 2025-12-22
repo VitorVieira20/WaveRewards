@@ -73,6 +73,7 @@ export default function TeamCard({ team }) {
                         <div key={index} className="shrink-0 relative group/avatar">
                             <img
                                 src={member.avatar}
+                                referrerPolicy="no-referrer"
                                 alt={`Membro ${index + 1}`}
                                 className="
                                     w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20
