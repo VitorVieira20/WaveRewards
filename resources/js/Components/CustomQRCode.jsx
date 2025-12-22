@@ -1,12 +1,7 @@
 import { useEffect, useRef } from 'react';
 import QRCodeStyling from 'qr-code-styling';
 
-export default function CustomQRCode({ 
-    url, 
-    size = 256, 
-    preset = 'modern',
-    styleOptions = {} 
-}) {
+export default function CustomQRCode({ url, size = 256, preset = 'modern', styleOptions = {} }) {
     const ref = useRef(null);
     const qrCode = useRef(null);
 

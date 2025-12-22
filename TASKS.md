@@ -18,9 +18,9 @@
 - [x] **Rankings**
     - [x] Implementar os filtros da tabela
     - [x] Adicionar uma tab para alterar entre a vista "Individual" e "Equipas"
-- [ ] **QR Code**
+- [x] **QR Code**
     - [x] Criar QR Code com o nosso logo e fazer com que redirecione para o nosso site
-    - [ ] Implementar um modal/card para poderem partilhar o QR Code com alguém
+    - [x] Implementar um modal/card convidar alguém para a equipa a que pertence
 - [x] **Equipas**
     - [x] Criar uma página onde é possível ver todas as equipas a que o user se pode juntar
     - [x] Implementação do pedido de adesão a uma equipa

@@ -11,7 +11,7 @@ class Team extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'description', 'image', 'status'];
+    protected $fillable = ['name', 'description', 'image', 'status', 'invite_code'];
 
     public function users(): BelongsToMany
     {

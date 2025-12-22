@@ -100,4 +100,5 @@ Route::middleware('auth.redirect')->group(function () {
     Route::delete('/teams/requests/{user}/reject', [TeamController::class, 'rejectRequest'])->name('teams.requests.reject');
     Route::post('/teams/leave', [TeamController::class, 'leave'])->name('teams.leave');
     Route::delete('/teams/kick/{member}', [TeamController::class, 'kick'])->name('teams.kick');
+    Route::get('/teams/invite/{code}', [TeamController::class, 'showInvite'])->name('teams.invite');
 });

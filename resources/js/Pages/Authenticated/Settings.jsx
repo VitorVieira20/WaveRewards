@@ -7,8 +7,10 @@ import PreferencesCard from "../../Components/Settings/PreferencesCard";
 import StravaIntegrationCard from "../../Components/Settings/StravaIntegrationCard";
 import MyDataCard from "../../Components/Settings/MyDataCard";
 import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
+import { useState } from "react";
 
 export default function Settings({ auth, user, isStravaConnected, settings, timezones }) {
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     const toggleSetting = (key, value) => {
         router.put(route('settings.update'), {

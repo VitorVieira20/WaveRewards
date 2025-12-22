@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class TeamController extends Controller
 {
@@ -94,7 +95,8 @@ class TeamController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'image' => $imagePath,
-            'status' => 'pending'
+            'status' => 'pending',
+            'invite_code' => Str::random(16)
         ]);
 
         $team->users()->attach($user->id, [
@@ -294,7 +296,6 @@ class TeamController extends Controller
             }
         }
 
-        // Caso não seja o último admin ou seja apenas membro, sai normalmente
         $team->users()->detach($user->id);
 
         return redirect()->route('teams.index')->with('success', 'Saíste da equipa com sucesso.');
@@ -324,6 +325,36 @@ class TeamController extends Controller
     }
 
 
+    public function showInvite($code)
+    {
+        $user = Auth::user();
+
+        $team = Team::where('invite_code', $code)->where('status', 'approved')->firstOrFail();
+
+        $ranking = Team::withSum([
+            'users' => function ($query) {
+                $query->where('team_user.status', 'approved');
+            }
+        ], 'total_points')
+            ->orderByDesc('users_sum_total_points')
+            ->pluck('id')
+            ->search($team->id) + 1;
+
+        return Inertia::render('Authenticated/Teams/InviteLanding', [
+            'team' => [
+                'id' => $team->id,
+                'name' => $team->name,
+                'description' => $team->description,
+                'rank' => $ranking,
+                'image' => $team->image ? asset('storage/' . $team->image) : null,
+                'points' => $team->users()->wherePivot('status', 'approved')->sum('total_points'), //
+                'members_count' => $team->users()->wherePivot('status', 'approved')->count(),
+            ],
+            'alreadyInTeam' => $user->teams()->wherePivot('status', 'approved')->exists(), //
+        ]);
+    }
+
+
     private function formatTeamData($team)
     {
         $teamTotalPoints = $team->users->sum('total_points');
@@ -341,6 +372,7 @@ class TeamController extends Controller
             'points' => $teamTotalPoints,
             'rank' => $ranking,
             'role' => $team->pivot->role,
+            'invite_code' => $team->invite_code,
             'members' => $team->users->map(function ($member) {
                 return [
                     'id' => $member->id,

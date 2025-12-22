@@ -1,11 +1,13 @@
 import { router } from "@inertiajs/react";
 import PendingRequests from "./PendingRequests";
-import { LogOut, MessageCircle } from "lucide-react";
+import { LogOut, MessageCircle, Share2 } from "lucide-react";
 import { useState } from "react";
 import LeaveTeamModal from "../Modals/Team/LeaveTeam";
+import ShareTeamModal from "../Modals/Team/ShareTeam";
 
 export default function MyTeamInformation({ auth, myTeam, pendingRequests, onOpenChat }) {
     const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
 
     const otherMembers = myTeam.members.filter(m => m.id !== auth.user.id && m.status === 'approved');
 
@@ -95,6 +97,14 @@ export default function MyTeamInformation({ auth, myTeam, pendingRequests, onOpe
                                 <LogOut size={18} />
                                 Sair da Equipa
                             </button>
+
+                            <button
+                                onClick={() => setIsShareModalOpen(true)}
+                                className="flex items-center justify-center gap-2 bg-white text-[#1D87BC] px-5 py-2.5 rounded-full font-semibold text-sm tracking-wide hover:bg-[#EAF5FA] hover:scale-105 active:scale-95 transition-all duration-300 shadow-md cursor-pointer"
+                            >
+                                <Share2 size={20} />
+                                Convidar
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -111,6 +121,12 @@ export default function MyTeamInformation({ auth, myTeam, pendingRequests, onOpe
                 members={otherMembers}
                 isLastAdmin={isLastAdmin}
                 name={myTeam.name}
+            />
+
+            <ShareTeamModal
+                show={isShareModalOpen}
+                onClose={() => setIsShareModalOpen(false)}
+                team={myTeam}
             />
         </div>
     );
