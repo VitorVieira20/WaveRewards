@@ -1,10 +1,25 @@
+import { router } from "@inertiajs/react";
 import PendingRequests from "./PendingRequests";
-import { MessageCircle } from "lucide-react";
+import { LogOut, MessageCircle } from "lucide-react";
+import { useState } from "react";
+import LeaveTeamModal from "../Modals/Team/LeaveTeam";
 
-export default function MyTeamInformation({ myTeam, pendingRequests, onOpenChat }) {
+export default function MyTeamInformation({ auth, myTeam, pendingRequests, onOpenChat }) {
+    const [isLeaveModalOpen, setIsLeaveModalOpen] = useState(false);
+
+    const otherMembers = myTeam.members.filter(m => m.id !== auth.user.id && m.status === 'approved');
 
     const isAdmin = myTeam.role === 'admin';
     const hasPendingRequests = pendingRequests && pendingRequests.length > 0;
+
+    const adminsCount = myTeam.members.filter(m => m.role === 'admin' && m.status === 'approved').length;
+    const isLastAdmin = myTeam.role === 'admin' && adminsCount === 1;
+
+    const handleLeaveConfirm = (newAdminId) => {
+        router.post(route('teams.leave'), {
+            new_admin_id: newAdminId
+        });
+    };
 
     return (
         <div className="relative overflow-hidden bg-linear-to-r from-[#1D87BC] to-[#60B4D9] rounded-3xl p-6 md:p-8 shadow-xl text-white">
@@ -54,22 +69,31 @@ export default function MyTeamInformation({ myTeam, pendingRequests, onOpenChat 
                                     <span className="text-xs uppercase opacity-70">Pontos Totais</span>
                                 </div>
                             </div>
+                        </div>
 
-                            <div className="hidden sm:block w-px h-10 bg-white/20"></div>
-
+                        <div className="flex flex-col md:flex-row gap-6 pt-6">
                             <button
                                 onClick={onOpenChat}
                                 className="
-                                    flex items-center gap-2 
+                                    flex items-center justify-center gap-2 
                                     bg-white text-[#1D87BC] 
-                                    px-5 py-2.5 rounded-xl 
-                                    font-semibold text-sm uppercase tracking-wide
+                                    px-5 py-2.5 rounded-full 
+                                    font-semibold text-sm tracking-wide
                                     hover:bg-[#EAF5FA] hover:scale-105 active:scale-95
                                     transition-all duration-300 shadow-md cursor-pointer
                                 "
                             >
                                 <MessageCircle size={20} fill="currentColor" className="opacity-80" />
                                 Chat de Equipa
+                            </button>
+
+                            <button
+                                onClick={() => setIsLeaveModalOpen(true)}
+                                className="flex items-center gap-2 bg-linear-to-r from-[#CE2828]/75 via-[#CE2828]/75 to-[#CE2828]/75 text-white px-5 py-2.5 transition-all duration-300 transform hover:scale-105 active:scale-95 hover:shadow-lg tracking-wide text-sm font-medium rounded-full cursor-pointer justify-center shadow-md"
+
+                            >
+                                <LogOut size={18} />
+                                Sair da Equipa
                             </button>
                         </div>
                     </div>
@@ -79,6 +103,15 @@ export default function MyTeamInformation({ myTeam, pendingRequests, onOpenChat 
                     <PendingRequests pendingRequests={pendingRequests} />
                 )}
             </div>
+
+            <LeaveTeamModal
+                show={isLeaveModalOpen}
+                onClose={() => setIsLeaveModalOpen(false)}
+                onConfirm={handleLeaveConfirm}
+                members={otherMembers}
+                isLastAdmin={isLastAdmin}
+                name={myTeam.name}
+            />
         </div>
     );
 }

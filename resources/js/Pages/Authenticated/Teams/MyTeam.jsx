@@ -22,7 +22,7 @@ export default function MyTeam({ auth, myTeam, pendingRequests }) {
 
             <div className="w-full pt-28 px-4 md:px-20 pb-10 mx-auto">
                 <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <MyTeamInformation myTeam={myTeam} pendingRequests={pendingRequests} onOpenChat={() => setIsChatOpen(true)} />
+                    <MyTeamInformation auth={auth} myTeam={myTeam} pendingRequests={pendingRequests} onOpenChat={() => setIsChatOpen(true)} />
 
                     <MyTeamMembers auth={auth} myTeam={myTeam} />
                 </div>

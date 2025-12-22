@@ -254,6 +254,72 @@ class TeamController extends Controller
     }
 
 
+    public function leave(Request $request)
+    {
+        $user = Auth::user();
+        $team = $user->teams()->wherePivot('status', 'approved')->first();
+
+        if (!$team) {
+            return back()->with('error', 'Não pertences a nenhuma equipa.');
+        }
+
+        $isAdmin = $team->pivot->role === 'admin';
+
+        $adminsCount = $team->users()
+            ->wherePivot('role', 'admin')
+            ->wherePivot('status', 'approved')
+            ->count();
+
+        if ($isAdmin && $adminsCount === 1) {
+            $otherMembersCount = $team->users()
+                ->wherePivot('status', 'approved')
+                ->where('users.id', '!=', $user->id)
+                ->count();
+
+            if ($otherMembersCount > 0) {
+                $request->validate([
+                    'new_admin_id' => 'required|exists:users,id'
+                ], [
+                    'new_admin_id.required' => 'Precisas de nomear um novo administrador antes de sair.'
+                ]);
+
+                $team->users()->updateExistingPivot($request->new_admin_id, [
+                    'role' => 'admin'
+                ]);
+            } else {
+                return back()->with('error', 'Tens que definir um sucessor para admin.');
+            }
+        }
+
+        $team->users()->detach($user->id);
+
+        return redirect()->route('teams.index')->with('success', 'Saíste da equipa com sucesso.');
+    }
+
+
+    public function kick(User $member)
+    {
+        $admin = Auth::user();
+
+        $team = $admin->teams()
+            ->wherePivot('role', 'admin')
+            ->wherePivot('status', 'approved')
+            ->first();
+
+        if (!$team) {
+            return back()->with('error', 'Não tens permissões de administrador.');
+        }
+
+        if ($admin->id === $member->id) {
+            return back()->with('error', 'Não podes expulsar-te a ti próprio. Usa a opção de sair.');
+        }
+
+        $team->users()->detach($member->id);
+
+        return back()->with('success', "{$member->name} foi removido da equipa.");
+    }
+
+
     private function formatTeamData($team)
     {
         $teamTotalPoints = $team->users->sum('total_points');

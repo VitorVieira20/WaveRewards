@@ -38,8 +38,15 @@ class DashboardController extends Controller
         $teamData = null;
 
         if ($team) {
-            $teamTotalPoints = $team->users()->sum('total_points');
-            $ranking = Team::withSum('users', 'total_points')
+            $teamTotalPoints = $team->users()
+                ->wherePivot('status', 'approved')
+                ->sum('total_points');
+
+            $ranking = Team::withSum([
+                'users' => function ($query) {
+                    $query->where('team_user.status', 'approved');
+                }
+            ], 'total_points')
                 ->orderByDesc('users_sum_total_points')
                 ->pluck('id')
                 ->search($team->id) + 1;

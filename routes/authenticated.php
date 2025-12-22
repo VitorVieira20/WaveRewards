@@ -98,4 +98,6 @@ Route::middleware('auth.redirect')->group(function () {
     Route::get('/teams/my-team', [TeamController::class, 'myTeam'])->name('teams.myTeam');
     Route::post('/teams/requests/{user}/accept', [TeamController::class, 'acceptRequest'])->name('teams.requests.accept');
     Route::delete('/teams/requests/{user}/reject', [TeamController::class, 'rejectRequest'])->name('teams.requests.reject');
+    Route::post('/teams/leave', [TeamController::class, 'leave'])->name('teams.leave');
+    Route::delete('/teams/kick/{member}', [TeamController::class, 'kick'])->name('teams.kick');
 });

@@ -1,10 +1,15 @@
 import { useState, useMemo } from "react";
-import { Users, ChevronDown, Search, Crown } from "lucide-react";
+import { Users, ChevronDown, Search, Crown, UserMinus } from "lucide-react";
+import { useForm } from "@inertiajs/react";
+import KickMemberModal from "../Modals/Team/KickMember";
 
 export default function MyTeamMembers({ auth, myTeam }) {
     const [visibleCount, setVisibleCount] = useState(10);
     const [searchQuery, setSearchQuery] = useState("");
     const [showAdminsOnly, setShowAdminsOnly] = useState(false);
+    const [kickMember, setKickMember] = useState(null);
+
+    const { delete: destroy, processing } = useForm();
 
     const processedMembers = useMemo(() => {
         let data = [...myTeam.members];
@@ -26,6 +31,15 @@ export default function MyTeamMembers({ auth, myTeam }) {
 
     const displayedMembers = processedMembers.slice(0, visibleCount);
     const hasMoreMembers = visibleCount < processedMembers.length;
+
+    const isAdmin = myTeam.role === 'admin';
+
+    const handleKick = () => {
+        if (!kickMember) return;
+        destroy(route("teams.kick", kickMember.id), {
+            onSuccess: () => setKickMember(null),
+        });
+    };
 
     const handleShowMore = () => {
         setVisibleCount((prevCount) => prevCount + 10);
@@ -108,6 +122,16 @@ export default function MyTeamMembers({ auth, myTeam }) {
                                         </div>
                                     )}
 
+                                    {isAdmin && !isMe && (
+                                        <button
+                                            onClick={() => setKickMember(member)}
+                                            className="absolute top-3 right-3 p-2 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg hover:bg-red-600 cursor-pointer z-20"
+                                            title="Expulsar membro"
+                                        >
+                                            <UserMinus size={14} strokeWidth={3} />
+                                        </button>
+                                    )}
+
                                     <div className="relative mb-3">
                                         <img
                                             src={member.avatar || `https://ui-avatars.com/api/?name=${member.name}&background=random&size=256`}
@@ -185,6 +209,15 @@ export default function MyTeamMembers({ auth, myTeam }) {
                     </div>
                 )}
             </div>
+
+            <KickMemberModal
+                show={!!kickMember}
+                member={kickMember}
+                onClose={() => setKickMember(null)}
+                onConfirm={handleKick}
+                processing={processing}
+            />
+
         </div>
     );
 }

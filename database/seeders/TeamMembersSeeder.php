@@ -14,11 +14,11 @@ class TeamMembersSeeder extends Seeder
      */
     public function run(): void
     {
-        $teamName = 'Blue Squad';
+        $teamName = 'Blue Ship';
         $totalMembers = 7;
         $totalPending = 2;
 
-        $team = Team::firstOrCreate(['name' => $teamName]);
+        $team = Team::firstOrCreate(['name' => $teamName, 'status' => 'approved']);
 
         $this->command->info("Populating Team: {$team->name}");
 
