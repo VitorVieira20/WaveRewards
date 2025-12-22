@@ -43,6 +43,10 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
 
                     <div className={`hidden xl:flex items-center gap-7 2xl:gap-10 3xl:gap-14 w-132 ${isProfileOrSettings ? "mr-60" : "mr-10"} justify-start`}>
                         {navLinks.map((item) => {
+                            if (item.name === 'Meteorologia' && url.startsWith('/teams')) {
+                                return null;
+                            }
+
                             const linkPath = getRoutePath(item.route);
                             let isActive = false;
 

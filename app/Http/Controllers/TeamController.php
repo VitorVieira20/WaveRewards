@@ -265,32 +265,36 @@ class TeamController extends Controller
 
         $isAdmin = $team->pivot->role === 'admin';
 
-        $adminsCount = $team->users()
-            ->wherePivot('role', 'admin')
-            ->wherePivot('status', 'approved')
-            ->count();
-
-        if ($isAdmin && $adminsCount === 1) {
-            $otherMembersCount = $team->users()
+        if ($isAdmin) {
+            $adminsCount = $team->users()
+                ->wherePivot('role', 'admin')
                 ->wherePivot('status', 'approved')
-                ->where('users.id', '!=', $user->id)
                 ->count();
 
-            if ($otherMembersCount > 0) {
-                $request->validate([
-                    'new_admin_id' => 'required|exists:users,id'
-                ], [
-                    'new_admin_id.required' => 'Precisas de nomear um novo administrador antes de sair.'
-                ]);
+            if ($adminsCount === 1) {
+                $otherMembersCount = $team->users()
+                    ->wherePivot('status', 'approved')
+                    ->where('users.id', '!=', $user->id)
+                    ->count();
 
-                $team->users()->updateExistingPivot($request->new_admin_id, [
-                    'role' => 'admin'
-                ]);
-            } else {
-                return back()->with('error', 'Tens que definir um sucessor para admin.');
+                if ($otherMembersCount > 0) {
+                    $request->validate([
+                        'new_admin_id' => 'required|exists:users,id'
+                    ], [
+                        'new_admin_id.required' => 'Precisas de nomear um novo administrador antes de sair.'
+                    ]);
+
+                    $team->users()->updateExistingPivot($request->new_admin_id, [
+                        'role' => 'admin'
+                    ]);
+                } else {
+                    $team->delete();
+                    return redirect()->route('teams.index')->with('success', 'Saíste e a equipa foi eliminada por já não ter membros.');
+                }
             }
         }
 
+        // Caso não seja o último admin ou seja apenas membro, sai normalmente
         $team->users()->detach($user->id);
 
         return redirect()->route('teams.index')->with('success', 'Saíste da equipa com sucesso.');
