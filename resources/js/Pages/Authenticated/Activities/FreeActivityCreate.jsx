@@ -165,7 +165,7 @@ export default function FreeActivityCreate({ auth }) {
                                     <input type="number" value={data.practice_time} onChange={e => setData('practice_time', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
                                 </div>
                                 <div>
-                                    <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Calorias estimadas gastas (cal):</label>
+                                    <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Calorias estimadas gastas (kcal):</label>
                                     <input type="number" value={data.wasted_calories} onChange={e => setData('wasted_calories', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
                                 </div>
                                 <div>

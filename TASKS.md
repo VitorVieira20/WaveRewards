@@ -32,12 +32,12 @@
         - [x] Implementar a funcionalidade de SAIR ou EXPULSAR de uma equipa
 - [ ] **Autenticação**
     - [ ] Implementar a autenticação com o google (OAuth)
-- [ ] **Validações**
-    - [ ] **Atividades**
-        - [ ] Máximo de 100km por atividade
-        - [ ] Máximo de 24 * 60 min por atividade
-        - [ ] Máximo de 100kcal por atividade
-        - [ ] Máximo de 100kg por atividade (Quando aplicável)
+- [x] **Validações**
+    - [x] **Atividades**
+        - [x] Máximo de 100km por atividade
+        - [x] Máximo de 24 * 60 min por atividade
+        - [x] Máximo de 10000 kcal por atividade
+        - [x] Máximo de 100kg por atividade (Quando aplicável)
 - [x] **Perfil**
     - [x] Implementar os objetivos do perfil
     - [x] Implementar o sistema de badges
