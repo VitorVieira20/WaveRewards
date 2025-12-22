@@ -30,8 +30,8 @@
         - [x] Quando o user é admin, pode ver os pedidos pendentes para se juntarem à equipa 
         - [x] Implementação da aceitação ou rejeição de um pedido
         - [x] Implementar a funcionalidade de SAIR ou EXPULSAR de uma equipa
-- [ ] **Autenticação**
-    - [ ] Implementar a autenticação com o google (OAuth)
+- [x] **Autenticação**
+    - [x] Implementar a autenticação com o google (OAuth)
 - [x] **Validações**
     - [x] **Atividades**
         - [x] Máximo de 100km por atividade
