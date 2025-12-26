@@ -50,17 +50,37 @@ class CreateActivityLogRequest extends FormRequest
         ];
     }
 
-    /**
-     * Mensagens personalizadas (opcional)
-     */
+
     public function messages(): array
     {
         return [
+            'activity_id.required' => 'A atividade é obrigatória.',
+            'distance.required' => 'A distância é obrigatória.',
+            'practice_time.required' => 'O tempo de prática é obrigatório.',
+            'wasted_calories.required' => 'As calorias são obrigatórias.',
+            'frequency.required' => 'A frequência cardíaca é obrigatória.',
+            'effort.required' => 'O nível de esforço é obrigatório.',
+            'counts_for_goal.required' => 'Indique se conta para o objetivo.',
+
+            'activity_id.integer' => 'Atividade inválida.',
+            'activity_id.exists' => 'A atividade selecionada não é válida.',
+            'distance.integer' => 'A distância deve ser um número inteiro.',
+            'practice_time.integer' => 'O tempo deve ser um número inteiro.',
+            'wasted_calories.integer' => 'As calorias devem ser um número inteiro.',
+            'frequency.integer' => 'A frequência deve ser um número inteiro.',
+            'effort.integer' => 'O nível de esforço deve ser um número inteiro entre 1 e 10.',
+            'observations.max' => 'As observações não podem exceder 500 caracteres.',
+
+            'distance.min' => 'A distância não pode ser negativa.',
             'distance.max' => 'Uma atividade não pode ter mais de 100km.',
+            'practice_time.min' => 'O tempo de prática deve ser de pelo menos 1 minuto.',
             'practice_time.max' => 'O tempo de prática não pode exceder 24 horas.',
+            'wasted_calories.min' => 'Não pode introduzir menos que 0 kcal.',
+            'wasted_calories.max' => 'Não pode introduzir mais que 10000 kcal.',
+            'frequency.min' => 'Não pode introduzir menos que 30 bpm.',
+            'frequency.max' => 'Não pode introduzir mais que 230 bpm.',
             'effort.min' => 'O nível de esforço deve ser no mínimo 1.',
             'effort.max' => 'O nível de esforço não pode ser superior a 10.',
-            'activity_id.exists' => 'A atividade selecionada não é válida.',
         ];
     }
 }

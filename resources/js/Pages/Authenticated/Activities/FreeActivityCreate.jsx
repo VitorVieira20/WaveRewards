@@ -8,7 +8,7 @@ export default function FreeActivityCreate({ auth }) {
     const { flash } = usePage().props;
     const [showActivityResgisteredModal, setShowActivityResgisteredModal] = useState(false);
     const [previewImage, setPreviewImage] = useState(null);
-    const { data, setData, post, processing, reset, clearErrors } = useForm({
+    const { data, setData, post, processing, reset, errors, clearErrors } = useForm({
         custom_title: '',
         date: '',
         start_time: '',
@@ -83,6 +83,7 @@ export default function FreeActivityCreate({ auth }) {
                                     placeholder="Ex: Canoagem noturna"
                                     className="w-full rounded-full border-none px-4 py-1 text-sm bg-white focus:ring-[#1C5E8F] placeholder-[#1C5E8F]/40"
                                 />
+                                {errors.custom_title && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.custom_title}</span>}
                             </div>
 
                             <div className="mb-4">
@@ -115,28 +116,33 @@ export default function FreeActivityCreate({ auth }) {
                             <div>
                                 <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Data:</label>
                                 <input type="date" value={data.date} onChange={e => setData('date', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                {errors.date && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.date}</span>}
                             </div>
                             <div>
                                 <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Hora de início:</label>
                                 <input type="time" value={data.start_time} onChange={e => setData('start_time', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                {errors.start_time && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.start_time}</span>}
                             </div>
                         </div>
 
                         <div className="mb-3">
                             <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Local:</label>
                             <input type="text" value={data.custom_location} onChange={e => setData('custom_location', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                            {errors.custom_location && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.custom_location}</span>}
                         </div>
 
                         <div className="grid grid-cols-2 gap-4 mb-3">
                             <div>
                                 <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Condições:</label>
                                 <input type="text" value={data.custom_conditions} onChange={e => setData('custom_conditions', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                {errors.custom_conditions && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.custom_conditions}</span>}
                             </div>
                         </div>
 
                         <div className="mb-3">
                             <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Equipamento usado:</label>
                             <input type="text" value={data.custom_equipment} onChange={e => setData('custom_equipment', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                            {errors.custom_equipment && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.custom_equipment}</span>}
                         </div>
 
                         <div className="mb-3">
@@ -148,6 +154,7 @@ export default function FreeActivityCreate({ auth }) {
                                 onChange={e => setData('observations', e.target.value)}
                                 className="w-full rounded-2xl border-none px-4 py-2 text-sm bg-white resize-none"
                             ></textarea>
+                            {errors.observations && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.observations}</span>}
                         </div>
                     </div>
 
@@ -159,26 +166,32 @@ export default function FreeActivityCreate({ auth }) {
                                 <div>
                                     <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Distância percorrida (m):</label>
                                     <input type="number" value={data.distance} onChange={e => setData('distance', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                    {errors.distance && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.distance}</span>}
                                 </div>
                                 <div>
                                     <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Tempo total de prática (minutos):</label>
                                     <input type="number" value={data.practice_time} onChange={e => setData('practice_time', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                    {errors.practice_time && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.practice_time}</span>}
                                 </div>
                                 <div>
                                     <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Calorias estimadas gastas (kcal):</label>
                                     <input type="number" value={data.wasted_calories} onChange={e => setData('wasted_calories', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                    {errors.wasted_calories && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.wasted_calories}</span>}
                                 </div>
                                 <div>
                                     <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Frequência cardíaca média (bpm):</label>
                                     <input type="number" value={data.frequency} onChange={e => setData('frequency', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                    {errors.frequency && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.frequency}</span>}
                                 </div>
                                 <div>
                                     <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Grau de esforço (1-10):</label>
                                     <input type="number" min="1" max="10" value={data.effort} onChange={e => setData('effort', e.target.value)} className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                    {errors.effort && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.effort}</span>}
                                 </div>
                                 <div>
                                     <label className="block text-[#1C5E8F] font-semibold text-sm mb-1">Lixo Recolhido (g):</label>
                                     <input type="number" value={data.trash_collected} onChange={e => setData('trash_collected', e.target.value)} placeholder="Opcional" className="w-full rounded-full border-none px-4 py-1 text-sm bg-white" />
+                                    {errors.trash_collected && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.trash_collected}</span>}
                                 </div>
                             </div>
                         </div>
@@ -193,6 +206,7 @@ export default function FreeActivityCreate({ auth }) {
                                     <input type="checkbox" checked={data.counts_for_goal} onChange={(e) => setData('counts_for_goal', e.target.checked)} className="sr-only peer" />
                                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#6EA8C5]"></div>
                                 </label>
+                                {errors.counts_for_goal && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.counts_for_goal}</span>}
                             </div>
 
                             <div className="flex justify-end">

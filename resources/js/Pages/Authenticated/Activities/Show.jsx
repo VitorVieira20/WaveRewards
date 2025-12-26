@@ -145,6 +145,7 @@ export default function ActivityShow({ auth, activity }) {
                                 onChange={(e) => setData("distance", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
+                            {errors.distance && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.distance}</span>}
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -156,6 +157,7 @@ export default function ActivityShow({ auth, activity }) {
                                 onChange={(e) => setData("practice_time", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
+                            {errors.practice_time && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.practice_time}</span>}
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -167,6 +169,7 @@ export default function ActivityShow({ auth, activity }) {
                                 onChange={(e) => setData("wasted_calories", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
+                            {errors.wasted_calories && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.wasted_calories}</span>}
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -178,6 +181,7 @@ export default function ActivityShow({ auth, activity }) {
                                 onChange={(e) => setData("frequency", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
+                            {errors.frequency && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.frequency}</span>}
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -189,6 +193,7 @@ export default function ActivityShow({ auth, activity }) {
                                 onChange={(e) => setData("effort", e.target.value)}
                                 className="rounded-full bg-white border-none py-1 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40"
                             />
+                            {errors.effort && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.effort}</span>}
                         </div>
 
                         <div className="flex flex-col gap-1">
@@ -200,6 +205,7 @@ export default function ActivityShow({ auth, activity }) {
                                 onChange={(e) => setData("observations", e.target.value)}
                                 className="rounded-2xl bg-white border-none py-2 px-4 text-sm text-[#000000]/30 focus:outline-none focus:ring-1 focus:ring-[#1C5E8F]/40 resize-none"
                             ></textarea>
+                            {errors.observations && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.observations}</span>}
                         </div>
 
                         <div className="flex items-center justify-between bg-white/50 p-3 rounded-2xl border border-[#1A3463]/5 mt-1">
@@ -222,6 +228,7 @@ export default function ActivityShow({ auth, activity }) {
                                                 after:h-5 after:w-5 after:transition-all peer-checked:bg-[#6EA8C5]">
                                 </div>
                             </label>
+                            {errors.counts_for_goal && <span className="text-red-500 text-xs mt-1 ml-4 font-medium">{errors.counts_for_goal}</span>}
                         </div>
 
                         <div className="mt-2 flex justify-center">
