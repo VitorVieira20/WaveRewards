@@ -113,13 +113,14 @@ class ActivityService
 
     public function getChartData(User $user)
     {
-        // Dados da Última Semana (agrupados por dia)
+        DB::statement("SET lc_time_names = 'pt_PT'");
+        
         $weekly = DB::table('activity_user')
             ->where('user_id', $user->id)
             ->where('created_at', '>=', now()->subDays(7))
             ->selectRaw('DATE_FORMAT(created_at, "%d/%m") as name, SUM(points) as valor')
             ->groupBy('name')
-            ->orderBy(DB::raw('MIN(created_at)'), 'asc') // Ordenar pelo timestamp mínimo do grupo
+            ->orderBy(DB::raw('MIN(created_at)'), 'asc')
             ->get();
 
         $monthly = DB::table('activity_user')
