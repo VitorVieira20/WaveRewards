@@ -2,137 +2,72 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LogType;
+use App\Http\Requests\Team\CreateTeamRequest;
 use App\Jobs\SendDiscordTeamApprovalJob;
 use App\Models\Team;
 use App\Models\User;
+use App\Services\TeamService;
+use App\Traits\LogsActivity;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Auth as FacadesAuth;
 use Inertia\Inertia;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class TeamController extends Controller
 {
+    use LogsActivity;
+
+    public function __construct(protected TeamService $teamService)
+    {
+    }
+
+
     public function index()
     {
         $user = Auth::user();
 
-        $myTeam = $user->teams()
-            ->where('teams.status', 'approved')
-            ->wherePivot('status', 'approved')
-            ->first();
-
-        if ($myTeam)
+        if ($this->teamService->myTeam($user)) {
             return redirect()->route('teams.myTeam');
-
-        $pendingTeam = $user->teams()
-            ->where('teams.status', 'pending')
-            ->wherePivot('role', 'admin')
-            ->first();
-
-        $canCreate = !$pendingTeam;
-
-        $allTeams = Team::where('status', 'approved')
-            ->withCount([
-                'users' => function ($query) {
-                    $query->where('team_user.status', 'approved');
-                }
-            ])
-            ->withSum([
-                'users' => function ($query) {
-                    $query->where('team_user.status', 'approved');
-                }
-            ], 'total_points')
-            ->paginate(9)
-            ->through(fn($team) => [
-                'id' => $team->id,
-                'name' => $team->name,
-                'description' => $team->description,
-                'image' => $team->image ? asset('storage/' . $team->image) : null,
-                'users_count' => $team->users_count,
-                'users_sum_total_points' => $team->users_sum_total_points ?? 0,
-                'created_at' => $team->created_at,
-            ]);
+        }
 
         return Inertia::render('Authenticated/Teams/Index', [
-            'canCreate' => $canCreate,
-            'allTeams' => $allTeams,
+            'canCreate' => $this->teamService->canUserCreateTeam($user),
+            'allTeams' => $this->teamService->allTeams()
         ]);
     }
 
-    public function store(Request $request)
+    public function store(CreateTeamRequest $request)
     {
         $user = Auth::user();
 
-        $myTeam = $user->teams()->wherePivot('status', 'approved')->first();
-
-        if ($myTeam)
-            return redirect()->back()->with('error', 'Já pertence a uma equipa');
-
-        $pendingTeam = $user->teams()
-            ->where('teams.status', 'pending')
-            ->wherePivot('role', 'admin')
-            ->first();
-
-        if ($pendingTeam)
-            return redirect()->back()->with('error', 'Não pode criar mais que uma equipa!');
-
-        $request->validate([
-            'name' => 'required|string|max:255|unique:teams',
-            'description' => 'nullable|string|max:500',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
-
-        $imagePath = null;
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('teams-images', 'public');
+        if ($this->teamService->userHasApprovedTeam($user)) {
+            return back()->with('error', 'Já pertence a uma equipa');
         }
 
-        $team = Team::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'image' => $imagePath,
-            'status' => 'pending',
-            'invite_code' => Str::random(16)
-        ]);
+        if ($this->teamService->pendingTeam($user)) {
+            return back()->with('error', 'Não pode criar mais que uma equipa!');
+        }
 
-        $team->users()->attach($user->id, [
-            'role' => 'admin',
-            'status' => 'approved'
-        ]);
-
-        $this->sendDiscordNotification($team, $user);
+        $this->teamService->createTeam($user, $request->validated(), $request->file('image'));
 
         return back()->with('success', 'Equipa criada com sucesso! Aguarda aprovação.');
     }
+
 
     public function join(Team $team)
     {
         $user = Auth::user();
 
-        $alreadyInTeam = $user->teams()
-            ->wherePivot('status', 'approved')
-            ->exists();
-
-        if ($alreadyInTeam) {
+        if ($this->teamService->userHasApprovedTeam($user)) {
             return back()->with('error', 'Já pertences a uma equipa.');
         }
 
-        $hasPendingRequest = $user->teams()
-            ->wherePivot('status', 'pending')
-            ->exists();
-
-        if ($hasPendingRequest) {
+        if ($this->teamService->userHasPendingRequest($user)) {
             return back()->with('error', 'Já tens um pedido de adesão pendente.');
         }
 
-        $team->users()->attach($user->id, [
-            'role' => 'member',
-            'status' => 'pending'
-        ]);
+        $this->teamService->join($user, $team);
 
         return back()->with('success', 'Pedido de adesão enviado com sucesso! Aguarda a aprovação do capitão.');
     }
@@ -140,42 +75,21 @@ class TeamController extends Controller
 
     public function myTeam()
     {
-        $user = FacadesAuth::user();
+        $user = Auth::user();
 
-        $myTeam = $user->teams()
-            ->where('teams.status', 'approved')
-            ->wherePivot('status', 'approved')
-            ->with([
-                'users' => function ($query) {
-                    $query->wherePivot('status', 'approved')
-                        ->withPivot('role', 'status');
-                }
-            ])
-            ->first();
+        $myTeam = $this->teamService->myTeam($user);
 
-        if (!$myTeam)
+        if (!$myTeam) {
             return redirect()->route('dashboard.index');
+        }
 
         $pendingRequests = [];
-
-        if ($myTeam && $myTeam->pivot->role === 'admin') {
-            $pendingRequests = $myTeam->users()
-                ->wherePivot('status', 'pending')
-                ->get()
-                ->map(function ($member) {
-                    return [
-                        'id' => $member->id,
-                        'name' => $member->name,
-                        'avatar' => $member->avatar ? asset($member->avatar) : null,
-                        'role' => $member->pivot->role,
-                        'status' => $member->pivot->status,
-                        'points' => $member->total_points
-                    ];
-                });
+        if ($myTeam->pivot->role === 'admin') {
+            $pendingRequests = $this->teamService->getPendingRequests($myTeam);
         }
 
         return Inertia::render('Authenticated/Teams/MyTeam', [
-            'myTeam' => $this->formatTeamData($myTeam),
+            'myTeam' => $this->teamService->formatTeamDetail($myTeam),
             'pendingRequests' => $pendingRequests
         ]);
     }
@@ -183,261 +97,83 @@ class TeamController extends Controller
 
     public function acceptRequest(User $user)
     {
-        $admin = Auth::user();
-
-        $team = $admin->teams()
-            ->wherePivot('role', 'admin')
-            ->first();
-
-        if (!$team) {
-            return back()->withErrors(['error' => 'Não tens permissão para gerir esta equipa.']);
-        }
-
-        $targetRequest = $team->users()
-            ->where('user_id', $user->id)
-            ->wherePivot('status', 'pending')
-            ->first();
-
-        if (!$targetRequest) {
-            return back()->withErrors(['error' => 'Este pedido já não existe.']);
-        }
-
-        DB::beginTransaction();
-
         try {
-            $team->users()->updateExistingPivot($user->id, [
-                'status' => 'approved',
-                'updated_at' => now(),
+            $this->teamService->approveRequest(Auth::user(), $user);
+
+            $this->logActivity("Admin aceitou novo membro na equipa", LogType::TEAMS, [
+                'member_id' => $user->id,
+                'member_name' => $user->name
             ]);
 
-            $user->teams()->wherePivot('status', 'pending')->detach();
-
-            $pendingTeamsToCreate = $user->teams()
-                ->where('teams.status', 'pending')
-                ->wherePivot('role', 'admin')
-                ->get();
-
-            foreach ($pendingTeamsToCreate as $pTeam) {
-                $pTeam->delete();
-            }
-
-            DB::commit();
             return back()->with('success', 'Membro aceite e pedidos duplicados limpos!');
-
         } catch (Exception $e) {
-            DB::rollBack();
-            return back()->withErrors(['error' => 'Ocorreu um erro ao processar o pedido. Tenta novamente.']);
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
     }
 
+
     public function rejectRequest(User $user)
     {
-        $admin = Auth::user();
-        $team = $admin->teams()
-            ->wherePivot('role', 'admin')
-            ->first();
+        try {
+            $this->teamService->rejectRequest(Auth::user(), $user);
 
-        if (!$team) {
-            return back()->withErrors(['error' => 'Não tens permissão.']);
+            $this->logActivity("Admin rejeitou pedido de adesão", LogType::TEAMS, [
+                'rejected_user_id' => $user->id
+            ]);
+
+            return back()->with('success', 'Pedido rejeitado.');
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => $e->getMessage()]);
         }
-
-        $exists = $team->users()
-            ->where('user_id', $user->id)
-            ->wherePivot('status', 'pending')
-            ->exists();
-
-        if (!$exists) {
-            return back()->withErrors(['error' => 'Pedido não encontrado.']);
-        }
-
-        $team->users()->detach($user->id);
-
-        return back()->with('success', 'Pedido rejeitado.');
     }
 
 
     public function leave(Request $request)
     {
-        $user = Auth::user();
-        $team = $user->teams()->wherePivot('status', 'approved')->first();
+        try {
+            $message = $this->teamService->processUserDeparture(Auth::user(), $request->new_admin_id);
 
-        if (!$team) {
-            return back()->with('error', 'Não pertences a nenhuma equipa.');
+            $this->logActivity("Utilizador saiu da equipa", LogType::TEAMS, [
+                'new_admin_id' => $request->new_admin_id ?? null
+            ]);
+
+            return redirect()->route('teams.index')->with('success', $message);
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-
-        $isAdmin = $team->pivot->role === 'admin';
-
-        if ($isAdmin) {
-            $adminsCount = $team->users()
-                ->wherePivot('role', 'admin')
-                ->wherePivot('status', 'approved')
-                ->count();
-
-            if ($adminsCount === 1) {
-                $otherMembersCount = $team->users()
-                    ->wherePivot('status', 'approved')
-                    ->where('users.id', '!=', $user->id)
-                    ->count();
-
-                if ($otherMembersCount > 0) {
-                    $request->validate([
-                        'new_admin_id' => 'required|exists:users,id'
-                    ], [
-                        'new_admin_id.required' => 'Precisas de nomear um novo administrador antes de sair.'
-                    ]);
-
-                    $team->users()->updateExistingPivot($request->new_admin_id, [
-                        'role' => 'admin'
-                    ]);
-                } else {
-                    $team->delete();
-                    return redirect()->route('teams.index')->with('success', 'Saíste e a equipa foi eliminada por já não ter membros.');
-                }
-            }
-        }
-
-        $team->users()->detach($user->id);
-
-        return redirect()->route('teams.index')->with('success', 'Saíste da equipa com sucesso.');
     }
 
 
     public function kick(User $member)
     {
-        $admin = Auth::user();
+        try {
+            $this->teamService->kickMember(Auth::user(), $member);
 
-        $team = $admin->teams()
-            ->wherePivot('role', 'admin')
-            ->wherePivot('status', 'approved')
-            ->first();
+            $this->logActivity("Membro expulso da equipa", LogType::TEAMS, [
+                'kicked_user_id' => $member->id,
+                'kicked_user_name' => $member->name
+            ]);
 
-        if (!$team) {
-            return back()->with('error', 'Não tens permissões de administrador.');
+            return back()->with('success', "{$member->name} foi removido da equipa.");
+        } catch (Exception $e) {
+            return back()->with('error', $e->getMessage());
         }
-
-        if ($admin->id === $member->id) {
-            return back()->with('error', 'Não podes expulsar-te a ti próprio. Usa a opção de sair.');
-        }
-
-        $team->users()->detach($member->id);
-
-        return back()->with('success', "{$member->name} foi removido da equipa.");
     }
 
 
     public function showInvite($code)
     {
-        $user = Auth::user();
-
-        $team = Team::where('invite_code', $code)->where('status', 'approved')->firstOrFail();
-
-        $ranking = Team::withSum([
-            'users' => function ($query) {
-                $query->where('team_user.status', 'approved');
-            }
-        ], 'total_points')
-            ->orderByDesc('users_sum_total_points')
-            ->pluck('id')
-            ->search($team->id) + 1;
+        $inviteData = $this->teamService->getInviteData($code);
 
         return Inertia::render('Authenticated/Teams/InviteLanding', [
-            'team' => [
-                'id' => $team->id,
-                'name' => $team->name,
-                'description' => $team->description,
-                'rank' => $ranking,
-                'image' => $team->image ? asset('storage/' . $team->image) : null,
-                'points' => $team->users()->wherePivot('status', 'approved')->sum('total_points'), //
-                'members_count' => $team->users()->wherePivot('status', 'approved')->count(),
-            ],
-            'alreadyInTeam' => $user->teams()->wherePivot('status', 'approved')->exists(), //
+            'team' => $inviteData,
+            'alreadyInTeam' => $this->teamService->userHasApprovedTeam(Auth::user()),
         ]);
-    }
-
-
-    private function formatTeamData($team)
-    {
-        $teamTotalPoints = $team->users->sum('total_points');
-
-        $ranking = Team::withSum('users', 'total_points')
-            ->orderByDesc('users_sum_total_points')
-            ->pluck('id')
-            ->search($team->id) + 1;
-
-        return [
-            'id' => $team->id,
-            'name' => $team->name,
-            'description' => $team->description ?? null,
-            'image' => $team->image ? asset('storage/' . $team->image) : null,
-            'points' => $teamTotalPoints,
-            'rank' => $ranking,
-            'role' => $team->pivot->role,
-            'invite_code' => $team->invite_code,
-            'members' => $team->users->map(function ($member) {
-                return [
-                    'id' => $member->id,
-                    'name' => $member->name,
-                    'avatar' => $member->avatar ? asset($member->avatar) : null,
-                    'role' => $member->pivot->role,
-                    'status' => $member->pivot->status,
-                    'points' => $member->total_points
-                ];
-            }),
-        ];
     }
 
 
     private function sendDiscordNotification($team, $user)
     {
-        $imageUrl = $team->image ? asset('storage/' . $team->image) : null;
-
-        $payload = [
-            "content" => "🚀 **Novo pedido de criação de equipa!**",
-            "embeds" => [
-                [
-                    "title" => "Equipa: " . $team->name,
-                    "description" => $team->description ?? "Sem descrição.",
-                    "color" => 1935292,
-                    "fields" => [
-                        [
-                            "name" => "👤 Criador",
-                            "value" => $user->name,
-                            "inline" => true
-                        ],
-                        [
-                            "name" => "🆔 ID da Equipa",
-                            "value" => (string) $team->id,
-                            "inline" => true
-                        ]
-                    ],
-                    "image" => $imageUrl ? ["url" => $imageUrl] : null,
-                    "footer" => [
-                        "text" => "WaveRewards Admin • ID: " . $team->id
-                    ],
-                    "timestamp" => now()->toIso8601String()
-                ]
-            ],
-            "components" => [
-                [
-                    "type" => 1,
-                    "components" => [
-                        [
-                            "type" => 2,
-                            "style" => 3,
-                            "label" => "Aprovar",
-                            "custom_id" => "approve_team_{$team->id}"
-                        ],
-                        [
-                            "type" => 2,
-                            "style" => 4,
-                            "label" => "Rejeitar",
-                            "custom_id" => "reject_team_{$team->id}"
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        SendDiscordTeamApprovalJob::dispatch($payload);
+        SendDiscordTeamApprovalJob::dispatch($user, $team);
     }
 }

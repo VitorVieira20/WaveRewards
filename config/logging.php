@@ -176,6 +176,18 @@ return [
             'path' => storage_path('logs/workshops.log'),
             'level' => 'info',
         ],
+
+        'achievements' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/achievements.log'),
+            'level' => 'info',
+        ],
+
+        'teams' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/teams.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

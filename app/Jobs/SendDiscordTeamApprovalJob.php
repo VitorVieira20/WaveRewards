@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Team;
+use App\Models\User;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,12 +15,14 @@ class SendDiscordTeamApprovalJob implements ShouldQueue
 {
     use Dispatchable, Queueable;
 
-    protected array $payload;
+    protected User $user;
+    protected Team $team;
     protected ?string $webhookUrl;
 
-    public function __construct(array $payload, ?string $webhookUrl = null)
+    public function __construct(User $user, Team $team, ?string $webhookUrl = null)
     {
-        $this->payload = $payload;
+        $this->user = $user;
+        $this->team = $team;
         $this->webhookUrl = $webhookUrl;
     }
 
@@ -28,6 +32,55 @@ class SendDiscordTeamApprovalJob implements ShouldQueue
     public function handle(): void
     {
         $client = new Client();
+
+        $imageUrl = $this->team->image ? asset('storage/' . $this->team->image) : null;
+
+        $payload = [
+            "content" => "🚀 **Novo pedido de criação de equipa!**",
+            "embeds" => [
+                [
+                    "title" => "Equipa: " . $this->team->name,
+                    "description" => $team->description ?? "Sem descrição.",
+                    "color" => 1935292,
+                    "fields" => [
+                        [
+                            "name" => "👤 Criador",
+                            "value" => $this->user->name,
+                            "inline" => true
+                        ],
+                        [
+                            "name" => "🆔 ID da Equipa",
+                            "value" => (string) $this->team->id,
+                            "inline" => true
+                        ]
+                    ],
+                    "image" => $imageUrl ? ["url" => $imageUrl] : null,
+                    "footer" => [
+                        "text" => "WaveRewards Admin • ID: " . $this->team->id
+                    ],
+                    "timestamp" => now()->toIso8601String()
+                ]
+            ],
+            "components" => [
+                [
+                    "type" => 1,
+                    "components" => [
+                        [
+                            "type" => 2,
+                            "style" => 3,
+                            "label" => "Aprovar",
+                            "custom_id" => "approve_team_{$this->team->id}"
+                        ],
+                        [
+                            "type" => 2,
+                            "style" => 4,
+                            "label" => "Rejeitar",
+                            "custom_id" => "reject_team_{$this->team->id}"
+                        ]
+                    ]
+                ]
+            ]
+        ];
 
         $token = config('services.discord.bot.token');
         $channelId = config('services.discord.bot.channel');
@@ -43,7 +96,7 @@ class SendDiscordTeamApprovalJob implements ShouldQueue
                     'Authorization' => "Bot {$token}",
                     'Content-Type' => 'application/json',
                 ],
-                'json' => $this->payload,
+                'json' => $payload,
                 'verify' => false,
             ]);
 

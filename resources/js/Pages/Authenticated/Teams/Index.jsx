@@ -13,9 +13,11 @@ export default function TeamsIndex({ auth, allTeams, canCreate }) {
         router.post(route('teams.join', teamId));
     };
 
-    const filteredTeams = allTeams?.data?.filter(team =>
+    const teamsList = allTeams?.data || (Array.isArray(allTeams) ? allTeams : []);
+
+    const filteredTeams = teamsList.filter(team =>
         team.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ) || [];
+    );
 
     return (
         <AuthenticatedLayout auth={auth}>

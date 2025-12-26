@@ -12,4 +12,6 @@ enum LogType: string
     case CONTACTS = 'contacts';
     case SETTINGS = 'settings';
     case WORKSHOPS = 'workshops';
+    case ACHIEVEMENTS = 'achievements';
+    case TEAMS = 'teams';
 }
