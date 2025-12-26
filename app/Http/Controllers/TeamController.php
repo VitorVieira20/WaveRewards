@@ -37,6 +37,7 @@ class TeamController extends Controller
         ]);
     }
 
+
     public function store(CreateTeamRequest $request)
     {
         $user = Auth::user();
@@ -49,7 +50,12 @@ class TeamController extends Controller
             return back()->with('error', 'Não pode criar mais que uma equipa!');
         }
 
-        $this->teamService->createTeam($user, $request->validated(), $request->file('image'));
+        $team = $this->teamService->createTeam($user, $request->validated(), $request->file('image'));
+
+        $this->logActivity("Criação de nova equipa (Pendente)", LogType::TEAMS, [
+            'team_id' => $team->id,
+            'team_name' => $team->name
+        ]);
 
         return back()->with('success', 'Equipa criada com sucesso! Aguarda aprovação.');
     }
@@ -68,6 +74,11 @@ class TeamController extends Controller
         }
 
         $this->teamService->join($user, $team);
+
+        $this->logActivity("Pedido de adesão enviado", LogType::TEAMS, [
+            'team_id' => $team->id,
+            'team_name' => $team->name
+        ]);
 
         return back()->with('success', 'Pedido de adesão enviado com sucesso! Aguarda a aprovação do capitão.');
     }
@@ -169,11 +180,5 @@ class TeamController extends Controller
             'team' => $inviteData,
             'alreadyInTeam' => $this->teamService->userHasApprovedTeam(Auth::user()),
         ]);
-    }
-
-
-    private function sendDiscordNotification($team, $user)
-    {
-        SendDiscordTeamApprovalJob::dispatch($user, $team);
     }
 }

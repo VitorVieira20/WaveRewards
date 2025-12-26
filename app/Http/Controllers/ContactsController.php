@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LogType;
 use App\Http\Requests\Mail\ContactRequest;
 use App\Jobs\SendDiscordMessageJob;
-use App\Mail\ContactMail;
+use App\Traits\LogsActivity;
 use Inertia\Inertia;
 
 class ContactsController extends Controller
 {
+    use LogsActivity;
+
     public function index()
     {
         return Inertia::render('Contacts');
@@ -44,6 +47,11 @@ class ContactsController extends Controller
         $payload = [
             'content' => $markdownMessage
         ];
+
+        $this->logActivity("Nova tentativa de contacto pelo formulário", LogType::CONTACTS, [
+            'user_id' => $request->user()?->id,
+            'content' => $payload['content'],
+        ]);
 
         SendDiscordMessageJob::dispatch($payload);
 

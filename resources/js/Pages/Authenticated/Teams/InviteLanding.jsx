@@ -6,8 +6,6 @@ export default function InviteLanding({ auth, team, alreadyInTeam }) {
         router.post(route('teams.join', team.id));
     };
 
-    console.log(team);
-
     return (
         <AuthenticatedLayout auth={auth}>
             <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">

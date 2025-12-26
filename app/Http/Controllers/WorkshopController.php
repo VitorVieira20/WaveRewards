@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LogType;
 use App\Services\BadgeService;
 use App\Services\WorkshopService;
+use App\Traits\LogsActivity;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class WorkshopController extends Controller
 {
+    use LogsActivity;
+
     public function __construct(
         protected WorkshopService $workshopService,
         protected BadgeService $badgeService
@@ -39,16 +43,25 @@ class WorkshopController extends Controller
 
     public function registerUser(int $workshopId)
     {
-        try {
-            $this->workshopService->registerUser($workshopId, Auth::id());
+        $user = Auth::user();
 
-            $newBadges = $this->badgeService->checkAchievements(Auth::user());
+        try {
+            $this->workshopService->registerUser($workshopId, $user->id);
+
+            $newBadges = $this->badgeService->checkAchievements($user);
 
             $response = back()->with('registered', 'Inscrição realizada com sucesso! Vemo-nos lá.');
 
             if (!empty($newBadges)) {
-                return $response->with('new_badges', $newBadges);
+                $this->logActivity("Nova(s) conquista(s) desbloqueada(s)", LogType::ACHIEVEMENTS, ['badges' => $newBadges]);
+
+                return $response->with('new_badge', $newBadges);
             }
+
+            $this->logActivity("Utilizador regista no workshop", LogType::WORKSHOPS, [
+                'user_id' => $user->id,
+                'workshop_id' => $workshopId
+            ]);
 
             return $response;
 

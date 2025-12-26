@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LogType;
 use App\Models\CommunityPost;
 use App\Models\Tag;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class CommunityController extends Controller
 {
+    use LogsActivity;
+
     public function index(Request $request)
     {
         $query = CommunityPost::with(['user', 'tags'])->latest();
 
-        // Filtro por Tag
         if ($request->has('tag') && $request->tag !== 'Geral') {
             $query->whereHas('tags', function ($q) use ($request) {
                 $q->where('name', $request->tag);
@@ -55,6 +58,12 @@ class CommunityController extends Controller
         ]);
 
         $post->tags()->attach($validated['tags']);
+
+        $this->logActivity("Nova mensagem publicada na comunidade", LogType::COMMUNITY, [
+            'user_id' => $request->user()?->id,
+            'content' => $validated['content'],
+            'tags' => $validated['tags']
+        ]);
 
         return redirect()->route('community.index');
     }

@@ -29,7 +29,7 @@ class RankingsController extends Controller
                     'points' => $user->total_points,
                     'challenges' => $user->challenges_completed,
                     'distance' => round(($user->total_distance ?? 0) / 1000, 1),
-                    'medals' => $user->total_badges // Valor real da base de dados
+                    'medals' => $user->total_badges
                 ];
             });
 

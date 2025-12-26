@@ -2,22 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LogType;
 use App\Interfaces\LLMServiceInterface;
 use App\Services\ChromaService;
 use App\Services\VectorService;
+use App\Traits\LogsActivity;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class ChatbotController extends Controller
 {
+    use LogsActivity;
+
     public function __invoke(
-        Request $request, 
-        VectorService $vectorService, 
+        Request $request,
+        VectorService $vectorService,
         ChromaService $chromaService,
         LLMServiceInterface $llmService
-    )
-    {
+    ) {
         $request->validate([
             'message' => 'required|string'
         ]);
@@ -31,6 +34,12 @@ class ChatbotController extends Controller
             $dynamicContext = !empty($results) ? implode("\n---\n", $results) : "";
 
             $answer = $llmService->generateResponse($userQuestion, $dynamicContext);
+
+            $this->logActivity("Mensagem enviada para o Chatbot", LogType::CHATBOT, [
+                'user_id' => $request->user()?->id,
+                'question' => $userQuestion,
+                'answer' => $answer
+            ]);
 
             return response()->json(['response' => $answer]);
 

@@ -7,7 +7,6 @@ export default function PendingRequests({ pendingRequests }) {
         router.post(route('teams.requests.accept', userId), {}, {
             preserveScroll: true,
             onSuccess: () => {
-                console.log("Aceite!");
             }
         });
     };
