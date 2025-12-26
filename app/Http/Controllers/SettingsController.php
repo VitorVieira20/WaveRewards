@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LogType;
 use App\Services\SettingsService;
 use App\Services\UserService;
+use App\Traits\LogsActivity;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +13,8 @@ use Inertia\Inertia;
 
 class SettingsController extends Controller
 {
+    use LogsActivity;
+
     public function __construct(
         protected SettingsService $settingsService,
         protected UserService $userService
@@ -68,7 +72,13 @@ class SettingsController extends Controller
 
     public function export()
     {
-        $pdf = $this->userService->exportUserData(Auth::user());
+        $user = Auth::user();
+        $pdf = $this->userService->exportUserData($user);
+        
+        $this->logActivity("Exportação dos Dados do Utilizador", LogType::SETTINGS, [
+            'user_id' => $user->id,
+        ]);
+
         return $pdf->download('meus_dados_waverewards.pdf');
     }
 
@@ -81,7 +91,12 @@ class SettingsController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        $oldId = $user->id;
         $this->userService->deleteAccount($user);
+
+        $this->logActivity("Utilizador eliminou a conta", LogType::AUTH, [
+            'old_id' => $oldId,
+        ]);
 
         return redirect()->route('auth.index', 'login')->with('success', 'A sua conta foi eliminada permanentemente.');
     }

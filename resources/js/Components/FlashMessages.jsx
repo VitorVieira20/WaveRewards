@@ -24,7 +24,6 @@ export default function FlashMessages() {
 
         if (flash?.new_badge && Array.isArray(flash.new_badge)) {
             flash.new_badge.forEach((badge) => {
-                console.log(badge);
                 toast.info(
                     <div className="flex items-center gap-3">
                         <img 

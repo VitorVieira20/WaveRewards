@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityUser;
-use App\Models\Badge;
 use App\Models\Team;
 use App\Services\ActivityService;
 use App\Services\BadgeService;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ProfileController extends Controller

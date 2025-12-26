@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Services\InformationService;
 use App\Services\TutorialService;
 use App\Services\WorkshopService;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class LibraryController extends Controller

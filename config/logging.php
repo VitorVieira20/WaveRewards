@@ -89,7 +89,7 @@ return [
             'handler_with' => [
                 'host' => env('PAPERTRAIL_URL'),
                 'port' => env('PAPERTRAIL_PORT'),
-                'connectionString' => 'tls://'.env('PAPERTRAIL_URL').':'.env('PAPERTRAIL_PORT'),
+                'connectionString' => 'tls://' . env('PAPERTRAIL_URL') . ':' . env('PAPERTRAIL_PORT'),
             ],
             'processors' => [PsrLogMessageProcessor::class],
         ],
@@ -127,6 +127,67 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+
+        // APPLICATION LOGGING
+        'general' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/general.log'),
+            'level' => 'info',
+        ],
+
+        'auth' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/auth.log'),
+            'level' => 'info',
+        ],
+
+        'activities' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/activities.log'),
+            'level' => 'info',
+        ],
+
+        'chatbot' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/chatbot.log'),
+            'level' => 'info',
+        ],
+
+        'community' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/community.log'),
+            'level' => 'info',
+        ],
+
+        'contacts' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/contacts.log'),
+            'level' => 'info',
+        ],
+
+        'settings' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/settings.log'),
+            'level' => 'info',
+        ],
+
+        'workshops' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/workshops.log'),
+            'level' => 'info',
+        ],
+
+        'achievements' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/achievements.log'),
+            'level' => 'info',
+        ],
+
+        'teams' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/teams.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

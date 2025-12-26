@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\LogType;
 use App\Http\Requests\Activity\CreateActivityLogRequest;
 use App\Http\Requests\Activity\CreateFreeActivityLogRequest;
 use App\Services\ActivityUserService;
 use App\Services\BadgeService;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ActivityUserController extends Controller
 {
+    use LogsActivity;
+
     public function __construct(
         protected ActivityUserService $activityUserService,
         protected BadgeService $badgeService
@@ -21,8 +25,10 @@ class ActivityUserController extends Controller
 
     public function store(CreateActivityLogRequest $request)
     {
+        $user = $request->user();
+
         $activity = $this->activityUserService->registerActivity(
-            $request->user(),
+            $user,
             $request->validated()
         );
 
@@ -30,9 +36,13 @@ class ActivityUserController extends Controller
             return back()->with('error', 'Ocorreu um erro ao registar a atividade.');
         }
 
+        $this->logActivity("Nova atividade registada", LogType::ACTIVITIES, ['user_id' => $user->id, 'activity' => $activity->id]);
+
         $newBadges = $this->badgeService->checkAchievements(Auth::user());
 
         if (!empty($newBadges)) {
+            $this->logActivity("Nova(s) conquista(s) desbloqueada(s)", LogType::ACHIEVEMENTS, ['badges' => $newBadges]);
+
             return back()->with('new_badge', $newBadges);
         }
 
@@ -50,6 +60,7 @@ class ActivityUserController extends Controller
 
     public function storeFree(CreateFreeActivityLogRequest $request)
     {
+        $user = $request->user();
         $validated = $request->validated();
 
         $photoPath = null;
@@ -60,7 +71,7 @@ class ActivityUserController extends Controller
 
         $performedAt = $validated['date'] . ' ' . $validated['start_time'];
 
-        $activity = $this->activityUserService->registerActivity($request->user(), array_merge($validated, [
+        $activity = $this->activityUserService->registerActivity($user, array_merge($validated, [
             'custom_title' => $validated['custom_title'],
             'custom_location' => $validated['custom_title'],
             'custom_conditions' => $validated['custom_title'],
@@ -74,9 +85,13 @@ class ActivityUserController extends Controller
             return back()->with('error', 'Ocorreu um erro ao registar a atividade.');
         }
 
+        $this->logActivity("Nova atividade livre registada", LogType::ACTIVITIES, ['user_id' => $user->id, 'activity' => $activity->id]);
+
         $newBadges = $this->badgeService->checkAchievements(Auth::user());
 
         if (!empty($newBadges)) {
+            $this->logActivity("Nova(s) conquista(s) desbloqueada(s)", LogType::ACHIEVEMENTS, ['badges' => $newBadges]);
+
             return back()->with('new_badge', $newBadges);
         }
 
