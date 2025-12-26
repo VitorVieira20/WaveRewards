@@ -52,16 +52,16 @@ class WorkshopController extends Controller
 
             $response = back()->with('registered', 'Inscrição realizada com sucesso! Vemo-nos lá.');
 
+            $this->logActivity("Utilizador registado no workshop", LogType::WORKSHOPS, [
+                'user_id' => $user->id,
+                'workshop_id' => $workshopId
+            ]);
+
             if (!empty($newBadges)) {
                 $this->logActivity("Nova(s) conquista(s) desbloqueada(s)", LogType::ACHIEVEMENTS, ['badges' => $newBadges]);
 
                 return $response->with('new_badge', $newBadges);
             }
-
-            $this->logActivity("Utilizador regista no workshop", LogType::WORKSHOPS, [
-                'user_id' => $user->id,
-                'workshop_id' => $workshopId
-            ]);
 
             return $response;
 
