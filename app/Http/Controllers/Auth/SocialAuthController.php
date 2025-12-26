@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\LogType;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Settings;
+use App\Traits\LogsActivity;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
+    use LogsActivity;
+
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -24,6 +28,7 @@ class SocialAuthController extends Controller
                     ->first();
 
         if ($user) {
+            $this->logActivity("Login via Google realizado", LogType::AUTH, ['user_id' => $user->id]);
             if (!$user->google_id) {
                 $user->update(['google_id' => $googleUser->id]);
             }
@@ -41,6 +46,10 @@ class SocialAuthController extends Controller
                 'avatar' => $googleUser->avatar,
                 'email_verified_at' => now(),
                 'address' => 'Funchal',
+            ]);
+
+            $this->logActivity("Novo utilizador registado via Google", LogType::AUTH, [
+                'email' => $googleUser->email
             ]);
 
             Settings::firstOrCreate(['user_id' => $user->id]);

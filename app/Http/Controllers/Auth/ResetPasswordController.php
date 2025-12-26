@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Enums\LogType;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ResetPasswordRequest;
+use App\Traits\LogsActivity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +15,8 @@ use Inertia\Inertia;
 
 class ResetPasswordController extends Controller
 {
+    use LogsActivity;
+
     public function create(Request $request)
     {
         return Inertia::render('ResetPassword', [
@@ -37,6 +41,7 @@ class ResetPasswordController extends Controller
         );
 
         if ($status == Password::PASSWORD_RESET) {
+            $this->logActivity("Password recuperada/resetada com sucesso", LogType::AUTH, ['email' => $request->email]);
             return redirect()->route('auth.index', 'login')->with('success', 'Password alterada com sucesso!');
         }
 
