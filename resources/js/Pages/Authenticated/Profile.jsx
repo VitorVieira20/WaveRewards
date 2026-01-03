@@ -39,7 +39,9 @@ export default function Profile({ auth, user, activities, chart_data, stats, tea
 
                     <ObjectivesCard upcoming_achievements={upcoming_achievements} />
 
-                    <MedalsCard medals={medals} recent_achievements={recent_achievements} all_earned_badges={all_earned_badges} />
+                    <div className="md:col-span-2 xl:col-span-1">
+                        <MedalsCard medals={medals} recent_achievements={recent_achievements} all_earned_badges={all_earned_badges} />
+                    </div>
                 </div>
 
                 <div className="flex flex-col lg:flex-row gap-4 w-full p-4 items-stretch lg:h-[300px]">

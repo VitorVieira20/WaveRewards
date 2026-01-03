@@ -6,11 +6,11 @@ export default function MedalsCard({ medals, recent_achievements, all_earned_bad
     const [selectedTier, setSelectedTier] = useState(null);
 
     return (
-        <div className="flex flex-col w-full bg-white/40 p-4 rounded-2xl gap-2">
+        <div className="flex flex-col w-full h-full bg-white/40 p-4 rounded-2xl gap-2">
             <h2 className="text-xl text-[#1C5E8F] font-semibold">Medalhas</h2>
 
             <div className="flex flex-col md:flex-row gap-4">
-                <div className="flex flex-row bg-[#1D87BC]/40 pl-4 pr-4 pt-2 pb-2 rounded-2xl shadow-sm gap-1 border border-[#1C5E8F]/50 w-full justify-between items-center">
+                <div className="flex flex-col sm:flex-row bg-[#1D87BC]/40 pl-4 pr-4 pt-2 pb-2 gap-6 sm:gap-1 rounded-2xl shadow-sm border border-[#1C5E8F]/50 w-full justify-between items-center">
                     {order.map((tier) => {
                         const medal = medals[tier];
                         return (
