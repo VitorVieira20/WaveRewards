@@ -69,7 +69,7 @@ class TeamController extends Controller
             return back()->with('error', 'Já pertences a uma equipa.');
         }
 
-        if ($this->teamService->userHasPendingRequest($user)) {
+        if ($this->teamService->userHasPendingRequest($user, $team)) {
             return back()->with('error', 'Já tens um pedido de adesão pendente.');
         }
 

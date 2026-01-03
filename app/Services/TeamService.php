@@ -74,9 +74,12 @@ class TeamService
     }
 
 
-    public function userHasPendingRequest(User $user): bool
+    public function userHasPendingRequest(User $user, Team $team): bool
     {
-        return $user->teams()->wherePivot('status', 'pending')->exists();
+        return $user->teams()
+            ->wherePivot('team_id', $team->id)
+            ->wherePivot('status', 'pending')
+            ->exists();
     }
 
 
