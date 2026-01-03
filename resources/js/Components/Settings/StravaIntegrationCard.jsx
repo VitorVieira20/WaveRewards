@@ -1,4 +1,3 @@
-import { Link } from "@inertiajs/react";
 import { route } from "ziggy-js";
 
 export default function StravaIntegrationCard({ isStravaConnected }) {
@@ -38,7 +37,7 @@ export default function StravaIntegrationCard({ isStravaConnected }) {
                 ) : (
                     <a
                         href={route("strava.redirect")}
-                        className="w-full sm:w-auto flex-1 max-w-[300px] bg-linear-to-r from-[#1C5E8F]/50 via-[#1C5E8F]/75 to-[#1C5E8F] text-white px-6 py-2.5 transition-all duration-300 transform hover:scale-105 hover:shadow-lg tracking-wide text-sm font-medium rounded-full cursor-pointer justify-center shadow-md"
+                        className="w-full text-center inline-block sm:w-auto flex-1 max-w-[300px] bg-linear-to-r from-[#1C5E8F]/50 via-[#1C5E8F]/75 to-[#1C5E8F] text-white px-6 py-2.5 transition-all duration-300 transform hover:scale-105 hover:shadow-lg tracking-wide text-sm font-medium rounded-full cursor-pointer justify-center shadow-md"
                     >
                         Conectar com Strava
                     </a>
