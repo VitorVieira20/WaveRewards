@@ -92,7 +92,7 @@ export default function MyTeamMembers({ auth, myTeam }) {
                 {displayedMembers.length > 0 ? (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                         {displayedMembers.map((member, index) => {
-                            const isMe = member.name === auth.user.name;
+                            const isMe = member.id === auth.user.id;
                             const isAdminMember = member.role === 'admin';
 
                             const internalRank = index + 1;
