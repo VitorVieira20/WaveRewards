@@ -20,19 +20,18 @@ export default function MessageInput({ onSend }) {
     };
 
     return (
-        <div className="w-full relative">
-            <div className="flex flex-row gap-2">
+        <div className="w-full">
+            <div className="flex items-center gap-2">
                 <input
-                    className="flex-grow h-10 px-4 resize-none focus:outline-none text-white text-sm font-normal bg-white/25 rounded-2xl border border-white/30 placeholder:text-white placeholder:text-sm placeholder:font-normal"
+                    className="flex-1 h-10 px-4 focus:outline-none text-white text-sm font-normal bg-white/25 rounded-2xl border border-white/30 placeholder:text-white/60 placeholder:text-sm"
                     placeholder="Escrever mensagem"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    rows={1}
                 />
                 <button
                     onClick={handleSend}
-                    className="w-1/7 bg-white/25 rounded-2xl border border-white/30 backdrop-blur-blur flex items-center justify-center text-white text-base cursor-pointer"
+                    className="w-10 h-10 shrink-0 bg-white/25 rounded-2xl border border-white/30 backdrop-blur-md flex items-center justify-center text-white cursor-pointer hover:bg-white/40 transition-colors"
                     aria-label="Enviar mensagem"
                 >
                     <SendMessageIcon />
