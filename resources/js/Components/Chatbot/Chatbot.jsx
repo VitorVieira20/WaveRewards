@@ -84,7 +84,7 @@ export default function Chatbot({ onClose }) {
     }
 
     return (
-        <div className="flex flex-col w-[90vw] sm:w-86 h-[70vh] sm:h-150 max-w-full relative bg-linear-to-b from-[#1C679A] to-[#21587A] rounded-2xl border border-blue-950/75 shadow-xl">
+        <div className="flex flex-col w-[95vw] sm:w-86 h-[70vh] sm:h-150 max-w-full relative bg-linear-to-b from-[#1C679A] to-[#21587A] rounded-2xl border border-blue-950/75 shadow-xl">
             <div className="flex flex-row justify-between items-center px-4 pt-4 pb-2">
                 <div className="flex flex-row items-center gap-2">
                     <img className="w-8 h-8 md:w-10 md:h-10" src="/images/logo.png" alt="Logo" />
