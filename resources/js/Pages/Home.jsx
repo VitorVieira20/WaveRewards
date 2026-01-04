@@ -94,7 +94,7 @@ export default function Home({ auth, hero }) {
                         </button>
                     </div>
 
-                    <div className="flex flex-col items-center gap-2 mb-24">
+                    <div className="flex flex-col items-center gap-6 mb-24">
                         <div className="text-center text-[#60B4D9] text-lg font-normal leading-4">
                             Copyright © 2025 WaveRewards | All Rights Reserved
                         </div>
