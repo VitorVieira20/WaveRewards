@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Http;
 use Carbon\Carbon;
+use Exception;
 
 class StravaService
 {
@@ -14,47 +15,63 @@ class StravaService
         $this->account = $account;
     }
 
-    /**
-     * Garante que o access token está válido.
-     */
     protected function ensureValidToken()
     {
-        // Se o token expirou, renova
-        if (Carbon::now()->timestamp >= $this->account->strava_expires_in) {
-            $response = Http::asForm()->post('https://www.strava.com/oauth/token', [
-                'client_id' => env('STRAVA_CLIENT_ID'),
-                'client_secret' => env('STRAVA_CLIENT_SECRET'),
-                'grant_type' => 'refresh_token',
-                'refresh_token' => $this->account->strava_refresh_token,
-            ]);
+        if (Carbon::now()->timestamp >= $this->account->expires_at) {
+            try {
+                $response = Http::asForm()->post('https://www.strava.com/oauth/token', [
+                    'client_id' => config('services.strava.client_id'),
+                    'client_secret' => config('services.strava.client_secret'),
+                    'grant_type' => 'refresh_token',
+                    'refresh_token' => $this->account->strava_refresh_token,
+                ]);
 
-            $data = $response->json();
+                if ($response->failed()) {
+                    throw new Exception('Falha ao renovar token');
+                }
 
-            // Atualiza os tokens na BD
-            $this->account->update([
-                'strava_token' => $data['access_token'],
-                'strava_refresh_token' => $data['refresh_token'],
-                'strava_expires_in' => $data['expires_at'],
-            ]);
+                $data = $response->json();
+
+                $this->account->update([
+                    'strava_token' => $data['access_token'],
+                    'strava_refresh_token' => $data['refresh_token'],
+                    'strava_expires_in' => $data['expires_at'],
+                ]);
+            } catch (Exception $e) {
+                throw new Exception('A conexão com o Strava expirou. Por favor reconecte.');
+            }
         }
 
         return $this->account->strava_token;
     }
 
-    /**
-     * Obtém as últimas atividades (corridas, pedaladas, etc.)
-     */
-    public function getRecentActivities($perPage = 10)
+    public function getRecentActivities()
     {
-        //$token = $this->ensureValidToken();
+        $token = $this->ensureValidToken();
+        $allActivities = [];
+        $page = 1;
+        $perPage = 200;
 
-        $response = Http::withToken($this->account->strava_token)
-            ->get('https://www.strava.com/api/v3/athlete/activities');
+        do {
+            $response = Http::withToken($token)
+                ->get('https://www.strava.com/api/v3/athlete/activities', [
+                    'per_page' => $perPage,
+                    'page' => $page,
+                ]);
 
-        if ($response->failed()) {
-            throw new \Exception('Erro ao obter atividades do Strava: ' . $response->body());
-        }
+            if ($response->failed()) {
+                throw new Exception('Erro Strava: ' . $response->body());
+            }
 
-        return $response->json();
+            $activities = $response->json();
+            $allActivities = array_merge($allActivities, $activities);
+            $page++;
+
+        } while (count($activities) === $perPage);
+
+        return collect($allActivities)
+            ->groupBy('type')
+            ->sortKeys()
+            ->toArray();
     }
 }

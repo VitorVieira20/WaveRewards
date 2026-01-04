@@ -7,10 +7,12 @@ import PreferencesCard from "../../Components/Settings/PreferencesCard";
 import StravaIntegrationCard from "../../Components/Settings/StravaIntegrationCard";
 import MyDataCard from "../../Components/Settings/MyDataCard";
 import LeftArrowIcon from "../../Components/Icons/LeftArrowIcon";
+import StravaActivitiesModal from "../../Components/Modals/Settings/StravaActivities";
 import { useState } from "react";
+import { route } from "ziggy-js";
 
-export default function Settings({ auth, user, isStravaConnected, settings, timezones }) {
-    const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+export default function Settings({ auth, user, stravaData, isStravaConnected, settings, timezones }) {
+    const [stravaActivitiesOpen, setStravaActivitiesOpen] = useState(false);
 
     const toggleSetting = (key, value) => {
         router.put(route('settings.update'), {
@@ -44,10 +46,12 @@ export default function Settings({ auth, user, isStravaConnected, settings, time
 
                 <PreferencesCard settings={settings} timezones={timezones} handleToggle={toggleSetting} />
 
-                <StravaIntegrationCard isStravaConnected={isStravaConnected} />
+                <StravaIntegrationCard isStravaConnected={isStravaConnected} stravaData={stravaData} setStravaActivitiesOpen={setStravaActivitiesOpen} />
 
                 <MyDataCard />
             </div>
+
+            <StravaActivitiesModal isOpen={stravaActivitiesOpen} onClose={() => setStravaActivitiesOpen(false)} activities={stravaData} />
         </AuthenticatedLayout>
     );
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\LogType;
 use App\Services\SettingsService;
+use App\Services\StravaService;
 use App\Services\UserService;
 use App\Traits\LogsActivity;
 use DateTimeZone;
@@ -34,9 +35,18 @@ class SettingsController extends Controller
                 'label' => $tz
             ]);
 
+        $stravaData = [];
+
+        if ($stravaAccount) {
+            $stravaService = new StravaService($stravaAccount);
+
+            $stravaData = $stravaService->getRecentActivities();
+        }
+
         return Inertia::render("Authenticated/Settings", [
             'user' => $user,
             'isStravaConnected' => (bool) $stravaAccount,
+            'stravaData' => $stravaData,
             'settings' => $settings,
             'timezones' => $timezones
         ]);
@@ -74,7 +84,7 @@ class SettingsController extends Controller
     {
         $user = Auth::user();
         $pdf = $this->userService->exportUserData($user);
-        
+
         $this->logActivity("Exportação dos Dados do Utilizador", LogType::SETTINGS, [
             'user_id' => $user->id,
         ]);

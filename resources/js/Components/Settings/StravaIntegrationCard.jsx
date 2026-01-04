@@ -1,6 +1,6 @@
 import { route } from "ziggy-js";
 
-export default function StravaIntegrationCard({ isStravaConnected }) {
+export default function StravaIntegrationCard({ isStravaConnected, setStravaActivitiesOpen }) {
 
     return (
         <div className="bg-white/40 backdrop-blur-sm rounded-2xl p-6 shadow-sm">
@@ -16,9 +16,10 @@ export default function StravaIntegrationCard({ isStravaConnected }) {
                 />
 
                 {isStravaConnected ? (
-                    <button
-                        disabled
-                        className="
+                    <>
+                        <button
+                            disabled
+                            className="
                             w-full sm:w-auto flex-1 max-w-[300px]
                             bg-linear-to-r from-[#1C5E8F]/50 via-[#1C5E8F]/75 to-[#1C5E8F]
                             text-white px-6 py-2.5 text-sm font-medium rounded-full
@@ -30,9 +31,17 @@ export default function StravaIntegrationCard({ isStravaConnected }) {
                             disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none
                             disabled:hover:scale-100 disabled:hover:shadow-none
                         "
-                    >
-                        Conta Conectada
-                    </button>
+                        >
+                            Conta Conectada
+                        </button>
+
+                        <button
+                            onClick={() => setStravaActivitiesOpen(true)}
+                            className="w-full flex flex-row text-center gap-2 sm:w-auto flex-1 max-w-[300px] bg-linear-to-r from-[#1C5E8F]/50 via-[#1C5E8F]/75 to-[#1C5E8F] text-white px-6 py-2.5 transition-all duration-300 transform hover:scale-105 hover:shadow-lg tracking-wide text-sm font-medium rounded-full cursor-pointer justify-center shadow-md"
+                        >
+                            Ver atividades
+                        </button>
+                    </>
 
                 ) : (
                     <a
