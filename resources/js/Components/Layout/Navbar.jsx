@@ -60,6 +60,8 @@ export default function LayoutNavbar({ auth }) {
                             const itemPath = route(item.route).replace(window.location.origin, '');
                             let isActive = false;
 
+                            if (item.route === 'home.index' && url.startsWith('/?')) return null;
+
                             if (item.route === 'home.index') {
                                 isActive = url === '/';
                             } else {

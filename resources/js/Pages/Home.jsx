@@ -12,14 +12,21 @@ export default function Home({ auth, hero }) {
     const [scrolledToHero, setScrolledToHero] = useState(false);
 
     useEffect(() => {
+        if ('scrollRestoration' in window.history) {
+            window.history.scrollRestoration = 'manual';
+        }
+
         if (hero && heroRef.current) {
             document.body.style.overflow = "auto";
 
-            heroRef.current.scrollIntoView({ behavior: "instant", block: "start" });
+            const timer = setTimeout(() => {
+                heroRef.current.scrollIntoView({ behavior: "instant", block: "start" });
+                setScrolledToHero(true);
 
-            setTimeout(() => {
                 document.body.style.overflow = "hidden";
-            }, 50);
+            }, 100);
+
+            return () => clearTimeout(timer);
         }
     }, [hero]);
 
@@ -74,7 +81,7 @@ export default function Home({ auth, hero }) {
                         </div>
 
                         <div className="text-center text-blue-950 text-md md:text-lg font-medium leading-4 [text-shadow:0px_4px_4px_rgb(255_255_255/0.11)]">
-                            Estás à espera de que para uma nova aventura?
+                            Estás à espera de quê para uma nova aventura?
                         </div>
 
                         <button

@@ -10,7 +10,7 @@ class StaticPagesController extends Controller
     public function home(Request $request)
     {
         return Inertia::render('Home', [
-            'hero' => $request->boolean('hero')
+            'hero' => filter_var($request->boolean('hero'), FILTER_VALIDATE_BOOLEAN)
         ]);
     }
 
