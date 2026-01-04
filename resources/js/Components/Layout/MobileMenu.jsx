@@ -6,25 +6,36 @@ export default function MobileMenu({ isOpen, setIsOpen, navLinks, authButtons })
 
     return (
         <div
-            className={`fixed top-20 left-0 w-full bg-gradient-to-b from-[#EAF5FA] to-[#A5D4E9] backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out overflow-hidden z-999 xl:hidden
+            className={`fixed top-20 left-0 w-full bg-linear-to-b from-[#EAF5FA] to-[#A5D4E9] backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out overflow-hidden z-999 xl:hidden
             ${isOpen ? 'max-h-screen py-6 border-b border-gray-200' : 'max-h-0 py-0 border-none'}`}
         >
             <div className="flex flex-col items-center gap-6">
 
-                {navLinks.map((item) => (
-                    <Link
-                        key={item.name}
-                        href={route(item.route)}
-                        onClick={() => setIsOpen(false)}
-                        className={`text-lg font-medium transition-colors duration-300
-                        ${url.startsWith(route(item.route).replace(window.location.origin, ''))
-                                ? 'text-[#1D87BC] font-bold'
-                                : 'text-[#1A3463] hover:text-[#1D87BC]'}
-                        `}
-                    >
-                        {item.name}
-                    </Link>
-                ))}
+                {navLinks.map((item) => {
+                    const itemPath = route(item.route).replace(window.location.origin, '');
+                    let isActive = false;
+
+                    if (item.route === 'home.index' && url.startsWith('/?')) return null;
+
+                    if (item.route === 'home.index') {
+                        isActive = url === '/';
+                    } else {
+                        isActive = url.startsWith(itemPath);
+                    }
+
+                    if (isActive) return null;
+
+                    return (
+                        <Link
+                            key={item.name}
+                            href={route(item.route, item.params)}
+                            onClick={() => setIsOpen(false)}
+                            className="text-lg font-medium leading-none transition-colors duration-300 after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-[#1D87BC]/50 after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left text-[#1A3463] hover:text-[#1D87BC]"
+                        >
+                            {item.name}
+                        </Link>
+                    )
+                })}
 
                 <div className="w-3/4 h-px bg-gray-200"></div>
 

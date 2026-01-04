@@ -132,7 +132,7 @@ export default function LayoutNavbar({ auth }) {
                 </div>
             </div>
 
-            <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} navLinks={navLinks} authButtons={authButtons} />
+            <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} navLinks={dynamicLinks} authButtons={authButtons} />
         </nav >
     );
 }
