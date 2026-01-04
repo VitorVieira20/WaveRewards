@@ -43,7 +43,10 @@ class SyncUserAchievements extends Command
 
                 if (count($awarded) > 0) {
                     $badgeNames = collect($awarded)->pluck('name')->implode(', ');
-                    $this->line("User #{$user->id} ({$user->name}): New achievements earned: {$badgeNames}");
+
+                    $this->info("   ✅ User #{$user->id} ({$user->name}): Earned [{$badgeNames}]");
+
+                    $totalNewBadges += count($awarded);
                 }
             }
         });
