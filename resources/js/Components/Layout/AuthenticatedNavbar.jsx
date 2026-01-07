@@ -43,7 +43,7 @@ export default function AuthenticatedLayoutNavbar({ auth }) {
 
                     <div className={`hidden xl:flex items-center gap-7 2xl:gap-10 3xl:gap-14 w-132 ${isProfileOrSettings ? "mr-40" : "mr-10"} justify-start`}>
                         {navLinks.map((item) => {
-                            if (item.name === 'Meteorologia' && ( url.startsWith('/teams') || isProfileOrSettings) ) {
+                            if (item.name === 'Meteorologia' && ( url.startsWith('/teams') || isProfileOrSettings || url.startsWith('/community')) ) {
                                 return null;
                             }
 
