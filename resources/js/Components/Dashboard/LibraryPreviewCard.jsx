@@ -9,7 +9,7 @@ export default function LibraryPreviewCard() {
         <div className="flex flex-col justify-center items-center bg-white/40 p-2 pb-4 w-full mx-auto md:mx-0
 max-w-[700px] lg:max-w-[350px] border-t border-t-[#1A3463]/75 lg:border-t-0 lg:border-l lg:border-l-[#1A3463]/75 rounded-b-xl lg:rounded-l-none lg:rounded-r-xl relative">
             <PlayIcon />
-            <h2 className="text-[#1C5E8F] text-lg font-semibold">Biblioteca</h2>
+            <h2 className="text-[#1C5E8F] text-lg font-semibold">Aprende+</h2>
             <div className="flex flex-col items-center bg-transparent pt-0.5 px-4 rounded-xl w-full md:max-w-[350px]">
                 <Link href={route('tutorials.show', 1)} className="w-full relative block rounded-xl overflow-hidden">
                     <img
