@@ -132,17 +132,17 @@ export default function ContactsPage({ handleSubmit, data, setData, errors, proc
             <div className="flex flex-col justify-start w-full xl:w-1/3 min-h-[30vh] bg-[#FFFFFF]/50 rounded-3xl shadow-md p-6">
                 <div className="justify-start text-[#1A3463] text-2xl font-semibold">Contacta-nos</div>
                 <div className="justify-start text-[#1B5D8F] text-md font-normal mt-2">Estamos disponíveis para esclarecer qualquer uma das tuas dúvidas!</div>
-                <div className="flex flex-row items-center gap-4 mt-6">
+                {/* <div className="flex flex-row items-center gap-4 mt-6">
                     <EnvelopIcon />
                     <div className="text-center justify-start text-[#1B5D8F]/80 text-lg font-normal">contacto@waverewards.com</div>
-                </div>
-                <div className="flex flex-row items-center gap-4 mt-2">
+                </div> */}
+                <div className="flex flex-row items-center gap-4 mt-4">
                     <PhoneIcon />
-                    <div className="text-center justify-start text-[#1B5D8F]/80 text-lg font-normal">(351) 934 760 328</div>
+                    <div className="text-center justify-start text-[#1B5D8F]/80 text-lg font-normal">(+351) 291 705 000</div>
                 </div>
                 <div className="flex flex-row items-center gap-4 mt-2">
                     <LocationIcon />
-                    <div className="text-start justify-start text-[#1B5D8F]/80 text-lg font-normal">794 Mcallister St<br />San Francisco, 94102</div>
+                    <div className="text-start justify-start text-[#1B5D8F]/80 text-lg font-normal">Campus Universitário da Penteada<br />9020-105 Funchal - Portugal</div>
                 </div>
             </div>
         </div>
